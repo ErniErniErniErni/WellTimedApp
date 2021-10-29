@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "284995778405",
+    "firebase_url": "https://welltimedauth-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "welltimedauth",
+    "storage_bucket": "welltimedauth.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:284995778405:android:fcd94bd729ca7cadc4d38c",
+        "android_client_info": {
+          "package_name": "com.erniwo.timetableconstruct"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "284995778405-57lc9p9av1c10kd02vugrvnuvi9lukh1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCMGeIvxUCRuIe8odr0HxBW4WsBksmfddM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "284995778405-57lc9p9av1c10kd02vugrvnuvi9lukh1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
