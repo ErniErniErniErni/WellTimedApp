@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,11 +21,13 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class SignUp extends AppCompatActivity implements View.OnClickListener{
 
-    private TextView header, signUpButton;
-    private EditText editTextName, editTextEmail, editTextPassword;
+    private TextView header;
+    private TextView signUpButton;
+    private EditText editTextName;
+    private EditText editTextEmail;
+    private EditText editTextPassword;
     private ProgressBar progressBar;
     private FirebaseAuth mAuth;
-//    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
