@@ -33,6 +33,8 @@ public class TimetableStudent extends AppCompatActivity {
         mFrameLayout = findViewById(R.id.fl_timetable);
         headerClassNumLl = findViewById(R.id.ll_header_class_num);
 
+//        float headerClassNumWidth = getResources().getDimension(R.dimen.);
+
         initAddBtn();
 
         initFrameLayout();
