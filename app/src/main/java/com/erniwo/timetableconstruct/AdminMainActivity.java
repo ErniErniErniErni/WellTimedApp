@@ -35,11 +35,11 @@ public class AdminMainActivity extends AppCompatActivity implements View.OnClick
             case R.id.ManageClassTimetable:
                 startActivity(new Intent(this, AdminManageListOfClassesActivity.class));
                 break;
-//            case R.id.ManageTeacherTimetable:
-////                startActivity(new Intent(this, .class));
-//                break;
-//            case R.id.ExportTimetable:
-//                break;
+            case R.id.ManageTeacherTimetable:
+//                startActivity(new Intent(this, .class));
+                break;
+            case R.id.ExportTimetable:
+                break;
         }
     }
 }
