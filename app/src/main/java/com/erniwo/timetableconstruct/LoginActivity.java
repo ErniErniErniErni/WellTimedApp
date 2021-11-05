@@ -41,7 +41,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        // initialize the "SignIn"
+        // initialize the "Sign UP"
         signUp = (TextView) findViewById(R.id.signUp);
         //set on click listener to the "Sign Up"
         signUp.setOnClickListener(this);
@@ -92,7 +92,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
 
         if(password.length() < 6) {
-            editTextPassword.setError("Minimun password length is 6 characters.");
+            editTextPassword.setError("Minimum password length is 6 characters.");
             editTextPassword.requestFocus();
             return;
         }
@@ -105,8 +105,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()) {
                     onAuthSuccess(task.getResult().getUser());
-                    startActivity((new Intent(LoginActivity.this, TimetableStudentActivity.class)));
-                    Toast.makeText(LoginActivity.this, "",Toast.LENGTH_LONG).show();
                 }else {
                     Toast.makeText(LoginActivity.this, "Failed to login.", Toast.LENGTH_LONG).show();
                 }
@@ -115,35 +113,84 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void onAuthSuccess(FirebaseUser user) {
-        if (user != null) {
-            ref = FirebaseDatabase.getInstance().getReference()
-                    .child("Users").child(user.getUid()).child("role");
-            ref.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    String value = dataSnapshot.getValue(String.class);
-                    if(Integer.parseInt(value) == 1) {
-                        startActivity(new Intent(LoginActivity.this,TimetableStudentActivity.class));
-                        Toast.makeText(LoginActivity.this,"Logged in successfully as a student.",Toast.LENGTH_LONG).show();
-                        finish();
-//                    }else(Integer.parseInt(value) == 2) {
-//                        startActivity(new Intent(MainActivity.this, .class));
-//                        Toast.makeText(MainActivity.this,"Logged in successfully as a teacher.",Toast.LENGTH_LONG).show();
-//                        finish();
-//                    }else {
-//                        startActivity(new Intent(MainActivity.this, .class));
-//                        Toast.makeText(MainActivity.this,"Logged in successfully as an admin.",Toast.LENGTH_LONG).show();
-//                        finish();
-                    }
-                }
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
 
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        String RegisteredUserID = currentUser.getUid();
+
+        DatabaseReference aDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(RegisteredUserID);
+        aDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String userType = dataSnapshot.child("type").getValue().toString();
+                if(userType.equals("1")) {
+                    startActivity(new Intent(LoginActivity.this,StudentTimetableActivity.class));
+                    Toast.makeText(LoginActivity.this,"Logged in successfully as a student.",Toast.LENGTH_LONG).show();
+                    finish();
+                }else if(userType.equals("2")) {
+                    startActivity(new Intent(LoginActivity.this, TeacherTimetableActivity.class));
+                    Toast.makeText(LoginActivity.this,"Logged in successfully as a teacher.",Toast.LENGTH_LONG).show();
+                    finish();
+                }else if(userType.equals("3")){
+                    startActivity(new Intent(LoginActivity.this, AdminMainActivity.class));
+                    Toast.makeText(LoginActivity.this,"Logged in successfully as an admin.",Toast.LENGTH_LONG).show();
+                    finish();
                 }
-            });
         }
-    }
-}
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }}
+//        ref = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid()).child("type");
+
+//        if (user != null) {
+//            ref = FirebaseDatabase.getInstance().getReference()
+//                    .child("Users").child(user.getUid()).child("type");
+//
+//            ref.addValueEventListener(new ValueEventListener() {
+//                @Override
+//                public void onDataChange(DataSnapshot dataSnapshot) {
+//                    String userType = dataSnapshot.child("type").getValue().toString();
+//                    if(userType.equals("1")) {
+//                        startActivity(new Intent(LoginActivity.this,StudentTimetableActivity.class));
+//                        Toast.makeText(LoginActivity.this,"Logged in successfully as a student.",Toast.LENGTH_LONG).show();
+//                        finish();
+//                    }else if(userType.equals("2")) {
+//                        startActivity(new Intent(LoginActivity.this, TeacherTimetableActivity.class));
+//                        Toast.makeText(LoginActivity.this,"Logged in successfully as a teacher.",Toast.LENGTH_LONG).show();
+//                        finish();
+//                    }else if(userType.equals("3")){
+//                        startActivity(new Intent(LoginActivity.this, AdminMainActivity.class));
+//                        Toast.makeText(LoginActivity.this,"Logged in successfully as an admin.",Toast.LENGTH_LONG).show();
+//                        finish();
+//                    }
+//                    if(Integer.parseInt(userRole) == 1) {
+//                        startActivity(new Intent(LoginActivity.this,StudentTimetableActivity.class));
+//                        Toast.makeText(LoginActivity.this,"Logged in successfully as a student.",Toast.LENGTH_LONG).show();
+//                        finish();
+//                    }else if(Integer.parseInt(userRole) == 2) {
+//                        startActivity(new Intent(LoginActivity.this, TeacherTimetableActivity.class));
+//                        Toast.makeText(LoginActivity.this,"Logged in successfully as a teacher.",Toast.LENGTH_LONG).show();
+//                        finish();
+//                    }else if(Integer.parseInt(userRole) == 3){
+//                        startActivity(new Intent(LoginActivity.this, AdminMainActivity.class));
+//                        Toast.makeText(LoginActivity.this,"Logged in successfully as an admin.",Toast.LENGTH_LONG).show();
+//                        finish();
+//                    }
+//                }
+//                @Override
+//                public void onCancelled(DatabaseError databaseError) {
+//
+//                }
+//            });
+//        }else{
+//            Toast.makeText(LoginActivity.this,"No user info.",Toast.LENGTH_LONG).show();
+//            finish();
+//        }
+//    }
+//}
 
 
 

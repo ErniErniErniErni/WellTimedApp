@@ -10,30 +10,32 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TimetableConstruct">
         <activity
+            android:name=".AdminMainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".TeacherTimetableActivity"
+            android:exported="false" />
+        <activity
             android:name=".WelcomeChooseRoleActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ForgotPasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SignUpActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>/>
+            </intent-filter>
         </activity>
         <activity
-            android:name=".TimetableStudent"
+            android:name=".StudentTimetableActivity"
             android:exported="false" />
-        <activity
-            android:name=".ForgotPassword"
-            android:exported="false" />
-        <activity
-            android:name=".ProfileActivityStudent"
-            android:exported="false" />
-        <activity
-            android:name=".SignUp"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity"
-            android:exported="true" />
-
     </application>
 
 </manifest>

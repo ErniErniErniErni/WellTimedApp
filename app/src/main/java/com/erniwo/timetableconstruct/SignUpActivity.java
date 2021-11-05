@@ -17,6 +17,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener{
@@ -27,14 +28,14 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     private EditText editTextEmail;
     private EditText editTextPassword;
     private ProgressBar progressBar;
-    private FirebaseAuth mAuth;
+    private FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        mAuth = FirebaseAuth.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
 
         header = (TextView) findViewById(R.id.header);
         header.setOnClickListener(this);
@@ -97,12 +98,13 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         }
 
         progressBar.setVisibility(View.VISIBLE);
-        mAuth.createUserWithEmailAndPassword(email,password)
+        firebaseAuth.createUserWithEmailAndPassword(email,password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
 
                         if(task.isSuccessful()) {
+                            onAuthSuccess(task.getResult().getUser());
                             User user = new User(name, email);
                             //The authentication stuff is added to the build.gradle before this step
                             FirebaseDatabase.getInstance().getReference("Users")
@@ -129,6 +131,10 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                         }
                     }
                 });
+    }
+
+    private void onAuthSuccess(FirebaseUser user){
+//        writeNewUser();
     }
 }
 

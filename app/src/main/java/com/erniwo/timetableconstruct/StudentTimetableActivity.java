@@ -3,19 +3,14 @@ package com.erniwo.timetableconstruct;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
-import java.util.ArrayList;
-
-public class TimetableStudentActivity extends AppCompatActivity {
+public class StudentTimetableActivity extends AppCompatActivity {
 
     private FrameLayout mFrameLayout;
     private ImageButton mAddImgBtn;
@@ -27,7 +22,7 @@ public class TimetableStudentActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_timetable_student);
+        setContentView(R.layout.activity_student_timetable);
 
         mAddImgBtn = findViewById(R.id.img_btn_add);
         mFrameLayout = findViewById(R.id.fl_timetable);
