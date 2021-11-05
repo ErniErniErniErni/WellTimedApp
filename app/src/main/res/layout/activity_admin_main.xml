@@ -6,19 +6,49 @@
     android:layout_height="match_parent"
     tools:context=".AdminMainActivity">
     <Button
-        android:id="@+id/AButton"
+        android:id="@+id/ManageClassTimetable"
+        android:layout_width="380dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="200dp"
+        android:backgroundTint="#ddbea9"
+        android:fontFamily="sans-serif"
+        android:text="Manage Class Timetable"
+        android:textColor="#ffffff"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+    <Button
+        android:id="@+id/ManageTeacherTimetable"
         android:layout_width="380dp"
         android:layout_height="70dp"
         android:layout_marginTop="24dp"
         android:backgroundTint="#ddbea9"
         android:fontFamily="sans-serif"
-        android:text="Admin"
+        android:text="Manage Teacher Timetable"
         android:textColor="#ffffff"
-        android:textSize="26sp"
+        android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ManageClassTimetable"
+        />
+    <Button
+        android:id="@+id/ExportTimetable"
+        android:layout_width="380dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="24dp"
+        android:backgroundTint="#ddbea9"
+        android:fontFamily="sans-serif"
+        android:text="Export Timetable"
+        android:textColor="#ffffff"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ManageTeacherTimetable"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
