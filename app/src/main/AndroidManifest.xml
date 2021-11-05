@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TimetableConstruct">
         <activity
+            android:name=".AdminManageClassTimetableActivity"
+            android:exported="false" />
+        <activity
             android:name=".AdminManageListOfClassesActivity"
             android:exported="false" />
         <activity
