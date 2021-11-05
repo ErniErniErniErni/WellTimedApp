@@ -15,7 +15,7 @@ import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 
-public class TimetableStudent extends AppCompatActivity {
+public class TimetableStudentActivity extends AppCompatActivity {
 
     private FrameLayout mFrameLayout;
     private ImageButton mAddImgBtn;

@@ -19,7 +19,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class SignUp extends AppCompatActivity implements View.OnClickListener{
+public class SignUpActivity extends AppCompatActivity implements View.OnClickListener{
 
     private TextView header;
     private TextView signUpButton;
@@ -53,7 +53,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.header:
-                startActivity(new Intent(this, MainActivity.class));
+                startActivity(new Intent(this, LoginActivity.class));
                 break;
             case R.id.signUpButton:
                 signUpNewUser();
@@ -112,22 +112,44 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener{
                                 public void onComplete(@NonNull Task<Void> task) {
 
                                     if (task.isSuccessful()) {
-                                        Toast.makeText(SignUp.this, "User signed up successfully.", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(SignUpActivity.this, "User signed up successfully.", Toast.LENGTH_LONG).show();
                                         progressBar.setVisibility(View.GONE);
-                                        startActivity((new Intent(SignUp.this,MainActivity.class)));
-                                        //redirect to login layout.
+                                        //redirect to login page
+                                        startActivity((new Intent(SignUpActivity.this,LoginActivity.class)));
                                     } else {
-                                        Toast.makeText(SignUp.this, "Failed to sign up. Try again.", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(SignUpActivity.this, "Failed to sign up. Try again.", Toast.LENGTH_LONG).show();
                                         progressBar.setVisibility(View.GONE);
                                     }
                                 }
                             });
 
                         }else{
-                            Toast.makeText(SignUp.this, "Failed to sign up.", Toast.LENGTH_LONG).show();
+                            Toast.makeText(SignUpActivity.this, "Failed to sign up.", Toast.LENGTH_LONG).show();
                             progressBar.setVisibility(View.GONE);
                         }
                     }
                 });
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

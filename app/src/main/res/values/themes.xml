@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.TimetableConstruct" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.TimetableConstruct" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">#DDBEA9</item>
         <item name="colorPrimaryVariant">#DDBEA9</item>
