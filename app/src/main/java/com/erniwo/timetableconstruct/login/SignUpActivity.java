@@ -83,7 +83,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         String name = editTextName.getText().toString().trim();
         String email = editTextEmail.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
-//        String type = radioButton.getText().toString().trim();
         int checkedId = radioGroup.getCheckedRadioButtonId();
 
         if(name.isEmpty()) {
@@ -121,23 +120,21 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 ////            Toast.makeText(SignUpActivity.this, "Please choose your role!!", Toast.LENGTH_LONG).show();
 //            return;
 //        }
-        String type;
+        int type;
+
         if(checkedId == -1) {
-            int firstChildButtonPos = radioGroup.getChildCount()-1;
-            Button firstChildButton = (RadioButton) radioGroup.getChildAt(firstChildButtonPos);
-            firstChildButton.setError("");
             Message.showMessage(getApplicationContext(),"Please choose your role!!");
+            type = 0;
             return;
         }else if (checkedId == R.id.radiobutton_student){
-            type = "1";
-        }else if(checkedId == R.id.radiobutton_teacher) {
-            type = "2";
-
-        }else if(checkedId == R.id.radiobutton_admin){
-            type = "3";
-
-        }else{
-            type = null;
+            type = 1;
+        }else if (checkedId == R.id.radiobutton_teacher){
+            type = 2;
+        }else if (checkedId == R.id.radiobutton_teacher){
+            type = 3;
+        }else {
+            Message.showMessage(getApplicationContext(), "Something is wrong, please try again!");
+            type = 0;
         }
 
         progressBar.setVisibility(View.VISIBLE);
