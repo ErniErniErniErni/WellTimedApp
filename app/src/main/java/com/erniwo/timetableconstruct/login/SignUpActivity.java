@@ -130,7 +130,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             type = 1;
         }else if (checkedId == R.id.radiobutton_teacher){
             type = 2;
-        }else if (checkedId == R.id.radiobutton_teacher){
+        }else if (checkedId == R.id.radiobutton_admin){
             type = 3;
         }else {
             Message.showMessage(getApplicationContext(), "Something is wrong, please try again!");
