@@ -124,7 +124,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
         if(checkedId == -1) {
             Message.showMessage(getApplicationContext(),"Please choose your role!!");
-            type = 0;
+//            type = 0;
             return;
         }else if (checkedId == R.id.radiobutton_student){
             type = 1;
