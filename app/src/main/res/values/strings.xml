@@ -1,3 +1,21 @@
 <resources>
-    <string name="app_name">TimetableConstruct</string>
+    <string name="app_name">WellTimed</string>
+
+    <!-- Home Page -->
+    <string name="app_description">View your timetable everywhere.</string>
+    <string name="powered_by">Powered by Erni Wo</string>
+
+    <!-- Login & Sign Up-->
+    <string name="welcome_title">Welcome to WellTimed!</string>
+    <string name="choose_role">Please choose your role:</string>
+
+    <!-- Slide Onboarding Page -->
+
+
+    <!-- Buttons -->
+    <string name="skip_button">Skip</string>
+    <string name="next_button">Next</string>
+    <string name="back_button">Back</string>
+    <string name="Start_button">Start</string>
+
 </resources>

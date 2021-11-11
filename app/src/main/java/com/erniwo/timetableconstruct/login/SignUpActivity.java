@@ -1,18 +1,23 @@
-package com.erniwo.timetableconstruct;
+package com.erniwo.timetableconstruct.login;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.erniwo.timetableconstruct.Message;
 import com.erniwo.timetableconstruct.R;
+import com.erniwo.timetableconstruct.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -29,6 +34,9 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     private EditText editTextPassword;
     private ProgressBar progressBar;
     private FirebaseAuth firebaseAuth;
+
+    private RadioGroup radioGroup;
+    private RadioButton radioButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +56,9 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         editTextPassword = (EditText) findViewById(R.id.password);
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
+
+        radioGroup = (RadioGroup) findViewById(R.id.chooseRoleGroup);
+
     }
 
     @Override
@@ -62,10 +73,18 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
+    public void checkButton(View v) {
+        int radioId = radioGroup.getCheckedRadioButtonId();
+
+        radioButton = findViewById(radioId);
+    }
+
     private void signUpNewUser() {
         String name = editTextName.getText().toString().trim();
         String email = editTextEmail.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
+//        String type = radioButton.getText().toString().trim();
+        int checkedId = radioGroup.getCheckedRadioButtonId();
 
         if(name.isEmpty()) {
             editTextName.setError("Please imput your name!");
@@ -97,7 +116,32 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             return;
         }
 
+//        if(radioGroup.getCheckedRadioButtonId() == -1) {
+//            Message.showMessage(getApplicationContext(),"Please choose your role!!");
+////            Toast.makeText(SignUpActivity.this, "Please choose your role!!", Toast.LENGTH_LONG).show();
+//            return;
+//        }
+        String type;
+        if(checkedId == -1) {
+            int firstChildButtonPos = radioGroup.getChildCount()-1;
+            Button firstChildButton = (RadioButton) radioGroup.getChildAt(firstChildButtonPos);
+            firstChildButton.setError("");
+            Message.showMessage(getApplicationContext(),"Please choose your role!!");
+            return;
+        }else if (checkedId == R.id.radiobutton_student){
+            type = "1";
+        }else if(checkedId == R.id.radiobutton_teacher) {
+            type = "2";
+
+        }else if(checkedId == R.id.radiobutton_admin){
+            type = "3";
+
+        }else{
+            type = null;
+        }
+
         progressBar.setVisibility(View.VISIBLE);
+
         firebaseAuth.createUserWithEmailAndPassword(email,password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
@@ -105,7 +149,9 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
                         if(task.isSuccessful()) {
                             onAuthSuccess(task.getResult().getUser());
-                            User user = new User(name, email);
+
+                            User user = new User(name, email, type);
+
                             //The authentication stuff is added to the build.gradle before this step
                             FirebaseDatabase.getInstance().getReference("Users")
                                     .child(FirebaseAuth.getInstance().getCurrentUser().getUid())

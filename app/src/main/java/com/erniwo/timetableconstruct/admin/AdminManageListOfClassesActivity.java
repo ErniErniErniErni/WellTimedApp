@@ -1,4 +1,4 @@
-package com.erniwo.timetableconstruct;
+package com.erniwo.timetableconstruct.admin;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,9 +9,16 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.erniwo.timetableconstruct.R;
+
 public class AdminManageListOfClassesActivity extends AppCompatActivity implements AdapterView.OnItemClickListener{
 
-    String[] classNameArray = {"Class 101", "Class 102", "Class 103", "Class 201", "Class 202", "Class 203", "Class 301"};
+    String[] classNameArray = {"Class 101", "Class 102", "Class 103",
+            "Class 201", "Class 202", "Class 203", "Class 301",
+            "Class 302", "Class 303", "Class 304", "Class 401",
+            "Class 402", "Class 403", "Class 404", "Class 405",
+    "Class 501", "Class 502", "Class 503", "Class 504",
+    "Class 601", "Class 602"};
     private ListView listOfClasses;
 
     @Override

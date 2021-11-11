@@ -4,12 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SignUpActivity">
+    tools:context=".login.SignUpActivity">
     <TextView
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Welcome to WellTimed!"
+        android:text="@string/welcome_title"
         android:textSize="45sp"
         android:textAlignment="center"
         android:textStyle="bold"
@@ -26,7 +26,7 @@
         android:layout_width="380dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="50dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="30dp"
         android:ems="10"
         android:fontFamily="sans-serif"
         android:hint="Full Name"
@@ -66,12 +66,63 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/email"
         />
+    <TextView
+        android:id="@+id/chooseRole"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/choose_role"
+        android:textSize="24sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/password"/>
+
+    <RadioGroup
+        android:id="@+id/chooseRoleGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chooseRole" >
+
+        <RadioButton
+            android:id="@+id/radiobutton_student"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Student"
+            android:textColor="@color/DarkGrey"
+            android:textSize="22sp"
+            android:onClick="checkButton"/>
+
+        <RadioButton
+            android:id="@+id/radiobutton_teacher"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="15dp"
+            android:text="Teacher"
+            android:textColor="@color/DarkGrey"
+            android:textSize="22sp"
+            android:onClick="checkButton"/>
+
+        <RadioButton
+            android:id="@+id/radiobutton_admin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Admin"
+            android:textColor="@color/DarkGrey"
+            android:textSize="22sp"
+            android:onClick="checkButton"/>
+    </RadioGroup>
+
     <Button
         android:id="@+id/signUpButton"
         android:layout_width="380dp"
         android:layout_height="70dp"
         android:layout_marginTop="24dp"
         android:backgroundTint="#ddbea9"
+        android:layout_marginBottom="40dp"
         android:fontFamily="sans-serif"
         android:text="Sign Up"
         android:textColor="#ffffff"
@@ -79,8 +130,9 @@
         android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password"
+        app:layout_constraintTop_toBottomOf="@+id/chooseRoleGroup"
         />
+
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
@@ -93,4 +145,5 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="parent"
         />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

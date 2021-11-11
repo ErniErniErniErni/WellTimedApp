@@ -1,4 +1,4 @@
-package com.erniwo.timetableconstruct;
+package com.erniwo.timetableconstruct.login;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,10 @@ import android.widget.TextView;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.erniwo.timetableconstruct.admin.AdminMainActivity;
+import com.erniwo.timetableconstruct.R;
+import com.erniwo.timetableconstruct.student.StudentTimetableActivity;
+import com.erniwo.timetableconstruct.teacher.TeacherTimetableActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -123,7 +127,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String userType = dataSnapshot.child("type").getValue().toString();
                 if(userType.equals("1")) {
-                    startActivity(new Intent(LoginActivity.this,StudentTimetableActivity.class));
+                    startActivity(new Intent(LoginActivity.this, StudentTimetableActivity.class));
                     Toast.makeText(LoginActivity.this,"Logged in successfully as a student.",Toast.LENGTH_LONG).show();
                     finish();
                 }else if(userType.equals("2")) {

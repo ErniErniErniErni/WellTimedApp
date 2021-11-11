@@ -3,14 +3,15 @@ package com.erniwo.timetableconstruct;
 public class User {
     public String name;
     public String email;
+    public String type;
 
     public User() {
 
     }
 
-    public User(String name, String email) {
+    public User(String name, String email, String type) {
         this.name = name;
-//        this.studentNum = studentNum;
         this.email = email;
+        this.type = type;
     }
 }

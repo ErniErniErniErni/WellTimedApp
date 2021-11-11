@@ -1,4 +1,4 @@
-package com.erniwo.timetableconstruct;
+package com.erniwo.timetableconstruct.admin;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import com.erniwo.timetableconstruct.R;
 
 public class AdminMainActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -36,7 +38,7 @@ public class AdminMainActivity extends AppCompatActivity implements View.OnClick
                 startActivity(new Intent(this, AdminManageListOfClassesActivity.class));
                 break;
             case R.id.ManageTeacherTimetable:
-//                startActivity(new Intent(this, .class));
+                startActivity(new Intent(this, AdminManageListOfTeachersActivity.class));
                 break;
             case R.id.ExportTimetable:
                 break;
