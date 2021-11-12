@@ -1,4 +1,4 @@
-package com.erniwo.timetableconstruct;
+package com.erniwo.timetableconstruct.home;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,6 +9,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
+import com.erniwo.timetableconstruct.R;
 import com.erniwo.timetableconstruct.login.LoginActivity;
 
 public class HomePage extends AppCompatActivity{

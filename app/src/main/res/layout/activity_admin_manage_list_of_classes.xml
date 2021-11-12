@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 
         <EditText
-            android:id="@+id/searchText"
+            android:id="@+id/search_text"
 
             android:layout_width="380dp"
             android:layout_height="wrap_content"
@@ -21,7 +21,7 @@
     <!--Add your list view here-->
 
     <Button
-        android:id="@+id/Search"
+        android:id="@+id/search_button"
         android:layout_gravity="center_horizontal"
         android:layout_width="380dp"
         android:layout_height="wrap_content"
@@ -31,7 +31,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
     <Button
-        android:id="@+id/AddClass"
+        android:id="@+id/add_class"
         android:layout_gravity="center_horizontal"
         android:layout_width="380dp"
         android:layout_height="wrap_content"
@@ -42,7 +42,7 @@
         app:layout_constraintRight_toRightOf="parent" />
 
     <ListView
-            android:id="@+id/ListOfClasses"
+            android:id="@+id/list_of_classes"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 

@@ -46,20 +46,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_login);
 
         // initialize the "Sign UP"
-        signUp = (TextView) findViewById(R.id.signUp);
+        signUp = findViewById(R.id.signUp);
         //set on click listener to the "Sign Up"
         signUp.setOnClickListener(this);
 
-        forgotPassword = (TextView) findViewById(R.id.forgotPassword);
+        forgotPassword = findViewById(R.id.forgotPassword);
         forgotPassword.setOnClickListener(this);
 
-        login = (Button) findViewById(R.id.loginButton);
+        login = findViewById(R.id.loginButton);
         login.setOnClickListener(this);
 
-        editTextEmail = (EditText) findViewById(R.id.email);
-        editTextPassword = (EditText) findViewById(R.id.password);
+        editTextEmail = findViewById(R.id.email);
+        editTextPassword = findViewById(R.id.password);
 
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        progressBar = findViewById(R.id.progressBar);
 
         firebaseAuth = FirebaseAuth.getInstance();
     }
