@@ -1,4 +1,4 @@
-package com.erniwo.timetableconstruct;
+package com.erniwo.timetableconstruct.model;
 
 public class Student {
     public String name;

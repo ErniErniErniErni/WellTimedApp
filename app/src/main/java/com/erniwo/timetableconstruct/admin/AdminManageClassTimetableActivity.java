@@ -16,6 +16,7 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -23,7 +24,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.erniwo.timetableconstruct.Config;
-import com.erniwo.timetableconstruct.Course;
+import com.erniwo.timetableconstruct.model.Course;
 import com.erniwo.timetableconstruct.R;
 
 import java.sql.Time;
@@ -41,6 +42,9 @@ public class AdminManageClassTimetableActivity extends AppCompatActivity {
     private TextView mWeekOfTermTextView;
     private ImageView mBgImageView;
     private ImageButton mAddImgBtn;
+    private Button courseButton1;
+    private Button courseButton2;
+    private Button courseButton3;
     private LinearLayout headerClassNumLl;
     private boolean flagUpdateCalendar = false;
 
@@ -90,11 +94,17 @@ public class AdminManageClassTimetableActivity extends AppCompatActivity {
 
         mWeekOfTermTextView = findViewById(R.id.tv_week_of_term);
         mAddImgBtn = findViewById(R.id.img_btn_add);
+        courseButton1 = findViewById(R.id.course_single1);
+        courseButton2 = findViewById(R.id.course_single2);
+        courseButton3 = findViewById(R.id.course_single3);
         mBgImageView = findViewById(R.id.iv_bg_main);
         mFrameLayout = findViewById(R.id.fl_timetable);
         headerClassNumLl = findViewById(R.id.ll_header_class_num);
 
 
+        courseButton1.setText("Math \n R3");
+        courseButton2.setText("French \n R8");
+        courseButton3.setText("Geo \n R6");
         //计算1dp的数值方便接下来设置元素尺寸,提高效率
         VALUE_1DP = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1,
                 getResources().getDisplayMetrics());
@@ -205,7 +215,7 @@ public class AdminManageClassTimetableActivity extends AppCompatActivity {
         layoutParams.height = (int) sCellHeightPx * Config.getMaxClassNum();
         //设置课程表宽度
         layoutParams.width = (int) sCellWidthPx * 7;
-
+        setCourseCardButton(40, 50);
         mAddImgBtn.getLayoutParams().height = (int) sCellHeightPx;
 
         mFrameLayout.performClick();
@@ -249,6 +259,12 @@ public class AdminManageClassTimetableActivity extends AppCompatActivity {
         layoutParams.leftMargin = left;
         layoutParams.topMargin = top;
         mAddImgBtn.setVisibility(View.VISIBLE);
+    }
+    private void setCourseCardButton(int left, int top) {
+        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) mAddImgBtn.getLayoutParams();
+        layoutParams.leftMargin = left;
+        layoutParams.topMargin = top;
+        courseButton1.setVisibility(View.VISIBLE);
     }
 
 

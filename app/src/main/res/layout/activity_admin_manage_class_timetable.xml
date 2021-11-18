@@ -166,6 +166,34 @@
                         android:layout_height="840dp"
                         android:layout_weight="1"
                         >
+                        <Button
+                            android:id="@+id/course_single2"
+                            android:layout_width="50dp"
+                            android:layout_height="120dp"
+                            android:backgroundTint="@color/DarkPeach"
+                            android:foregroundTint="@color/LightPeach"
+                            android:scaleType="centerInside"
+                            android:text="Math"
+                            android:layout_gravity="center"
+                            android:textColor="@color/white"
+                            android:textColorLink="@color/DarkPeach"
+                            android:textSize="15sp"
+                            android:textStyle="normal"
+                            android:visibility="visible" />
+                        <Button
+                            android:id="@+id/course_single3"
+                            android:layout_width="50dp"
+                            android:layout_height="120dp"
+                            android:backgroundTint="@color/DarkPeach"
+                            android:foregroundTint="@color/LightPeach"
+                            android:scaleType="centerInside"
+                            android:text="Math"
+                            android:layout_gravity="right"
+                            android:textColor="@color/white"
+                            android:textColorLink="@color/DarkPeach"
+                            android:textSize="15sp"
+                            android:textStyle="normal"
+                            android:visibility="visible" />
 
                         <ImageButton
                             android:id="@+id/img_btn_add"
@@ -175,6 +203,22 @@
                             android:src="@mipmap/content_new"
                             android:visibility="gone"
                             />
+
+                        <Button
+                            android:id="@+id/course_single1"
+                            android:layout_width="50dp"
+                            android:layout_height="120dp"
+                            android:backgroundTint="@color/DarkPeach"
+                            android:foregroundTint="@color/LightPeach"
+                            android:scaleType="centerInside"
+                            android:textColor="@color/white"
+                            android:text="Math"
+                            android:textStyle="normal"
+                            android:textSize="15sp"
+                            android:textColorLink="@color/DarkPeach"
+                            android:visibility="visible" />
+
+
 
                     </FrameLayout>
 

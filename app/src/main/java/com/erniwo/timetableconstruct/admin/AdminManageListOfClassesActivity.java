@@ -20,8 +20,9 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 
-public class AdminManageListOfClassesActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, View.OnClickListener{
+public class AdminManageListOfClassesActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
 //    String[] classNameArray = {"Class 101", "Class 102", "Class 103",
 //            "Class 201", "Class 202", "Class 203", "Class 301",
@@ -42,24 +43,26 @@ public class AdminManageListOfClassesActivity extends AppCompatActivity implemen
         addClass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent in2 = new Intent(AdminManageListOfClassesActivity.this, AdminAddNewClassActivity.class);
+                startActivity(in2);
             }
         });
 
-        ArrayList<String> list = new ArrayList<>();
+        ArrayList<String> classNameArray = new ArrayList<>();
         ArrayAdapter adapter = new ArrayAdapter<String>(this,
-                R.layout.activity_listview, list);
+                R.layout.activity_listview, classNameArray);
 
         listOfClasses.setAdapter(adapter);
         listOfClasses.setOnItemClickListener(this);
 
-        DatabaseReference classInfoRef = FirebaseDatabase.getInstance().getReference().child("Classes");
+        DatabaseReference classInfoRef = FirebaseDatabase.getInstance().getReference("Classes");//.child();
+
         classInfoRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                list.clear();
+                classNameArray.clear();
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    list.add(snapshot.getValue().toString());
+                    classNameArray.add(snapshot.child("Name").getValue().toString());
                 }
                 adapter.notifyDataSetChanged();
 
@@ -70,7 +73,6 @@ public class AdminManageListOfClassesActivity extends AppCompatActivity implemen
 
             }
         });
-
     }
 
     @Override
@@ -80,15 +82,21 @@ public class AdminManageListOfClassesActivity extends AppCompatActivity implemen
         startActivity(in1);
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.add_class:
-                addClass();
-                break;
-        }
-    }
+//    @Override
+//    public void onClick(View v) {
+//        switch (v.getId()) {
+//            case R.id.add_class:
+////                addClass();
+//                startActivity(new Intent(this,AdminManageLOCAddClassActivity.class));
+//                break;
+//        }
+//    }
 
-    private void addClass() {
-    }
+//    private void addClass() {
+//
+//        HashMap<String, Object> map = new HashMap<>();
+//        map.put("C0106", "Grade 1 Class 6");
+//        //only called when logged in
+//        FirebaseDatabase.getInstance().getReference().child("Classes").updateChildren(map);
+//    }
 }

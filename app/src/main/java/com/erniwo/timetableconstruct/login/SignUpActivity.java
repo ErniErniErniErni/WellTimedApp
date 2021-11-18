@@ -1,11 +1,13 @@
 package com.erniwo.timetableconstruct.login;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,13 +19,16 @@ import android.widget.Toast;
 
 import com.erniwo.timetableconstruct.Message;
 import com.erniwo.timetableconstruct.R;
-import com.erniwo.timetableconstruct.User;
+import com.erniwo.timetableconstruct.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.SignInMethodQueryResult;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.List;
 
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -138,6 +143,29 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         }
 
         progressBar.setVisibility(View.VISIBLE);
+
+        firebaseAuth.fetchSignInMethodsForEmail(email).addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
+            @Override
+            public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
+                if(task.isSuccessful()) {
+                    SignInMethodQueryResult result = task.getResult();
+                    List<String> signInMethods = result.getSignInMethods();
+                    if(signInMethods.isEmpty()) {
+                        return;
+                    }else {
+                        editTextEmail.setError("This email is already registered, please login.");
+                        editTextEmail.requestFocus();
+//                        Message.showMessage(getApplicationContext(),"This email exists, please login");
+//                    if(signInMethods.contains(EmailAuthProvider.EMAIL_PASSWORD_SIGN_IN_METHOD)){
+//                        // User can sign in with email/password
+//                    } else if (signInMethods.contains(EmailAuthProvider.EMAIL_LINK_SIGN_IN_METHOD)) {
+//                        // User can sign in with email/link
+                    }
+                }else {
+                    Log.e(TAG, "Error getting sign in methods for user", task.getException());
+                }
+            }
+        });
 
         firebaseAuth.createUserWithEmailAndPassword(email,password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {

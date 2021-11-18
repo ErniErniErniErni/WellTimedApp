@@ -9,6 +9,7 @@ import android.widget.TextView;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.erniwo.timetableconstruct.Message;
 import com.erniwo.timetableconstruct.admin.AdminMainActivity;
 import com.erniwo.timetableconstruct.R;
 import com.erniwo.timetableconstruct.student.StudentTimetableActivity;
@@ -38,7 +39,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private FirebaseAuth firebaseAuth;
     private ProgressBar progressBar;
-    private DatabaseReference ref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,7 +110,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 if(task.isSuccessful()) {
                     onAuthSuccess(task.getResult().getUser());
                 }else {
-                    Toast.makeText(LoginActivity.this, "Failed to login.", Toast.LENGTH_LONG).show();
+                    Message.showMessage(LoginActivity.this,"Failed to login.");
                 }
             }
         });
@@ -146,55 +146,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             }
         });
-    }}
-//        ref = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid()).child("type");
+    }
 
-//        if (user != null) {
-//            ref = FirebaseDatabase.getInstance().getReference()
-//                    .child("Users").child(user.getUid()).child("type");
-//
-//            ref.addValueEventListener(new ValueEventListener() {
-//                @Override
-//                public void onDataChange(DataSnapshot dataSnapshot) {
-//                    String userType = dataSnapshot.child("type").getValue().toString();
-//                    if(userType.equals("1")) {
-//                        startActivity(new Intent(LoginActivity.this,StudentTimetableActivity.class));
-//                        Toast.makeText(LoginActivity.this,"Logged in successfully as a student.",Toast.LENGTH_LONG).show();
-//                        finish();
-//                    }else if(userType.equals("2")) {
-//                        startActivity(new Intent(LoginActivity.this, TeacherTimetableActivity.class));
-//                        Toast.makeText(LoginActivity.this,"Logged in successfully as a teacher.",Toast.LENGTH_LONG).show();
-//                        finish();
-//                    }else if(userType.equals("3")){
-//                        startActivity(new Intent(LoginActivity.this, AdminMainActivity.class));
-//                        Toast.makeText(LoginActivity.this,"Logged in successfully as an admin.",Toast.LENGTH_LONG).show();
-//                        finish();
-//                    }
-//                    if(Integer.parseInt(userRole) == 1) {
-//                        startActivity(new Intent(LoginActivity.this,StudentTimetableActivity.class));
-//                        Toast.makeText(LoginActivity.this,"Logged in successfully as a student.",Toast.LENGTH_LONG).show();
-//                        finish();
-//                    }else if(Integer.parseInt(userRole) == 2) {
-//                        startActivity(new Intent(LoginActivity.this, TeacherTimetableActivity.class));
-//                        Toast.makeText(LoginActivity.this,"Logged in successfully as a teacher.",Toast.LENGTH_LONG).show();
-//                        finish();
-//                    }else if(Integer.parseInt(userRole) == 3){
-//                        startActivity(new Intent(LoginActivity.this, AdminMainActivity.class));
-//                        Toast.makeText(LoginActivity.this,"Logged in successfully as an admin.",Toast.LENGTH_LONG).show();
-//                        finish();
-//                    }
-//                }
-//                @Override
-//                public void onCancelled(DatabaseError databaseError) {
-//
-//                }
-//            });
-//        }else{
-//            Toast.makeText(LoginActivity.this,"No user info.",Toast.LENGTH_LONG).show();
-//            finish();
-//        }
-//    }
-//}
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (user != null) {
+            onAuthSuccess(user);
+        }else {
+            return;
+        }
+    }
+
+    //add a method to pull data from firebase
+}
+
 
 
 

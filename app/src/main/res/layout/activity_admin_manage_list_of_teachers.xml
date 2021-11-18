@@ -29,7 +29,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
     <Button
-        android:id="@+id/AddTeacher"
+        android:id="@+id/add_teacher"
         android:layout_gravity="center_horizontal"
         android:layout_width="380dp"
         android:layout_height="wrap_content"

@@ -4,9 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".admin.AdminMainActivity">
+
     <Button
-        android:id="@+id/ManageClassTimetable"
+        android:id="@+id/manage_class_timetable"
         android:layout_width="380dp"
         android:layout_height="70dp"
         android:layout_marginTop="200dp"
@@ -18,10 +20,10 @@
         android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
+
     <Button
-        android:id="@+id/ManageTeacherTimetable"
+        android:id="@+id/manage_teacher_timetable"
         android:layout_width="380dp"
         android:layout_height="70dp"
         android:layout_marginTop="24dp"
@@ -33,10 +35,10 @@
         android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ManageClassTimetable"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/manage_class_timetable" />
+
     <Button
-        android:id="@+id/ExportTimetable"
+        android:id="@+id/export_timetable"
         android:layout_width="380dp"
         android:layout_height="70dp"
         android:layout_marginTop="24dp"
@@ -48,7 +50,22 @@
         android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ManageTeacherTimetable"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/manage_teacher_timetable" />
+
+    <ImageView
+        android:id="@+id/logout_icon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@color/white"
+        android:backgroundTint="@color/white"
+        android:src="@mipmap/baseline_logout_black_48"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        app:tint="@color/DarkGrey"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="366dp"
+        tools:layout_editor_absoluteY="16dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

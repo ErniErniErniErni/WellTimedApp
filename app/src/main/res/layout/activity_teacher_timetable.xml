@@ -20,17 +20,18 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/NameOfUser"
+                android:id="@+id/name_of_user_teacher"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:textColor="#ffffff"
                 android:textSize="20sp"
+                android:text="Name's Timetable"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
             <TextView
-                android:id="@+id/WellTimedText"
+                android:id="@+id/well_timed_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -39,7 +40,20 @@
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/NameOfUser" />
+                app:layout_constraintTop_toBottomOf="@+id/name_of_user_teacher" />
+            <ImageView
+                android:id="@+id/logout_icon"
+                android:layout_height="30dp"
+                android:layout_width="30dp"
+                android:background="@color/DarkPeach"
+                android:backgroundTint="@color/DarkPeach"
+                android:src="@mipmap/baseline_logout_black_48"
+                app:tint="@color/white"
+                tools:ignore="MissingConstraints"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.appcompat.widget.Toolbar>
