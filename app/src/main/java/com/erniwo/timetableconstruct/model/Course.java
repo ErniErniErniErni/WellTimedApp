@@ -3,55 +3,68 @@ package com.erniwo.timetableconstruct.model;
 import androidx.annotation.NonNull;
 
 public class Course implements Cloneable, Comparable<Course>{
-    private String name;//课程名
-    private String teacher;//教授名字
-    private int classLength = 0;//课程时长
-    private int classStart = -1;//课程开始节数
-    private String classRoom;//上课地点
-    private int dayOfWeek = 0;//在周几上课 值1-7
+    private String subject;//subject name
 
-    public int getClassStart() {
-        return classStart;
+    private String dayOfWeek;//value between 1-7
+    private String period;//1-8
+    private String location;
+    private String teacher;
+
+//    private int classLength = 0;//课程时长
+//    private int classStart = -1;//课程开始节数
+
+    public Course() {
+
+    }
+    public Course(String subject, String dayOfWeek, String period, String location, String teacher ){
+
     }
 
-    public void setClassStart(int classStart) {
-        this.classStart = classStart;
-    }
+//    public int getClassStart() {
+//        return classStart;
+//    }
+//
+//    public void setClassStart(int classStart) {
+//        this.classStart = classStart;
+//    }
+    public String getPeriod() {return period;}
 
-    public int getDayOfWeek() {
+    public void setPeriod(String period) {this.period = period;}
+
+    public String getDayOfWeek() {
         return dayOfWeek;
     }
 
-    public void setDayOfWeek(int dayOfWeek) {
+    public void setDayOfWeek(String dayOfWeek) {
         this.dayOfWeek = dayOfWeek;
     }
 
-    public String getClassRoom() {
-        return classRoom;
+    public String getLocation() {
+        return location;
     }
 
-    public void setClassRoom(String classRoom) {
-        this.classRoom = classRoom;
+    public void setLocation(String location) {
+        this.location = location;
     }
 
-    public int getClassLength() {
-        return classLength;
+//    public int getClassLength() {
+//        return classLength;
+//    }
+
+//    public void setClassLength(int classLength) {
+//        if (classLength <= 0)
+//            classLength = 1;
+//        else if (classLength > 12)
+//            classLength = 12;
+//        this.classLength = classLength;
+//    }
+
+    public String getSubject() {
+        return subject;
     }
 
-    public void setClassLength(int classLength) {
-        if (classLength <= 0)
-            classLength = 1;
-        else if (classLength > 12)
-            classLength = 12;
-        this.classLength = classLength;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public void setSubject(String subject) {
+        this.subject = subject;
     }
 
     public String getTeacher() {

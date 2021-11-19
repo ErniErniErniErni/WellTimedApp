@@ -58,6 +58,18 @@ public class StudentTimetableActivity extends AppCompatActivity implements View.
 
         loadStudentName();
 
+        pullExistingClasses();
+
+    }
+
+    private void pullExistingClasses() {
+        //Pull timetable from backend
+        LoadCardButton();//image?
+    }
+
+    private void LoadCardButton() {
+        //Pull lecture info
+
     }
 
     @Override

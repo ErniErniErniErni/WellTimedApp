@@ -10,8 +10,12 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
+import com.erniwo.timetableconstruct.Message;
 import com.erniwo.timetableconstruct.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,14 +28,10 @@ import java.util.HashMap;
 
 public class AdminManageListOfClassesActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
-//    String[] classNameArray = {"Class 101", "Class 102", "Class 103",
-//            "Class 201", "Class 202", "Class 203", "Class 301",
-//            "Class 302", "Class 303", "Class 304", "Class 401",
-//            "Class 402", "Class 403", "Class 404", "Class 405",
-//    "Class 501", "Class 502", "Class 503", "Class 504",
-//    "Class 601", "Class 602"};
     private ListView listOfClasses;
     private Button addClass;
+    private static String clickedClassName;
+    private static String clickedClassID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,26 +77,62 @@ public class AdminManageListOfClassesActivity extends AppCompatActivity implemen
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//        clickedClassName = parent.getItemAtPosition(position).toString();
+        clickedClassName = ((TextView) view).getText().toString().trim();
+
+        setClickedClassID();
 
         Intent in1 = new Intent(AdminManageListOfClassesActivity.this, AdminManageClassTimetableActivity.class);
+
         startActivity(in1);
+
+        //for testing
+//        Message.showMessage(getApplicationContext(),getClickedClassName());
+//        Message.showMessage(getApplicationContext(),getClickedClassID());
     }
 
-//    @Override
-//    public void onClick(View v) {
-//        switch (v.getId()) {
-//            case R.id.add_class:
-////                addClass();
-//                startActivity(new Intent(this,AdminManageLOCAddClassActivity.class));
-//                break;
-//        }
-//    }
+    public static String getClickedClassName() {
+        return clickedClassName;
+    }
 
-//    private void addClass() {
-//
-//        HashMap<String, Object> map = new HashMap<>();
-//        map.put("C0106", "Grade 1 Class 6");
-//        //only called when logged in
-//        FirebaseDatabase.getInstance().getReference().child("Classes").updateChildren(map);
-//    }
+    public static String getClickedClassID() {
+        return clickedClassID;
+    }
+
+    public void setClickedClassID() {
+        DatabaseReference classesRef = FirebaseDatabase.getInstance().getReference("Classes");
+        classesRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot child: snapshot.getChildren()) {
+
+
+                    String childNameValue = child.child("Name").getValue().toString().trim();
+//                    Message.showMessage(getApplicationContext(),childNameValue);
+
+
+                    if (childNameValue.equals(getClickedClassName())) {
+//                        Message.showMessage(getApplicationContext(),"Yeahhhhhh");
+                        clickedClassID = child.getKey();
+                        Message.showMessage(getApplicationContext(),getClickedClassID());
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
 }
+
+
+
+
+
+
+
+
+
+

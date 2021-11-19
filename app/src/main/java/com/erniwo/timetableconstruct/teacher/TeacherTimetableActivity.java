@@ -25,11 +25,11 @@ public class TeacherTimetableActivity extends AppCompatActivity implements View.
 
     private TextView nameOfUser;
     private ImageView logout;
-    private FirebaseAuth firebaseAuth;
-    private FirebaseDatabase mDatabase;
-    private DatabaseReference mDb;
-    private String userKey;
-    private String currentUsername;
+//    private FirebaseAuth firebaseAuth;
+//    private FirebaseDatabase mDatabase;
+//    private DatabaseReference mDb;
+//    private String userKey;
+//    private String currentUsername;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,8 +72,14 @@ public class TeacherTimetableActivity extends AppCompatActivity implements View.
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String userName = snapshot.child(userID).child("name").getValue().toString();
-                nameOfUser.setText( userName + "'s Timetable");
+//                for (DataSnapshot child: snapshot.getChildren()) {
+//                    String key = child.getKey();
+                    String userName = snapshot.child(userID).child("name").getValue().toString();
+//                    String userKeyName = snapshot.child(userID).getKey();
+                    nameOfUser.setText( userName + "'s Timetable");
+//                }
+
+
             }
 
             @Override
