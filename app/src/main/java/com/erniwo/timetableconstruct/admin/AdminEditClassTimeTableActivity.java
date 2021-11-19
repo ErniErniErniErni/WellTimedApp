@@ -130,7 +130,8 @@ public class AdminEditClassTimeTableActivity extends AppCompatActivity implement
         courseIDRef.child("Location").setValue(location);
         courseIDRef.child("Teacher").setValue(teacher);
         Message.showMessage(getApplicationContext(), "Course info saved successfully.");
-
+        Intent intent = new Intent(getApplicationContext(),AdminManageClassTimetableActivity.class);
+        startActivity(intent);
 
     }
 }
