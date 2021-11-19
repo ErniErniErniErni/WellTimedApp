@@ -99,12 +99,12 @@ public class AdminManageClassTimetableActivity extends AppCompatActivity {
         getWritePermission();//得到读写权限用于保存课表信息
 
 //        mWeekOfTermTextView = findViewById(R.id.tv_week_of_term);
-        mAddImgBtn = findViewById(R.id.img_btn_add);
-        courseButton1 = findViewById(R.id.course_single1);
-        courseButton2 = findViewById(R.id.course_single2);
-        courseButton3 = findViewById(R.id.course_single3);
-        mBgImageView = findViewById(R.id.iv_bg_main);
-        mFrameLayout = findViewById(R.id.fl_timetable);
+//        mAddImgBtn = findViewById(R.id.img_btn_add);
+//        courseButton1 = findViewById(R.id.course_single1);
+//        courseButton2 = findViewById(R.id.course_single2);
+//        courseButton3 = findViewById(R.id.course_single3);
+//        mBgImageView = findViewById(R.id.iv_bg_main);
+//        mFrameLayout = findViewById(R.id.fl_timetable);
         headerClassNumLl = findViewById(R.id.ll_header_class_num);
 
         nameOfClass = (TextView) findViewById(R.id.name_of_class) ;

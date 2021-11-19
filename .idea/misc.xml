@@ -23,8 +23,8 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.20462046204620463" />
         <entry key="app/src/main/res/layout/activity_profile_student.xml" value="0.2418478260869565" />
         <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.31055347228214436" />
-        <entry key="app/src/main/res/layout/activity_student_timetable.xml" value="0.3372620126926564" />
-        <entry key="app/src/main/res/layout/activity_teacher_timetable.xml" value="0.41238938053097346" />
+        <entry key="app/src/main/res/layout/activity_student_timetable.xml" value="0.20202020202020202" />
+        <entry key="app/src/main/res/layout/activity_teacher_timetable.xml" value="0.40924092409240925" />
         <entry key="app/src/main/res/layout/activity_timetable_student.xml" value="0.3286004056795132" />
         <entry key="app/src/main/res/layout/activity_welcome_choose_role.xml" value="0.1" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.19074074074074074" />

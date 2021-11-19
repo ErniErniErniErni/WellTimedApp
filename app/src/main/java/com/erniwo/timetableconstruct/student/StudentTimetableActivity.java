@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -29,12 +30,16 @@ import com.google.firebase.database.ValueEventListener;
 
 public class StudentTimetableActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private FrameLayout mFrameLayout;
-    private ImageButton mAddImgBtn;
+
     private TextView nameOfUser;
     private ImageView logout;
-    private LinearLayout headerClassNumLl;
 
+    private Button tryButton;
+    private String currentStudentID;
+
+    private FrameLayout mFrameLayout;
+    private ImageButton mAddImgBtn;
+    private LinearLayout headerClassNumLl;
     private static float sCellWidthPx;//CourseCardWidth
     private static float sCellHeightPx;//CourseCardHeight
 
@@ -43,27 +48,90 @@ public class StudentTimetableActivity extends AppCompatActivity implements View.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_timetable);
 
-//        mAddImgBtn = findViewById(R.id.img_btn_add);
-//        mFrameLayout = findViewById(R.id.fl_timetable);
-//        headerClassNumLl = findViewById(R.id.ll_header_class_num);
+
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String currentUserId = user.getUid();
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                setCurrentStudentID(snapshot.child(currentUserId).child("studentID").getValue().toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
         nameOfUser = findViewById(R.id.name_of_user_student);
         logout = findViewById(R.id.logout_icon);
         logout.setOnClickListener(this);
 
-//        float headerClassNumWidth = getResources().getDimension(R.dimen.);
-
-//        initAddBtn();
-
-//        initFrameLayout();
+        tryButton = (Button) findViewById(R.id.course11);
 
         loadStudentName();
-
         pullExistingClasses();
 
+
+
+
+        //mAddImgBtn = findViewById(R.id.img_btn_add);
+//        mFrameLayout = findViewById(R.id.fl_timetable);
+//        headerClassNumLl = findViewById(R.id.ll_header_class_num);
+//        float headerClassNumWidth = getResources().getDimension(R.dimen.);
+//        initAddBtn();
+//        initFrameLayout();
     }
+
 
     private void pullExistingClasses() {
         //Pull timetable from backend
+        String currentStudentID = getCurrentStudentID();
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Classes");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot child: snapshot.getChildren()) {
+                    if(child.child("Student").child(getCurrentStudentID()).exists()){
+                        String classID = child.getKey();
+                        DatabaseReference ref2 = FirebaseDatabase.getInstance().getReference("Classes")
+                                .child(classID).child("Timetable");
+                        ref2.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot2) {
+                                for(DataSnapshot child2 : snapshot2.getChildren()){
+
+                                    String subject = child2.child("Subject").getValue().toString();
+                                    String location = child2.child("Location").getValue().toString();
+                                    String teacher = child2.child("Teacher").getValue().toString();
+                                    String dayOfWeek = child2.child("DayOfWeek").getValue().toString();
+                                    String period = child2.child("Period").getValue().toString();
+
+                                    String textOnCourseCard = subject + location + teacher;
+                                    tryButton.setText(textOnCourseCard);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+
+
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         LoadCardButton();//image?
     }
 
@@ -95,6 +163,7 @@ public class StudentTimetableActivity extends AppCompatActivity implements View.
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String userName = snapshot.child(userID).child("name").getValue().toString();
+                setCurrentStudentID(snapshot.child(userID).child("studentID").getValue().toString());
                 nameOfUser.setText( userName + "'s Timetable");
             }
 
@@ -165,5 +234,13 @@ public class StudentTimetableActivity extends AppCompatActivity implements View.
     }
 
 
+    public String getCurrentStudentID() {
+        return currentStudentID;
+    }
+
+    public void setCurrentStudentID(String sID) {
+
+        this.currentStudentID = sID;
+    }
 }
 
