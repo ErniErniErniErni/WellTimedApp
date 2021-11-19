@@ -43,18 +43,18 @@ public class StudentTimetableActivity extends AppCompatActivity implements View.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_timetable);
 
-        mAddImgBtn = findViewById(R.id.img_btn_add);
-        mFrameLayout = findViewById(R.id.fl_timetable);
-        headerClassNumLl = findViewById(R.id.ll_header_class_num);
+//        mAddImgBtn = findViewById(R.id.img_btn_add);
+//        mFrameLayout = findViewById(R.id.fl_timetable);
+//        headerClassNumLl = findViewById(R.id.ll_header_class_num);
         nameOfUser = findViewById(R.id.name_of_user_student);
         logout = findViewById(R.id.logout_icon);
         logout.setOnClickListener(this);
 
 //        float headerClassNumWidth = getResources().getDimension(R.dimen.);
 
-        initAddBtn();
+//        initAddBtn();
 
-        initFrameLayout();
+//        initFrameLayout();
 
         loadStudentName();
 
@@ -151,11 +151,11 @@ public class StudentTimetableActivity extends AppCompatActivity implements View.
         });
     }
 
-    private void initAddBtn() {
-        final FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) mAddImgBtn.getLayoutParams();
-        layoutParams.width = (int) sCellWidthPx;
-        layoutParams.height = (int) sCellHeightPx;
-    }
+//    private void initAddBtn() {
+//        final FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) mAddImgBtn.getLayoutParams();
+//        layoutParams.width = (int) sCellWidthPx;
+//        layoutParams.height = (int) sCellHeightPx;
+//    }
 
     private void setAddImgBtn(int left, int top) {
         FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) mAddImgBtn.getLayoutParams();
