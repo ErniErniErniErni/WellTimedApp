@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../layout/custom_preview.xml" value="0.17135416666666667" />
         <entry key="app/src/main/res/drawable-v24/rounded_course_card_button.xml" value="0.20989583333333334" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.2682291666666667" />
         <entry key="app/src/main/res/layout/activity_admin_add_new_class.xml" value="0.3803396001251052" />
@@ -10,7 +11,7 @@
         <entry key="app/src/main/res/layout/activity_admin_course_details.xml" value="0.1796875" />
         <entry key="app/src/main/res/layout/activity_admin_edit_class_time_table.xml" value="0.31486880466472306" />
         <entry key="app/src/main/res/layout/activity_admin_main.xml" value="0.28543349256813894" />
-        <entry key="app/src/main/res/layout/activity_admin_manage_class_timetable.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/activity_admin_manage_class_timetable.xml" value="0.4119106699751861" />
         <entry key="app/src/main/res/layout/activity_admin_manage_list_of_class_add_class.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_admin_manage_list_of_classes.xml" value="0.23113964686998395" />
         <entry key="app/src/main/res/layout/activity_admin_manage_list_of_teachers.xml" value="0.21176709455198292" />
@@ -27,6 +28,8 @@
         <entry key="app/src/main/res/layout/activity_teacher_timetable.xml" value="0.40924092409240925" />
         <entry key="app/src/main/res/layout/activity_timetable_student.xml" value="0.3286004056795132" />
         <entry key="app/src/main/res/layout/activity_welcome_choose_role.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_course_card.xml" value="0.3862920060054026" />
+        <entry key="app/src/main/res/layout/item_course_detail.xml" value="0.4781795983377523" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.19074074074074074" />
       </map>
     </option>

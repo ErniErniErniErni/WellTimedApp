@@ -7,7 +7,8 @@
 
     <!-- Login & Sign Up-->
     <string name="welcome_title">Welcome to WellTimed!</string>
-    <string name="choose_role">Please choose your role:</string>
+    <string name="signup_choose_role">Please choose your role:</string>
+    <string name="login_choose_role">Please choose your role:</string>
 
     <!-- Slide Onboarding Page -->
 
@@ -26,5 +27,7 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

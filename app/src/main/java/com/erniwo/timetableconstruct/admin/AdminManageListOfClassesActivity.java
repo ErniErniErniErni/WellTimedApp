@@ -80,7 +80,7 @@ public class AdminManageListOfClassesActivity extends AppCompatActivity implemen
 //        clickedClassName = parent.getItemAtPosition(position).toString();
         clickedClassName = ((TextView) view).getText().toString().trim();
 
-        setClickedClassID();
+        modifyClickedClassID();
 
         Intent in1 = new Intent(AdminManageListOfClassesActivity.this, AdminManageClassTimetableActivity.class);
 
@@ -99,7 +99,11 @@ public class AdminManageListOfClassesActivity extends AppCompatActivity implemen
         return clickedClassID;
     }
 
-    public void setClickedClassID() {
+    public void setClickedClassID(String clickedClassID) {
+        this.clickedClassID = clickedClassID;
+    }
+
+    public void modifyClickedClassID() {
         DatabaseReference classesRef = FirebaseDatabase.getInstance().getReference("Classes");
         classesRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -113,8 +117,8 @@ public class AdminManageListOfClassesActivity extends AppCompatActivity implemen
 
                     if (childNameValue.equals(getClickedClassName())) {
 //                        Message.showMessage(getApplicationContext(),"Yeahhhhhh");
-                        clickedClassID = child.getKey();
-                        Message.showMessage(getApplicationContext(),getClickedClassID());
+                        setClickedClassID(child.getKey());
+//                        Message.showMessage(getApplicationContext(),getClickedClassID());
                     }
                 }
             }

@@ -110,7 +110,7 @@ public class StudentTimetableActivity extends AppCompatActivity implements View.
                                     String dayOfWeek = child2.child("DayOfWeek").getValue().toString();
                                     String period = child2.child("Period").getValue().toString();
 
-                                    String textOnCourseCard = subject + location + teacher;
+                                    String textOnCourseCard = subject + "\n" + location + "\n" + teacher;
                                     tryButton.setText(textOnCourseCard);
                                 }
                             }

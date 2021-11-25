@@ -12,7 +12,10 @@ import com.erniwo.timetableconstruct.Message;
 import com.erniwo.timetableconstruct.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
 
 public class AdminAddNewClassActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -20,6 +23,7 @@ public class AdminAddNewClassActivity extends AppCompatActivity implements View.
     private EditText editClassID;
     private EditText editGradeNum;
     private EditText editClassNum;
+    private EditText editStudentNum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +35,7 @@ public class AdminAddNewClassActivity extends AppCompatActivity implements View.
         editClassID = findViewById(R.id.edit_classId);
         editGradeNum = findViewById(R.id.edit_grade_num);
         editClassNum = findViewById(R.id.edit_class_num);
+        editStudentNum = findViewById(R.id.edit_student_num);
     }
 
     @Override
@@ -47,6 +52,15 @@ public class AdminAddNewClassActivity extends AppCompatActivity implements View.
         String txt_GradeNum = editGradeNum.getText().toString().trim();
         String txt_ClassNum = editClassNum.getText().toString().trim();
         String className = "Grade " + txt_GradeNum + " Class " + txt_ClassNum;
+        String studentID = editStudentNum.getText().toString().trim();
+        String[] split = studentID.split(",");
+//        ArrayList<String> namesList = new ArrayList<>();
+//       String strNameList = "";
+//       for (int i = -1; i < namesList.size(); i++) {
+//           strNameList += split[i] + ",";
+//       }
+
+
        if(txt_ID.isEmpty()) {
             Message.showMessage(getApplicationContext(),"Please enter Class ID!");
         }else if(txt_GradeNum.isEmpty()) {
@@ -55,6 +69,8 @@ public class AdminAddNewClassActivity extends AppCompatActivity implements View.
             Message.showMessage(getApplicationContext(), "Please enter Class Number!");
         }else {
             FirebaseDatabase.getInstance().getReference().child("Classes").child(txt_ID).child("Name").setValue(className);//.push();
+            DatabaseReference studentRef = FirebaseDatabase.getInstance().getReference().child("Classes").child(txt_ID).child("Student");
+//            studentRef.setValue(strNameList);
             Message.showMessage(getApplicationContext(),"Added new class successfully!");
         }
     }

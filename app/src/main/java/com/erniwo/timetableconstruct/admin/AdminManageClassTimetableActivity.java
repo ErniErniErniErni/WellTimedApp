@@ -1,10 +1,5 @@
 package com.erniwo.timetableconstruct.admin;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -22,12 +17,16 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TableLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+
 import com.erniwo.timetableconstruct.Config;
-import com.erniwo.timetableconstruct.model.Course;
 import com.erniwo.timetableconstruct.R;
-import  com.erniwo.timetableconstruct.admin.AdminManageListOfClassesActivity;
+import com.erniwo.timetableconstruct.model.Course;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -38,14 +37,15 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
-//import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
-//import com.bigkoo.pickerview.view.OptionsPickerView;
 
 public class AdminManageClassTimetableActivity extends AppCompatActivity {
 
     private TextView nameOfClass;
+    private Button tryButton;
+    private TextView addButton;
 
     private FrameLayout mFrameLayout;
+    private TableLayout mTableLayout;
     private TextView mWeekOfTermTextView;
     private ImageView mBgImageView;
     private ImageButton mAddImgBtn;
@@ -105,15 +105,21 @@ public class AdminManageClassTimetableActivity extends AppCompatActivity {
 //        courseButton3 = findViewById(R.id.course_single3);
 //        mBgImageView = findViewById(R.id.iv_bg_main);
 //        mFrameLayout = findViewById(R.id.fl_timetable);
+        mTableLayout = findViewById(R.id.tableLayout);
         headerClassNumLl = findViewById(R.id.ll_header_class_num);
 
         nameOfClass = (TextView) findViewById(R.id.name_of_class) ;
         nameOfClass.setText("Timetable of " + AdminManageListOfClassesActivity.getClickedClassName());
+        tryButton = (Button) findViewById(R.id.course11);
+        addButton = (TextView) findViewById(R.id.add_button);
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AdminManageClassTimetableActivity.this, AdminEditClassTimeTableActivity.class);
+                startActivity(intent);
+            }
+        });
 
-
-        courseButton1.setText("Math \n R3");
-        courseButton2.setText("French \n R8");
-        courseButton3.setText("Geo \n R6");
         //计算1dp的数值方便接下来设置元素尺寸,提高效率
         VALUE_1DP = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1,
                 getResources().getDisplayMetrics());
@@ -123,52 +129,82 @@ public class AdminManageClassTimetableActivity extends AppCompatActivity {
         //设置课程格子高度和宽度
         setTableCellDimens(headerClassNumWidth);
 
-        initTimetable();
-        pullCourseFromBackGroud();
+//        initTimetable();
+        pullExistingClasses();
 
+
+    }
+
+    private void pullExistingClasses() {
+        //Pull timetable from backend
+        String classID = AdminManageListOfClassesActivity.getClickedClassID();
+        DatabaseReference ref2 = FirebaseDatabase.getInstance().getReference("Classes")
+                .child(classID).child("Timetable");
+        ref2.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot2) {
+                for(DataSnapshot child2 : snapshot2.getChildren()){
+
+                    String subject = child2.child("Subject").getValue().toString();
+                    String location = child2.child("Location").getValue().toString();
+                    String teacher = child2.child("Teacher").getValue().toString();
+                    String dayOfWeek = child2.child("DayOfWeek").getValue().toString();
+                    String period = child2.child("Period").getValue().toString();
+
+                    String textOnCourseCard = subject + "\n" + location + "\n" + teacher;
+                    tryButton.setText(textOnCourseCard);
+                    tryButton.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
 
     /**
      * 初始化课表
      */
-    private void initTimetable()//根据保存的信息，创建课程表
-    {
-        //初始化设置按钮
-        initAddBtn();
-        //设置标题中显示的当前周数
-//        mWeekOfTermTextView.setText(String.format(getString(R.string.day_of_week), Config.getCurrentWeek()));
-        //初始化课程表视图
-        initFrameLayout();
-
-        //读取时间数据
-//        sTimes = new FileUtils<Time[]>().readFromJson(this, FileUtils.TIME_FILE_NAME, Time[].class);
-
-        //读取课程数据
-//        sCourseList = new FileUtils<ArrayList<Course>>().readFromJson(
-//                this,
-//                FileUtils.TIMETABLE_FILE_NAME,
-//                new TypeToken<ArrayList<Course>>() {
-//                }.getType());
-
-        //更新节数表头
-//        updateClassNumHeader();
-        //读取失败返回
-        if (sCourseList == null) {
-            sCourseList = new ArrayList<>();
-            return;
-        }
-
-        //Log.d("courseNum",String.valueOf(sCourseList.size()));
-
-        int size = sCourseList.size();
-        if (size != 0) {
-//            updateTimetable();
-        }
-
-        flagUpdateCalendar = false;
-
-    }
+//    private void initTimetable()//根据保存的信息，创建课程表
+//    {
+//        //初始化设置按钮
+//        initAddBtn();
+//        //设置标题中显示的当前周数
+////        mWeekOfTermTextView.setText(String.format(getString(R.string.day_of_week), Config.getCurrentWeek()));
+//        //初始化课程表视图
+//        initFrameLayout();
+//
+//        //读取时间数据
+////        sTimes = new FileUtils<Time[]>().readFromJson(this, FileUtils.TIME_FILE_NAME, Time[].class);
+//
+//        //读取课程数据
+////        sCourseList = new FileUtils<ArrayList<Course>>().readFromJson(
+////                this,
+////                FileUtils.TIMETABLE_FILE_NAME,
+////                new TypeToken<ArrayList<Course>>() {
+////                }.getType());
+//
+//        //更新节数表头
+////        updateClassNumHeader();
+//        //读取失败返回
+//        if (sCourseList == null) {
+//            sCourseList = new ArrayList<>();
+//            return;
+//        }
+//
+//        //Log.d("courseNum",String.valueOf(sCourseList.size()));
+//
+//        int size = sCourseList.size();
+//        if (size != 0) {
+////            updateTimetable();
+//        }
+//
+//        flagUpdateCalendar = false;
+//
+//    }
 
     /**
      * 计算课程格子的长宽
@@ -196,7 +232,7 @@ public class AdminManageClassTimetableActivity extends AppCompatActivity {
     @SuppressLint("ClickableViewAccessibility")
     private void initFrameLayout() {
 
-        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) mFrameLayout.getLayoutParams();
+        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) mTableLayout.getLayoutParams();
         //设置课程表高度
         layoutParams.height = (int) sCellHeightPx * Config.getMaxClassNum();
         //设置课程表宽度
@@ -204,8 +240,8 @@ public class AdminManageClassTimetableActivity extends AppCompatActivity {
         setCourseCardButton(40, 50);
         mAddImgBtn.getLayoutParams().height = (int) sCellHeightPx;
 
-        mFrameLayout.performClick();
-        mFrameLayout.setOnTouchListener((view, motionEvent) -> {
+        mTableLayout.performClick();
+        mTableLayout.setOnTouchListener((view, motionEvent) -> {
             int event = motionEvent.getAction();
             if (event == MotionEvent.ACTION_UP) {
                 if (mAddImgBtn.getVisibility() == View.VISIBLE) {
@@ -222,23 +258,24 @@ public class AdminManageClassTimetableActivity extends AppCompatActivity {
         });
     }
 
-    private void initAddBtn() {
-        final FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) mAddImgBtn.getLayoutParams();
-        layoutParams.width = (int) sCellWidthPx;
-        layoutParams.height = (int) sCellHeightPx;
-
-        mAddImgBtn.setOnClickListener(view -> {
-            //点击后隐藏按钮，否则可能会被新建的课程覆盖
-            mAddImgBtn.setVisibility(View.GONE);
-            Intent intent = new Intent(AdminManageClassTimetableActivity.this, AdminEditClassTimeTableActivity.class);
-            int dayOfWeek = layoutParams.leftMargin / (int) sCellWidthPx;
-            int classStart = layoutParams.topMargin / (int) sCellHeightPx;
-            mAddImgBtn.setVisibility(View.INVISIBLE);
-//            intent.putExtra(AdminEditClassTimeTableActivity.EXTRA_Day_OF_WEEK, dayOfWeek + 1);
-//            intent.putExtra(AdminEditClassTimeTableActivity.EXTRA_CLASS_START, classStart + 1);
-            startActivityForResult(intent, REQUEST_CODE_COURSE_EDIT);
-        });
-    }
+//    private void initAddBtn() {
+////        final FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) mAddImgBtn.getLayoutParams();
+//        final TableLayout.LayoutParams layoutParams = (TableLayout.LayoutParams) mAddImgBtn.getLayoutParams();
+//        layoutParams.width = (int) sCellWidthPx;
+//        layoutParams.height = (int) sCellHeightPx;
+//
+//        mAddImgBtn.setOnClickListener(view -> {
+//            //点击后隐藏按钮，否则可能会被新建的课程覆盖
+//            mAddImgBtn.setVisibility(View.GONE);
+//            Intent intent = new Intent(AdminManageClassTimetableActivity.this, AdminEditClassTimeTableActivity.class);
+//            int dayOfWeek = layoutParams.leftMargin / (int) sCellWidthPx;
+//            int classStart = layoutParams.topMargin / (int) sCellHeightPx;
+//            mAddImgBtn.setVisibility(View.INVISIBLE);
+////            intent.putExtra(AdminEditClassTimeTableActivity.EXTRA_Day_OF_WEEK, dayOfWeek + 1);
+////            intent.putExtra(AdminEditClassTimeTableActivity.EXTRA_CLASS_START, classStart + 1);
+//            startActivityForResult(intent, REQUEST_CODE_COURSE_EDIT);
+//        });
+//    }
 
     private void setAddImgBtn(int left, int top) {
         FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) mAddImgBtn.getLayoutParams();
@@ -251,16 +288,6 @@ public class AdminManageClassTimetableActivity extends AppCompatActivity {
         layoutParams.leftMargin = left;
         layoutParams.topMargin = top;
         courseButton1.setVisibility(View.VISIBLE);
-    }
-    private void pullCourseFromBackGroud() {
-        if (courseButton1.getVisibility() == View.VISIBLE) {
-//            int x = (int) (motionEvent.getX() / sCellWidthPx);
-//            int y = (int) (motionEvent.getY() / sCellHeightPx);
-//            x = (int) (x * sCellWidthPx);
-//            y = (int) (y * sCellHeightPx);
-//            setAddImgBtn(x, y);
-        }
-        //定义一个framelayout。xml？
     }
 
 

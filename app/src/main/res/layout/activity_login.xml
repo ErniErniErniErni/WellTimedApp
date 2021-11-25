@@ -49,21 +49,6 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/email"
         />
-    <Button
-        android:id="@+id/loginButton"
-        android:layout_width="380dp"
-        android:layout_height="70dp"
-        android:layout_marginTop="24dp"
-        android:backgroundTint="#ddbea9"
-        android:fontFamily="sans-serif"
-        android:text="Login"
-        android:textColor="#ffffff"
-        android:textSize="26sp"
-        android:textStyle="bold"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/forgotPassword"
-        />
     <TextView
         android:id="@+id/forgotPassword"
         android:layout_width="wrap_content"
@@ -90,6 +75,71 @@
         app:layout_constraintTop_toBottomOf="@+id/password"
         app:layout_constraintRight_toRightOf="parent"
         />
+    <TextView
+        android:id="@+id/chooseRole"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/login_choose_role"
+        android:textSize="24sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/forgotPassword"/>
+
+    <RadioGroup
+        android:id="@+id/chooseRoleGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chooseRole" >
+
+        <RadioButton
+            android:id="@+id/radiobutton_student"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Student"
+            android:textColor="@color/DarkGrey"
+            android:textSize="22sp"
+            android:onClick="checkButton"/>
+
+        <RadioButton
+            android:id="@+id/radiobutton_teacher"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="15dp"
+            android:text="Teacher"
+            android:textColor="@color/DarkGrey"
+            android:textSize="22sp"
+            android:onClick="checkButton"/>
+
+        <RadioButton
+            android:id="@+id/radiobutton_admin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Admin"
+            android:textColor="@color/DarkGrey"
+            android:textSize="22sp"
+            android:onClick="checkButton"/>
+    </RadioGroup>
+    <Button
+        android:id="@+id/loginButton"
+        android:layout_width="380dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="#ddbea9"
+        android:fontFamily="sans-serif"
+        android:text="Login"
+        android:textColor="#ffffff"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chooseRoleGroup"
+        />
+
 
     <ProgressBar
         android:id="@+id/progressBar"

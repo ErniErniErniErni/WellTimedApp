@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Button;
 import android.widget.Toast;
@@ -40,6 +42,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private FirebaseAuth firebaseAuth;
     private ProgressBar progressBar;
 
+    private RadioGroup radioGroup;
+    private RadioButton radioButton;
+    private View studentButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,16 +58,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         forgotPassword = findViewById(R.id.forgotPassword);
         forgotPassword.setOnClickListener(this);
-
         login = findViewById(R.id.loginButton);
         login.setOnClickListener(this);
-
         editTextEmail = findViewById(R.id.email);
         editTextPassword = findViewById(R.id.password);
 
         progressBar = findViewById(R.id.progressBar);
 
         firebaseAuth = FirebaseAuth.getInstance();
+
+        radioGroup = findViewById(R.id.chooseRoleGroup);
     }
 
     @Override
@@ -79,9 +85,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
+    public void checkButton(View v) {
+        int radioId = radioGroup.getCheckedRadioButtonId();
+
+        radioButton = findViewById(radioId);
+    }
+
     private void userLogin() {
         String email = editTextEmail.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
+        int checkedId = radioGroup.getCheckedRadioButtonId();
 
         if(email.isEmpty()) {
             editTextEmail.setError("Please input Email.");
@@ -101,6 +114,22 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             return;
         }
 
+//        int type;
+        if(checkedId == -1) {
+            Message.showMessage(getApplicationContext(),"Please choose your role!");
+            return;
+        }
+//        }else if (checkedId == R.id.radiobutton_student){
+//            type = 1;
+//        }else if (checkedId == R.id.radiobutton_teacher){
+//            type = 2;
+//        }else if (checkedId == R.id.radiobutton_admin){
+//            type = 3;
+//        }else {
+//            Message.showMessage(getApplicationContext(), "Something is wrong, please try again!");
+//            type = 0;
+//        }
+
         progressBar.setVisibility((View.VISIBLE));
 
         firebaseAuth.signInWithEmailAndPassword(email, password)
@@ -111,6 +140,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     onAuthSuccess(task.getResult().getUser());
                 }else {
                     Message.showMessage(LoginActivity.this,"Failed to login.");
+                    progressBar.setVisibility((View.INVISIBLE));
                 }
             }
         });
@@ -121,23 +151,49 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         String RegisteredUserID = currentUser.getUid();
 
+
         DatabaseReference aDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(RegisteredUserID);
         aDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+
+                int checkedId = radioGroup.getCheckedRadioButtonId();
+                String type;
+
+                if (checkedId == R.id.radiobutton_student){
+                    type = "1";
+                }else if (checkedId == R.id.radiobutton_teacher){
+                    type = "2";
+                }else if (checkedId == R.id.radiobutton_admin){
+                    type = "3";
+                }else {
+                    Message.showMessage(getApplicationContext(), "Something is wrong, please try again!");
+                    type = "0";
+                }
+
                 String userType = dataSnapshot.child("type").getValue().toString();
-                if(userType.equals("1")) {
-                    startActivity(new Intent(LoginActivity.this, StudentTimetableActivity.class));
-                    Toast.makeText(LoginActivity.this,"Logged in successfully as a student.",Toast.LENGTH_LONG).show();
-                    finish();
-                }else if(userType.equals("2")) {
-                    startActivity(new Intent(LoginActivity.this, TeacherTimetableActivity.class));
-                    Toast.makeText(LoginActivity.this,"Logged in successfully as a teacher.",Toast.LENGTH_LONG).show();
-                    finish();
-                }else if(userType.equals("3")){
-                    startActivity(new Intent(LoginActivity.this, AdminMainActivity.class));
-                    Toast.makeText(LoginActivity.this,"Logged in successfully as an admin.",Toast.LENGTH_LONG).show();
-                    finish();
+
+                if(userType.equals(type)) {
+                    if (userType.equals("1")) {
+                        startActivity(new Intent(LoginActivity.this, StudentTimetableActivity.class));
+                        Toast.makeText(LoginActivity.this, "Logged in successfully as a student.", Toast.LENGTH_LONG).show();
+                        progressBar.setVisibility((View.INVISIBLE));
+                        finish();
+                    } else if (userType.equals("2")) {
+                        startActivity(new Intent(LoginActivity.this, TeacherTimetableActivity.class));
+                        Toast.makeText(LoginActivity.this, "Logged in successfully as a teacher.", Toast.LENGTH_LONG).show();
+                        progressBar.setVisibility((View.INVISIBLE));
+                        finish();
+                    } else if (userType.equals("3")) {
+                        startActivity(new Intent(LoginActivity.this, AdminMainActivity.class));
+                        Toast.makeText(LoginActivity.this, "Logged in successfully as an admin.", Toast.LENGTH_LONG).show();
+                        progressBar.setVisibility((View.INVISIBLE));
+                        finish();
+                    }
+                }else{
+                    progressBar.setVisibility((View.INVISIBLE));
+                    Message.showMessage(getApplicationContext(),"Please choose a correct role!");
+                    return;
                 }
         }
 
