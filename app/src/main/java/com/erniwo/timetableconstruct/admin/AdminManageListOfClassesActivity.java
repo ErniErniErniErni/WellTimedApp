@@ -43,7 +43,7 @@ public class AdminManageListOfClassesActivity extends AppCompatActivity implemen
         addClass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent in2 = new Intent(AdminManageListOfClassesActivity.this, AdminAddNewClassActivity.class);
+                Intent in2 = new Intent(getApplicationContext(), AdminAddNewClassActivity.class);
                 startActivity(in2);
             }
         });

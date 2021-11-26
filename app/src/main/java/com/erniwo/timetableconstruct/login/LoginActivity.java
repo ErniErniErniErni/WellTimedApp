@@ -211,10 +211,67 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         if (user != null) {
-            onAuthSuccess(user);
+            onAuthSuccessAutomatic(user);
         }else {
             return;
         }
+    }
+    private void onAuthSuccessAutomatic(FirebaseUser user) {
+
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        String RegisteredUserID = currentUser.getUid();
+
+
+        DatabaseReference aDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(RegisteredUserID);
+        aDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+//                int checkedId = radioGroup.getCheckedRadioButtonId();
+//                String type;
+//
+//                if (checkedId == R.id.radiobutton_student){
+//                    type = "1";
+//                }else if (checkedId == R.id.radiobutton_teacher){
+//                    type = "2";
+//                }else if (checkedId == R.id.radiobutton_admin){
+//                    type = "3";
+//                }else {
+//                    Message.showMessage(getApplicationContext(), "Something is wrong, please try again!");
+//                    type = "0";
+//                }
+
+                String userType = dataSnapshot.child("type").getValue().toString();
+
+//                if(userType.equals(type)) {
+                    if (userType.equals("1")) {
+                        startActivity(new Intent(LoginActivity.this, StudentTimetableActivity.class));
+                        Toast.makeText(LoginActivity.this, "Logged in successfully as a student.", Toast.LENGTH_LONG).show();
+                        progressBar.setVisibility((View.INVISIBLE));
+                        finish();
+                    } else if (userType.equals("2")) {
+                        startActivity(new Intent(LoginActivity.this, TeacherTimetableActivity.class));
+                        Toast.makeText(LoginActivity.this, "Logged in successfully as a teacher.", Toast.LENGTH_LONG).show();
+                        progressBar.setVisibility((View.INVISIBLE));
+                        finish();
+                    } else if (userType.equals("3")) {
+                        startActivity(new Intent(LoginActivity.this, AdminMainActivity.class));
+                        Toast.makeText(LoginActivity.this, "Logged in successfully as an admin.", Toast.LENGTH_LONG).show();
+                        progressBar.setVisibility((View.INVISIBLE));
+                        finish();
+                    }
+//                }else{
+//                    progressBar.setVisibility((View.INVISIBLE));
+//                    Message.showMessage(getApplicationContext(),"Please choose a correct role!");
+//                    return;
+//                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     //add a method to pull data from firebase

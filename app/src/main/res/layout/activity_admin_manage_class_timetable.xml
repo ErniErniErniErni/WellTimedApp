@@ -318,6 +318,7 @@
                                 android:paddingBottom="@dimen/spacing_zero"
                                 android:layout_marginTop="@dimen/margin_tiny"
                                 android:layout_marginLeft="@dimen/margin_tiny"
+                                android:focusable="true"
                                 />
                             <Button
                                 android:background="@drawable/rounded_course_card_button"
