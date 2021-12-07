@@ -64,7 +64,7 @@ public class AdminEditClassTimeTableActivity extends AppCompatActivity implement
 
 
                     if (childNameValue.equals(currentClassName)) {
-                        Message.showMessage(getApplicationContext(),"Yeahhhhhh");
+//                        Message.showMessage(getApplicationContext(),"Yeahhhhhh");
                         currentClassID = child.getKey();
 //                        Message.showMessage(getApplicationContext(),getClickedClassID());
                     }
@@ -132,6 +132,7 @@ public class AdminEditClassTimeTableActivity extends AppCompatActivity implement
         Message.showMessage(getApplicationContext(), "Course info saved successfully.");
         Intent intent = new Intent(getApplicationContext(), AdminManageClassTimetableActivity.class);
         startActivity(intent);
+        finish();
 
     }
 }

@@ -31,16 +31,35 @@ import java.util.List;
 
 public class AdminAddNewClassActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Button addNewClassButton;
-    private EditText editClassID;
-    private EditText editGradeNum;
-    private EditText editClassNum;
+
+//    private EditText editClassID;
+//    private EditText editGradeNum;
+//    private EditText editClassNum;
 //    private EditText editStudentNum;
+
     private TextView addStudentsArrowDown;
-    private boolean[] selectedStudent;
     ArrayList<Integer> studentList = new ArrayList<>();
     ArrayList<String> studentListList = new ArrayList<>();
     static String[] studentArray = new String[1000];
+    private boolean[] selectedStudent;
+
+    private TextView selectGradeNumArrowDown;
+    ArrayList<Integer> gradeList = new ArrayList<>();
+    static String[] gradeArray = new String[]{"Grade 1", "Grade 2", "Grade 3", "Grade 4",
+            "Grade 5", "Grade 6", "Grade 7","Grade 8",
+            "Grade 9", "Grade 10", "Grade 11", "Grade 12"};
+    private boolean[] selectedGrade;
+
+    private TextView selectClassNumArrowDown;
+    ArrayList<Integer> classList = new ArrayList<>();
+    static String[] classArray = new String[]{"Class 1", "Class 2", "Class 3", "Class 4",
+    "Class 5", "Class 6", "Class 7", "Class 8",
+    "Class 9", "Class 10", "Class 11", "Class 12"};
+    private boolean[] selectedClass;
+
+    private Button addNewClassButton;
+
+
 //    AlertDialog.Builder builder = new AlertDialog.Builder();
 
 
@@ -50,14 +69,17 @@ public class AdminAddNewClassActivity extends AppCompatActivity implements View.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_add_new_class);
 
+//        editClassID = findViewById(R.id.edit_classId);
+//        editGradeNum = findViewById(R.id.edit_grade_num);
+//        editClassNum = findViewById(R.id.edit_class_num);
+        addStudentsArrowDown = findViewById(R.id.select_student_num);
+        addStudentsArrowDown.setOnClickListener(this);
+        selectGradeNumArrowDown = findViewById(R.id.select_grade_num);
+        selectGradeNumArrowDown.setOnClickListener(this);
+        selectClassNumArrowDown = findViewById(R.id.select_class_num);
+        selectClassNumArrowDown.setOnClickListener(this);
         addNewClassButton = findViewById(R.id.add_new_class_button);
         addNewClassButton.setOnClickListener(this);
-        editClassID = findViewById(R.id.edit_classId);
-        editGradeNum = findViewById(R.id.edit_grade_num);
-        editClassNum = findViewById(R.id.edit_class_num);
-        addStudentsArrowDown = findViewById(R.id.checkbox_textview);
-        addStudentsArrowDown.setOnClickListener(this);
-
 
         }
 
@@ -68,54 +90,48 @@ public class AdminAddNewClassActivity extends AppCompatActivity implements View.
             case R.id.add_new_class_button:
                 addNewClass();
                 break;
-            case R.id.checkbox_textview:
+            case R.id.select_student_num:
                 multipleCheckStudents();
                 break;
         }
     }
     public void addNewClass() {
-        String txt_ID = editClassID.getText().toString().trim();
-        String txt_GradeNum = editGradeNum.getText().toString().trim();
-        String txt_ClassNum = editClassNum.getText().toString().trim();
-        String className = "Grade " + txt_GradeNum + " Class " + txt_ClassNum;
-    //        String studentID = editStudentNum.getText().toString().trim();
-    //        String[] split = studentID.split(",");
-    //        ArrayList<String> namesList = new ArrayList<>();
-    //       String strNameList = "";
-    //       for (int i = -1; i < namesList.size(); i++) {
-    //           strNameList += split[i] + ",";
-    //       }
+//        String txt_ID = editClassID.getText().toString().trim();
+//        String txt_GradeNum = editGradeNum.getText().toString().trim();
+//        String txt_ClassNum = editClassNum.getText().toString().trim();
+//        String className = "Grade " + txt_GradeNum + " Class " + txt_ClassNum;
+//
+//        if(txt_ID.isEmpty()) {
+////            Message.showMessage(getApplicationContext(),"Please enter Class ID!");
+//             editClassID.setError("Please enter Class ID!");
+//             editClassID.requestFocus();
+//             return;
+//        }
+//
+//        if(txt_GradeNum.isEmpty()) {
+////            Message.showMessage(getApplicationContext(),"Please enter Grade Number!");
+//            editGradeNum.setError("Please enter Grade Number!");
+//            editGradeNum.requestFocus();
+//            return;
+//        }
+//
+//        if(txt_ClassNum.isEmpty()) {
+////          Message.showMessage(getApplicationContext(), "Please enter Class Number!");
+//             editClassNum.setError("Please enter Class Number!");
+//             editClassID.requestFocus();
+//             return;
+//        }
 
 
-       if(txt_ID.isEmpty()) {
-//            Message.showMessage(getApplicationContext(),"Please enter Class ID!");
-            editClassID.setError("Please enter Class ID!");
-            editClassID.requestFocus();
-            return;
-       }
-       if(txt_GradeNum.isEmpty()) {
-//            Message.showMessage(getApplicationContext(),"Please enter Grade Number!");
-           editGradeNum.setError("Please enter Grade Number!");
-           editGradeNum.requestFocus();
-           return;
-       }
-       if(txt_ClassNum.isEmpty()) {
-//          Message.showMessage(getApplicationContext(), "Please enter Class Number!");
-            editClassNum.setError("Please enter Class Number!");
-            editClassID.requestFocus();
-            return;
-       }
-
-
-        FirebaseDatabase.getInstance().getReference().child("Classes").child(txt_ID).child("Name").setValue(className);//.push();
-        String stringListOfStudentID = addStudentsArrowDown.getText().toString();
-        List<String> stringListOfStudentIDList = Arrays.asList(stringListOfStudentID.split(","));
-        for (String id: stringListOfStudentIDList ){
-            System.out.println(id);
-            FirebaseDatabase.getInstance().getReference().child("Classes").child(txt_ID).child("Student").child(id).setValue("");
-        }
-        //.push();
-        Message.showMessage(getApplicationContext(),"Added new class successfully!");
+//        FirebaseDatabase.getInstance().getReference().child("Classes").child(txt_ID).child("Name").setValue(className);//.push();
+//        String stringListOfStudentID = addStudentsArrowDown.getText().toString();
+//        List<String> stringListOfStudentIDList = Arrays.asList(stringListOfStudentID.split(","));
+//        for (String id: stringListOfStudentIDList ){
+//            System.out.println(id);
+//            FirebaseDatabase.getInstance().getReference().child("Classes").child(txt_ID).child("Student").child(id).setValue("");
+//        }
+//        //.push();
+//        Message.showMessage(getApplicationContext(),"Added new class successfully!");
 
     }
 
@@ -161,7 +177,7 @@ public class AdminAddNewClassActivity extends AppCompatActivity implements View.
                         AdminAddNewClassActivity.this
                 );
                 //Set title
-                builder.setTitle("Select Students");
+                builder.setTitle("Please Select from the Following Student IDs:");
                 //Set dialog non cancelable
                 builder.setCancelable(false);
 

@@ -14,19 +14,24 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.erniwo.timetableconstruct.Config;
 import com.erniwo.timetableconstruct.R;
 import com.erniwo.timetableconstruct.model.Course;
+//import com.erniwo.timetableconstruct.util.MyRecyclerViewAdapter;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,6 +44,10 @@ import java.util.List;
 
 
 public class AdminManageClassTimetableActivity extends AppCompatActivity {
+
+//    RecyclerView recyclerView;
+//    MyRecyclerViewAdapter myRecyclerAdapter;
+//    GridLayout grid;
 
     private TextView nameOfClass;
     private Button tryButton;
@@ -54,7 +63,7 @@ public class AdminManageClassTimetableActivity extends AppCompatActivity {
     private Button courseButton3;
     private LinearLayout headerClassNumLl;
     private boolean flagUpdateCalendar = false;
-
+//    private GridLayout
     public static List<Course> sCourseList;
     public static Time[] sTimes;
 
@@ -98,16 +107,19 @@ public class AdminManageClassTimetableActivity extends AppCompatActivity {
 
         getWritePermission();//得到读写权限用于保存课表信息
 
-//        mWeekOfTermTextView = findViewById(R.id.tv_week_of_term);
-//        mAddImgBtn = findViewById(R.id.img_btn_add);
-//        courseButton1 = findViewById(R.id.course_single1);
-//        courseButton2 = findViewById(R.id.course_single2);
-//        courseButton3 = findViewById(R.id.course_single3);
-//        mBgImageView = findViewById(R.id.iv_bg_main);
-//        mFrameLayout = findViewById(R.id.fl_timetable);
-        mTableLayout = findViewById(R.id.tableLayout);
-        headerClassNumLl = findViewById(R.id.ll_header_class_num);
 
+        // Data to populate the RecyclerView with
+//        String[] string = {"aa", "bb"};
+
+        //set up the recycler view
+//        RecyclerView recyclerView = findViewById(R.id.recycler_view);
+//        int numberOfColumns = 7;
+//        recyclerView.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
+//        myRecyclerAdapter = new MyRecyclerViewAdapter(this, string);
+////        myRecyclerAdapter
+//        recyclerView.setAdapter(myRecyclerAdapter);
+
+        headerClassNumLl = findViewById(R.id.ll_header_class_num);
         nameOfClass = (TextView) findViewById(R.id.name_of_class) ;
         nameOfClass.setText("Timetable of " + AdminManageListOfClassesActivity.getClickedClassName());
         tryButton = (Button) findViewById(R.id.course11);
