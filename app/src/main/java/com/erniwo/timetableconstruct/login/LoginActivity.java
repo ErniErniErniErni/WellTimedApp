@@ -2,6 +2,7 @@ package com.erniwo.timetableconstruct.login;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -46,28 +47,34 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private RadioButton radioButton;
     private View studentButton;
 
+    private String TAG = "LoginActivityLog";
+    boolean isLoggedIn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Log.d(TAG, "onCreate");
+
         setContentView(R.layout.activity_login);
 
-        // initialize the "Sign UP"
-        signUp = findViewById(R.id.signUp);
-        //set on click listener to the "Sign Up"
-        signUp.setOnClickListener(this);
+        editTextEmail = findViewById(R.id.login_edit_text_email);
+        editTextPassword = findViewById(R.id.login_edit_text_password);
 
         forgotPassword = findViewById(R.id.forgotPassword);
         forgotPassword.setOnClickListener(this);
-        login = findViewById(R.id.loginButton);
-        login.setOnClickListener(this);
-        editTextEmail = findViewById(R.id.email);
-        editTextPassword = findViewById(R.id.password);
+        signUp = findViewById(R.id.signUp);
+        signUp.setOnClickListener(this);
 
         progressBar = findViewById(R.id.progressBar);
 
+        radioGroup = findViewById(R.id.chooseRoleGroup);
+
+        login = findViewById(R.id.loginButton);
+        login.setOnClickListener(this);
+
         firebaseAuth = FirebaseAuth.getInstance();
 
-        radioGroup = findViewById(R.id.chooseRoleGroup);
     }
 
     @Override
@@ -161,11 +168,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 String type;
 
                 if (checkedId == R.id.radiobutton_student){
-                    type = "1";
+                    type = "student";
                 }else if (checkedId == R.id.radiobutton_teacher){
-                    type = "2";
+                    type = "teacher";
                 }else if (checkedId == R.id.radiobutton_admin){
-                    type = "3";
+                    type = "admin";
                 }else {
                     Message.showMessage(getApplicationContext(), "Something is wrong, please try again!");
                     type = "0";
@@ -174,22 +181,23 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 String userType = dataSnapshot.child("type").getValue().toString();
 
                 if(userType.equals(type)) {
-                    if (userType.equals("1")) {
+                    if (userType.equals("student")) {
                         startActivity(new Intent(LoginActivity.this, StudentTimetableActivity.class));
                         Toast.makeText(LoginActivity.this, "Logged in successfully as a student.", Toast.LENGTH_LONG).show();
                         progressBar.setVisibility((View.INVISIBLE));
                         finish();
-                    } else if (userType.equals("2")) {
+                    } else if (userType.equals("teacher")) {
                         startActivity(new Intent(LoginActivity.this, TeacherTimetableActivity.class));
                         Toast.makeText(LoginActivity.this, "Logged in successfully as a teacher.", Toast.LENGTH_LONG).show();
                         progressBar.setVisibility((View.INVISIBLE));
                         finish();
-                    } else if (userType.equals("3")) {
+                    } else if (userType.equals("admin")) {
                         startActivity(new Intent(LoginActivity.this, AdminMainActivity.class));
                         Toast.makeText(LoginActivity.this, "Logged in successfully as an admin.", Toast.LENGTH_LONG).show();
                         progressBar.setVisibility((View.INVISIBLE));
                         finish();
                     }
+                    isLoggedIn = true;
                 }else{
                     progressBar.setVisibility((View.INVISIBLE));
                     Message.showMessage(getApplicationContext(),"Please choose a correct role!");
@@ -208,6 +216,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onStart() {
         super.onStart();
 
+        Log.d(TAG,"onStart");
+        checkLoginStatus();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         if (user != null) {
@@ -216,55 +226,69 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             return;
         }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG,"onResume");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(TAG,"onPause");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(TAG,"onStop");
+        isLoggedIn = false;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG,"onDestroy");
+    }
+
+    public void checkLoginStatus() {
+        if(isLoggedIn) {
+            Log.d(TAG, "Logged In");
+        } else {
+            Log.d(TAG, "Log Out");
+        }
+    }
+
     private void onAuthSuccessAutomatic(FirebaseUser user) {
 
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         String RegisteredUserID = currentUser.getUid();
-
 
         DatabaseReference aDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(RegisteredUserID);
         aDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-//                int checkedId = radioGroup.getCheckedRadioButtonId();
-//                String type;
-//
-//                if (checkedId == R.id.radiobutton_student){
-//                    type = "1";
-//                }else if (checkedId == R.id.radiobutton_teacher){
-//                    type = "2";
-//                }else if (checkedId == R.id.radiobutton_admin){
-//                    type = "3";
-//                }else {
-//                    Message.showMessage(getApplicationContext(), "Something is wrong, please try again!");
-//                    type = "0";
-//                }
-
                 String userType = dataSnapshot.child("type").getValue().toString();
 
-//                if(userType.equals(type)) {
-                    if (userType.equals("1")) {
-                        startActivity(new Intent(LoginActivity.this, StudentTimetableActivity.class));
-                        Toast.makeText(LoginActivity.this, "Logged in successfully as a student.", Toast.LENGTH_LONG).show();
-                        progressBar.setVisibility((View.INVISIBLE));
-                        finish();
-                    } else if (userType.equals("2")) {
-                        startActivity(new Intent(LoginActivity.this, TeacherTimetableActivity.class));
-                        Toast.makeText(LoginActivity.this, "Logged in successfully as a teacher.", Toast.LENGTH_LONG).show();
-                        progressBar.setVisibility((View.INVISIBLE));
-                        finish();
-                    } else if (userType.equals("3")) {
-                        startActivity(new Intent(LoginActivity.this, AdminMainActivity.class));
-                        Toast.makeText(LoginActivity.this, "Logged in successfully as an admin.", Toast.LENGTH_LONG).show();
-                        progressBar.setVisibility((View.INVISIBLE));
-                        finish();
-                    }
-//                }else{
-//                    progressBar.setVisibility((View.INVISIBLE));
-//                    Message.showMessage(getApplicationContext(),"Please choose a correct role!");
-//                    return;
-//                }
+                if (userType.equals("student")) {
+                    startActivity(new Intent(LoginActivity.this, StudentTimetableActivity.class));
+                    Toast.makeText(LoginActivity.this, "Logged in successfully as a student.", Toast.LENGTH_LONG).show();
+                    progressBar.setVisibility((View.INVISIBLE));
+                    finish();
+                } else if (userType.equals("teacher")) {
+                    startActivity(new Intent(LoginActivity.this, TeacherTimetableActivity.class));
+                    Toast.makeText(LoginActivity.this, "Logged in successfully as a teacher.", Toast.LENGTH_LONG).show();
+                    progressBar.setVisibility((View.INVISIBLE));
+                    finish();
+                } else if (userType.equals("admin")) {
+                    startActivity(new Intent(LoginActivity.this, AdminMainActivity.class));
+                    Toast.makeText(LoginActivity.this, "Logged in successfully as an admin.", Toast.LENGTH_LONG).show();
+                    progressBar.setVisibility((View.INVISIBLE));
+                    finish();
+                }
+                isLoggedIn = true;
             }
 
             @Override
@@ -274,7 +298,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         });
     }
 
-    //add a method to pull data from firebase
 }
 
 

@@ -37,24 +37,22 @@ public class LoginActivityTest {
 
         Espresso.onView(withId(R.id.header))
                 .check(matches(isDisplayed()));
-
-        Espresso.onView(withId(R.id.email))
+        Espresso.onView(withId(R.id.login_email))
                 .check(matches(isDisplayed()));
-
-        Espresso.onView(withId(R.id.password))
+        Espresso.onView(withId(R.id.login_password))
                 .check(matches(isDisplayed()));
-
         Espresso.onView(withId(R.id.forgotPassword))
                 .check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
+
     }
 
-    @Test
-    public void test_textMatch_isheaderDisplayed() {
-        ActivityScenario activityScenario = ActivityScenario.launch(LoginActivity.class);
-
-        Espresso.onView(withId(R.id.header))
-                .check(matches(withText(R.string.welcome_title)));
-    }
+//    @Test
+//    public void test_textMatch_isheaderDisplayed() {
+//        ActivityScenario activityScenario = ActivityScenario.launch(LoginActivity.class);
+//
+//        Espresso.onView(withId(R.id.header))
+//                .check(matches(withText(R.string.welcome_title)));
+//    }
 //    @Test
 //    public void onCreate() {
 //    }

@@ -63,7 +63,6 @@ public class AdminAddNewClassActivity extends AppCompatActivity implements View.
 //    AlertDialog.Builder builder = new AlertDialog.Builder();
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -147,8 +146,8 @@ public class AdminAddNewClassActivity extends AppCompatActivity implements View.
 
                 for (DataSnapshot child : snapshot.getChildren()) {
                     String userType = child.child("type").getValue().toString();
-                    if (userType.equals("1")) {
-                        String studentID = child.child("studentID").getValue().toString();
+                    if (userType.equals("student")) {
+                        String studentID = child.child("IDNumber").getValue().toString();
                         studentListList.add(studentID);
                         System.out.println(studentListList.size());
                     }

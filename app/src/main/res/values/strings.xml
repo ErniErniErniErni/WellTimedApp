@@ -9,6 +9,21 @@
     <string name="welcome_title">Welcome to WellTimed!</string>
     <string name="signup_choose_role">Please choose your role:</string>
     <string name="login_choose_role">Please choose your role:</string>
+    <string name="login_forgot_password">Forgot Password?</string>
+    <string name="login_sign_up_button">Sign Up</string>
+
+    <string name="hint_email">Email Address</string>
+    <string name="hint_name">Full Name</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_id">School ID Number</string>
+
+    <string name="placeholder_email">e.g.: ad@gmail.com</string>
+    <string name="placeholder_name">e.g.: Jane Smith</string>
+    <string name="placeholder_password">At least 6 characters!</string>
+    <string name="placeholder_signup_id">e.g.: S0026</string>
+
+    <string name="button_login">Login</string>
+    <string name="button_signup">Sign Up</string>
 
     <!-- Slide Onboarding Page -->
 
@@ -19,6 +34,7 @@
     <string name="back_button">Back</string>
     <string name="Start_button">Start</string>
     <string name="title_activity_basic">BasicActivity</string>
+
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>

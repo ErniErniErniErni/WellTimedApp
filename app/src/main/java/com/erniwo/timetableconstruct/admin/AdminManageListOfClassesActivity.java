@@ -84,7 +84,10 @@ public class AdminManageListOfClassesActivity extends AppCompatActivity implemen
 
         Intent in1 = new Intent(AdminManageListOfClassesActivity.this, AdminManageClassTimetableActivity.class);
 
+        String clickedClassName = getClickedClassName();
+        in1.putExtra("ClickedClassName", clickedClassName);
         startActivity(in1);
+
 
         //for testing
 //        Message.showMessage(getApplicationContext(),getClickedClassName());

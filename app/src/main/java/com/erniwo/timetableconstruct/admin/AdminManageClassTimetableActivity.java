@@ -49,6 +49,16 @@ public class AdminManageClassTimetableActivity extends AppCompatActivity {
 //    MyRecyclerViewAdapter myRecyclerAdapter;
 //    GridLayout grid;
 
+    public String getCurrentClassName() {
+        return currentClassName;
+    }
+
+    public void setCurrentClassName(String currentClassName) {
+        this.currentClassName = currentClassName;
+    }
+
+    private String currentClassName;
+
     private TextView nameOfClass;
     private Button tryButton;
     private TextView addButton;
@@ -99,6 +109,7 @@ public class AdminManageClassTimetableActivity extends AppCompatActivity {
     };
 
     private final Handler mHandler = new Handler();
+//    private String currentClassName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,21 +118,21 @@ public class AdminManageClassTimetableActivity extends AppCompatActivity {
 
         getWritePermission();//得到读写权限用于保存课表信息
 
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        if (bundle != null) {
+            String currClassName = (String) bundle.get("ClickedClassName");
+            setCurrentClassName(currClassName);
+        }
 
-        // Data to populate the RecyclerView with
-//        String[] string = {"aa", "bb"};
+//        setCurrentClassName(intent.getStringExtra("ClickedClassName"));
 
-        //set up the recycler view
-//        RecyclerView recyclerView = findViewById(R.id.recycler_view);
-//        int numberOfColumns = 7;
-//        recyclerView.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
-//        myRecyclerAdapter = new MyRecyclerViewAdapter(this, string);
-////        myRecyclerAdapter
-//        recyclerView.setAdapter(myRecyclerAdapter);
 
         headerClassNumLl = findViewById(R.id.ll_header_class_num);
         nameOfClass = (TextView) findViewById(R.id.name_of_class) ;
-        nameOfClass.setText("Timetable of " + AdminManageListOfClassesActivity.getClickedClassName());
+//        setCurrentClassName(AdminManageListOfClassesActivity.getClickedClassName());
+        nameOfClass.setText("Timetable of " + getCurrentClassName());
+
         tryButton = (Button) findViewById(R.id.course11);
         addButton = (TextView) findViewById(R.id.add_button);
         addButton.setOnClickListener(new View.OnClickListener() {
@@ -131,6 +142,8 @@ public class AdminManageClassTimetableActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
 
         //计算1dp的数值方便接下来设置元素尺寸,提高效率
         VALUE_1DP = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1,
@@ -270,24 +283,24 @@ public class AdminManageClassTimetableActivity extends AppCompatActivity {
         });
     }
 
-//    private void initAddBtn() {
-////        final FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) mAddImgBtn.getLayoutParams();
-//        final TableLayout.LayoutParams layoutParams = (TableLayout.LayoutParams) mAddImgBtn.getLayoutParams();
-//        layoutParams.width = (int) sCellWidthPx;
-//        layoutParams.height = (int) sCellHeightPx;
-//
-//        mAddImgBtn.setOnClickListener(view -> {
-//            //点击后隐藏按钮，否则可能会被新建的课程覆盖
-//            mAddImgBtn.setVisibility(View.GONE);
-//            Intent intent = new Intent(AdminManageClassTimetableActivity.this, AdminEditClassTimeTableActivity.class);
-//            int dayOfWeek = layoutParams.leftMargin / (int) sCellWidthPx;
-//            int classStart = layoutParams.topMargin / (int) sCellHeightPx;
-//            mAddImgBtn.setVisibility(View.INVISIBLE);
-////            intent.putExtra(AdminEditClassTimeTableActivity.EXTRA_Day_OF_WEEK, dayOfWeek + 1);
-////            intent.putExtra(AdminEditClassTimeTableActivity.EXTRA_CLASS_START, classStart + 1);
-//            startActivityForResult(intent, REQUEST_CODE_COURSE_EDIT);
-//        });
-//    }
+    private void initAddBtn() {
+//        final FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) mAddImgBtn.getLayoutParams();
+        final TableLayout.LayoutParams layoutParams = (TableLayout.LayoutParams) mAddImgBtn.getLayoutParams();
+        layoutParams.width = (int) sCellWidthPx;
+        layoutParams.height = (int) sCellHeightPx;
+
+        mAddImgBtn.setOnClickListener(view -> {
+            //点击后隐藏按钮，否则可能会被新建的课程覆盖
+            mAddImgBtn.setVisibility(View.GONE);
+            Intent intent = new Intent(AdminManageClassTimetableActivity.this, AdminEditClassTimeTableActivity.class);
+            int dayOfWeek = layoutParams.leftMargin / (int) sCellWidthPx;
+            int classStart = layoutParams.topMargin / (int) sCellHeightPx;
+            mAddImgBtn.setVisibility(View.INVISIBLE);
+//            intent.putExtra(AdminEditClassTimeTableActivity.EXTRA_Day_OF_WEEK, dayOfWeek + 1);
+//            intent.putExtra(AdminEditClassTimeTableActivity.EXTRA_CLASS_START, classStart + 1);
+            startActivityForResult(intent, REQUEST_CODE_COURSE_EDIT);
+        });
+    }
 
     private void setAddImgBtn(int left, int top) {
         FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) mAddImgBtn.getLayoutParams();
@@ -333,13 +346,12 @@ public class AdminManageClassTimetableActivity extends AppCompatActivity {
      * @param textView
      * @param index
      */
-//    private void setTableClickListener(TextView textView, final int index)//设置课程视图的监听
-//    {
+    private void setTableClickListener(TextView textView, final int index)//设置课程视图的监听
+    {
 //        textView.setOnClickListener(new View.OnClickListener {
-//            @Override
-//            public void onClick(View v) {
+//        public void onClick(View v) {
 //                Intent intent = new Intent(AdminManageClassTimetableActivity.this, AdminCourseDetailsActivity.class);
-//            intent.putExtra(AdminCourseDetailsActivity.KEY_COURSE_INDEX, index);
+////            intent.putExtra(AdminCourseDetailsActivity.KEY_COURSE_INDEX, index);
 //            startActivityForResult(intent, REQUEST_CODE_COURSE_DETAILS);
 //            }
 //        });
@@ -353,26 +365,26 @@ public class AdminManageClassTimetableActivity extends AppCompatActivity {
      * @param left      距左边界的格数
      * @param top       距上边界的格数
      */
-    private void setTableCellTextView(TextView textView, int class_num, final int left,
-                                      final int top) {
-
-        //Log.d("tablecell", left + "," + top);
-        float leftMargin = left * sCellWidthPx;
-        float topMargin = top * sCellHeightPx;
-
-        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
-                (int) (sCellWidthPx - 6 * VALUE_1DP),
-                (int) (class_num * sCellHeightPx - 6 * VALUE_1DP));
-
-        layoutParams.topMargin = (int) (topMargin + 3 * VALUE_1DP);
-        layoutParams.leftMargin = (int) (leftMargin + 3 * VALUE_1DP);
-
-        //设置对齐方式
-        textView.setGravity(Gravity.CENTER_VERTICAL | Gravity.START);
-        //设置文本颜色为白色
-        textView.setTextColor(getResources().getColor(R.color.white));
-        textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimensionPixelSize(R.dimen.timetable_cell_text_size));
-
-        textView.setLayoutParams(layoutParams);
+//    private void setTableCellTextView(TextView textView, int class_num, final int left,
+//                                      final int top) {
+//
+//        //Log.d("tablecell", left + "," + top);
+//        float leftMargin = left * sCellWidthPx;
+//        float topMargin = top * sCellHeightPx;
+//
+//        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
+//                (int) (sCellWidthPx - 6 * VALUE_1DP),
+//                (int) (class_num * sCellHeightPx - 6 * VALUE_1DP));
+//
+//        layoutParams.topMargin = (int) (topMargin + 3 * VALUE_1DP);
+//        layoutParams.leftMargin = (int) (leftMargin + 3 * VALUE_1DP);
+//
+//        //设置对齐方式
+//        textView.setGravity(Gravity.CENTER_VERTICAL | Gravity.START);
+//        //设置文本颜色为白色
+//        textView.setTextColor(getResources().getColor(R.color.white));
+//        textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimensionPixelSize(R.dimen.timetable_cell_text_size));
+//
+//        textView.setLayoutParams(layoutParams);
     }
 }

@@ -32,9 +32,6 @@ public class AdminMainActivity extends AppCompatActivity implements View.OnClick
         viewTeacherTimetable = findViewById(R.id.manage_teacher_timetable);
         viewTeacherTimetable.setOnClickListener(this);
 
-        exportTimetable = findViewById(R.id.export_timetable);
-        exportTimetable.setOnClickListener(this);
-
         logout = findViewById(R.id.logout_icon);
         logout.setOnClickListener(this);
     }
@@ -47,9 +44,6 @@ public class AdminMainActivity extends AppCompatActivity implements View.OnClick
                 break;
             case R.id.manage_teacher_timetable:
                 startActivity(new Intent(this, AdminManageListOfTeachersActivity.class));
-                break;
-            case R.id.export_timetable:
-                startActivity(new Intent(this, AdminAddNewClassActivity.class));
                 break;
             case R.id.logout_icon:
                 logout();

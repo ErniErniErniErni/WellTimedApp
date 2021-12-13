@@ -37,32 +37,38 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     private EditText editTextName;
     private EditText editTextEmail;
     private EditText editTextPassword;
+    private EditText editTestID;
     private ProgressBar progressBar;
     private FirebaseAuth firebaseAuth;
 
     private RadioGroup radioGroup;
     private RadioButton radioButton;
 
+    private String TAG = "SignUpActivityLog";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        firebaseAuth = FirebaseAuth.getInstance();
+        Log.d(TAG, "onCreate");
 
         header = (TextView) findViewById(R.id.header);
         header.setOnClickListener(this);
 
-        signUpButton = (Button) findViewById(R.id.signUpButton);
-        signUpButton.setOnClickListener(this);
+        editTextName = (EditText) findViewById(R.id.signup_edit_text_name);
+        editTextEmail = (EditText) findViewById(R.id.signup_edit_text_email);
+        editTextPassword = (EditText) findViewById(R.id.signup_edit_text_email);
+        editTestID = (EditText) findViewById(R.id.signup_edit_text_id);
 
-        editTextName = (EditText) findViewById(R.id.name);
-        editTextEmail = (EditText) findViewById(R.id.email);
-        editTextPassword = (EditText) findViewById(R.id.password);
+        radioGroup = (RadioGroup) findViewById(R.id.signup_chooseRoleGroup);
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
-        radioGroup = (RadioGroup) findViewById(R.id.chooseRoleGroup);
+        signUpButton = (Button) findViewById(R.id.signUpButton);
+        signUpButton.setOnClickListener(this);
+
+        firebaseAuth = FirebaseAuth.getInstance();
 
     }
 
@@ -88,16 +94,17 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         String name = editTextName.getText().toString().trim();
         String email = editTextEmail.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
+        String idNumber = editTestID.getText().toString().trim();
         int checkedId = radioGroup.getCheckedRadioButtonId();
 
         if(name.isEmpty()) {
-            editTextName.setError("Please imput your name!");
+            editTextName.setError("Please enter your name!");
             editTextName.requestFocus();
             return;
         }
 
         if(email.isEmpty()) {
-            editTextEmail.setError("Please imput your email!");
+            editTextEmail.setError("Please enter your email!");
             editTextEmail.requestFocus();
             return;
         }
@@ -109,34 +116,40 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 //        }
 
         if(password.isEmpty()) {
-            editTextPassword.setError("Please imput your password!");
+            editTextPassword.setError("Please enter your password!");
             editTextPassword.requestFocus();
             return;
         }
 
         if(password.length() < 6) {
-            editTextPassword.setError("Please imput a password that is longer than 6 digits!");
+            editTextPassword.setError("Please enter a password that is longer than 6 digits!");
             editTextPassword.requestFocus();
             return;
         }
 
-//        if(radioGroup.getCheckedRadioButtonId() == -1) {
-//            Message.showMessage(getApplicationContext(),"Please choose your role!!");
-////            Toast.makeText(SignUpActivity.this, "Please choose your role!!", Toast.LENGTH_LONG).show();
-//            return;
-//        }
+        if(idNumber.isEmpty()) {
+            editTestID.setError("Please enter your ID Number");
+            editTestID.requestFocus();
+            return;
+        }
+
+        if(idNumber.length() != 5) {
+            editTestID.setError("Please enter a valid ID Number with 5 characters!");
+            editTestID.requestFocus();
+            return;
+        }
+
         String type;
 
         if(checkedId == -1) {
             Message.showMessage(getApplicationContext(),"Please choose your role!!");
-//            type = 0;
             return;
         }else if (checkedId == R.id.radiobutton_student){
-            type = "1";
+            type = "student";
         }else if (checkedId == R.id.radiobutton_teacher){
-            type = "2";
+            type = "teacher";
         }else if (checkedId == R.id.radiobutton_admin){
-            type = "3";
+            type = "admin";
         }else {
             Message.showMessage(getApplicationContext(), "Something is wrong, please try again!");
             type = "0";
@@ -144,6 +157,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
         progressBar.setVisibility(View.VISIBLE);
 
+        // check if an user already exists in the database (has registered before)
         firebaseAuth.fetchSignInMethodsForEmail(email).addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
             @Override
             public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
@@ -155,11 +169,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                     }else {
                         editTextEmail.setError("This email is already registered, please login.");
                         editTextEmail.requestFocus();
-//                        Message.showMessage(getApplicationContext(),"This email exists, please login");
-//                    if(signInMethods.contains(EmailAuthProvider.EMAIL_PASSWORD_SIGN_IN_METHOD)){
-//                        // User can sign in with email/password
-//                    } else if (signInMethods.contains(EmailAuthProvider.EMAIL_LINK_SIGN_IN_METHOD)) {
-//                        // User can sign in with email/link
                     }
                 }else {
                     Log.e(TAG, "Error getting sign in methods for user", task.getException());
@@ -167,6 +176,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             }
         });
 
+        // create new user in the database
         firebaseAuth.createUserWithEmailAndPassword(email,password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
@@ -175,9 +185,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                         if(task.isSuccessful()) {
                             onAuthSuccess(task.getResult().getUser());
 
-                            User user = new User(name, email, type);
+                            User user = new User(name, email, type, idNumber);
 
-                            //The authentication stuff is added to the build.gradle before this step
                             FirebaseDatabase.getInstance().getReference("Users")
                                     .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                     .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -207,7 +216,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     private void onAuthSuccess(FirebaseUser user){
 //        writeNewUser();
     }
-}
+}// class
 
 
 

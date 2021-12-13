@@ -22,71 +22,126 @@
         android:layout_marginHorizontal="50dp"
         />
 
-    <EditText
-        android:id="@+id/name"
-        android:layout_width="380dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="50dp"
-        android:layout_marginTop="30dp"
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:id="@+id/signup_name"
+        android:layout_width="@dimen/edit_text_width"
+        android:layout_height="@dimen/edit_text_height"
+        android:layout_marginTop="25dp"
         android:ems="10"
         android:fontFamily="sans-serif"
-        android:hint="Full Name"
-        android:inputType="text"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/header"
-        />
-    <EditText
-        android:id="@+id/email"
-        android:layout_width="380dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:ems="10"
-        android:fontFamily="sans-serif"
-        android:hint="Email"
+        android:hint="@string/hint_name"
         android:inputType="textEmailAddress"
-        android:textSize="24sp"
+        android:textSize="@dimen/text_size_medium"
+        app:placeholderText="@string/placeholder_name"
+        app:startIconDrawable="@drawable/ic_baseline_person_24"
+        app:endIconMode="clear_text"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/name"
-        />
-    <EditText
-        android:id="@+id/password"
-        android:layout_width="380dp"
-        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/header">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/signup_edit_text_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </com.google.android.material.textfield.TextInputEditText>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:id="@+id/signup_email"
+        android:layout_width="@dimen/edit_text_width"
+        android:layout_height="@dimen/edit_text_height"
         android:layout_marginTop="20dp"
         android:ems="10"
         android:fontFamily="sans-serif"
-        android:hint="Password"
-        android:inputType="textPassword"
-        android:textSize="24sp"
+        android:hint="@string/hint_email"
+        android:inputType="textEmailAddress"
+        android:textSize="@dimen/text_size_medium"
+        app:placeholderText="@string/placeholder_email"
+        app:startIconDrawable="@drawable/ic_baseline_email_24"
+        app:endIconMode="clear_text"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/email"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/signup_name">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/signup_edit_text_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </com.google.android.material.textfield.TextInputEditText>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:id="@+id/signup_password"
+        android:layout_width="@dimen/edit_text_width"
+        android:layout_height="@dimen/edit_text_height"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:fontFamily="sans-serif"
+        android:hint="@string/hint_password"
+        android:textSize="@dimen/text_size_medium"
+        app:placeholderText="@string/placeholder_password"
+        app:startIconDrawable="@drawable/ic_baseline_lock_24"
+        app:endIconMode="password_toggle"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/signup_email">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/signup_edit_text_password"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="textPassword">
+        </com.google.android.material.textfield.TextInputEditText>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:id="@+id/signup_id"
+        android:layout_width="@dimen/edit_text_width"
+        android:layout_height="@dimen/edit_text_height"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:fontFamily="sans-serif"
+        android:hint="@string/hint_id"
+        android:textSize="@dimen/text_size_medium"
+        app:placeholderText="@string/placeholder_signup_id"
+        app:startIconDrawable="@drawable/ic_baseline_assignment_ind_24"
+        app:endIconMode="clear_text"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/signup_password">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/signup_edit_text_id"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="text">
+        </com.google.android.material.textfield.TextInputEditText>
+    </com.google.android.material.textfield.TextInputLayout>
+
     <TextView
-        android:id="@+id/chooseRole"
+        android:id="@+id/signup_chooseRole"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="@string/signup_choose_role"
-        android:textSize="24sp"
+        android:textSize="@dimen/text_size_small_medium"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password"/>
+        app:layout_constraintTop_toBottomOf="@+id/signup_id"/>
 
     <RadioGroup
-        android:id="@+id/chooseRoleGroup"
+        android:id="@+id/signup_chooseRoleGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chooseRole" >
+        app:layout_constraintTop_toBottomOf="@+id/signup_chooseRole" >
 
         <RadioButton
             android:id="@+id/radiobutton_student"
@@ -94,7 +149,7 @@
             android:layout_height="wrap_content"
             android:text="Student"
             android:textColor="@color/DarkGrey"
-            android:textSize="22sp"
+            android:textSize="@dimen/text_size_small_medium"
             android:onClick="checkButton"/>
 
         <RadioButton
@@ -104,7 +159,7 @@
             android:layout_marginHorizontal="15dp"
             android:text="Teacher"
             android:textColor="@color/DarkGrey"
-            android:textSize="22sp"
+            android:textSize="@dimen/text_size_small_medium"
             android:onClick="checkButton"/>
 
         <RadioButton
@@ -113,25 +168,24 @@
             android:layout_height="wrap_content"
             android:text="Admin"
             android:textColor="@color/DarkGrey"
-            android:textSize="22sp"
+            android:textSize="@dimen/text_size_small_medium"
             android:onClick="checkButton"/>
     </RadioGroup>
 
     <Button
         android:id="@+id/signUpButton"
-        android:layout_width="380dp"
-        android:layout_height="70dp"
-        android:layout_marginTop="24dp"
-        android:backgroundTint="#ddbea9"
-        android:layout_marginBottom="40dp"
+        android:layout_width="@dimen/button_width"
+        android:layout_height="@dimen/button_height"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/background_button"
         android:fontFamily="sans-serif"
-        android:text="Sign Up"
+        android:text="@string/button_signup"
         android:textColor="#ffffff"
         android:textSize="26sp"
         android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chooseRoleGroup"
+        app:layout_constraintTop_toBottomOf="@+id/signup_chooseRoleGroup"
         />
 
     <ProgressBar

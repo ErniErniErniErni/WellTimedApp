@@ -16,18 +16,7 @@
             android:name=".admin.AdminAddNewTeacherActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.EmActivity"
-            android:exported="false" />
-        <activity
-            android:name=".admin.BasicActivity"
-            android:exported="false"
-            android:label="@string/title_activity_basic"
-            android:theme="@style/Theme.TimetableConstruct.NoActionBar" />
-        <activity
             android:name=".admin.AdminAddNewClassActivity"
-            android:exported="false" />
-        <activity
-            android:name=".admin.AdminManageLOCAddClassActivity"
             android:exported="false" />
         <activity
             android:name=".admin.AdminEditClassTimeTableActivity"

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -17,6 +18,8 @@ import com.erniwo.timetableconstruct.login.SignUpActivity;
 import com.erniwo.timetableconstruct.model.Course;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -36,6 +39,9 @@ public class AdminEditClassTimeTableActivity extends AppCompatActivity implement
     private EditText editTextTeacher;
 
     private String currentClassID;
+//    private String currentClassName;
+
+    private String TAG = "AdminEditClassTimeTableActivityLog";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,16 +58,15 @@ public class AdminEditClassTimeTableActivity extends AppCompatActivity implement
         saveButton.setOnClickListener(this);
 
         String currentClassName = AdminManageListOfClassesActivity.getClickedClassName();
+
         DatabaseReference classesRef = FirebaseDatabase.getInstance().getReference("Classes");
         classesRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot child: snapshot.getChildren()) {
 
-
                     String childNameValue = child.child("Name").getValue().toString().trim();
 //                    Message.showMessage(getApplicationContext(),childNameValue);
-
 
                     if (childNameValue.equals(currentClassName)) {
 //                        Message.showMessage(getApplicationContext(),"Yeahhhhhh");
@@ -77,6 +82,38 @@ public class AdminEditClassTimeTableActivity extends AppCompatActivity implement
             }
         });
 
+    } // onCreate
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        Log.d(TAG,"onStart");
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG,"onResume");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(TAG,"onPause");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(TAG,"onStop");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG,"onDestroy");
     }
 
     @Override
