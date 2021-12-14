@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:backgroundTint="#ddbea9"
         android:fontFamily="sans-serif"
-        android:text="Add Class"
+        android:text="@string/list_of_class_add_new_button"
         android:layout_marginTop="30dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
@@ -24,7 +24,7 @@
         android:layout_height="@dimen/edit_text_height"
         android:layout_marginTop="15dp"
         android:layout_gravity="center"
-        android:text="Click to view the timetables of these classes:"
+        android:text="@string/list_of_class_above_text"
         android:textAlignment="center"
         android:textSize="@dimen/text_size_small_medium"/>
 

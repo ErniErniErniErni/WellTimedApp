@@ -36,8 +36,6 @@
 
     <string name="placeholder_subject">e.g.: Math</string>
     <string name="placeholder_location">e.g.: Room 5</string>
-<!--    <string name="placeholder_day_of_week">Range: 1 - 7</string>-->
-<!--    <string name="placeholder_period">Range: 1 - 9</string>-->
     <string name="placeholder_teacher">e.g.: Jane Smith</string>
 
     <string-array name="select_day_of_week">
@@ -68,7 +66,7 @@
     <string name="hint_select_students">Select Student Numbers</string>
 
     <string name="placeholder_select_grade">e.g. Grade 5</string>
-    <string name="placeholder_select_class">Range: 1 - 99</string>
+    <string name="placeholder_select_class">Range: 1 to 99</string>
     <string name="placeholder_select_students">e.g.: S0002, S0006</string>
     
     <string-array name="select_grades">
@@ -86,18 +84,13 @@
         <item>Grade 12</item>
     </string-array>
 
-<!--    <string-array name="select_classes">-->
-<!--        <item>Class 1</item>-->
-<!--        <item>Class 2</item>-->
-<!--        <item>Class 3</item>-->
-<!--        <item>Class 4</item>-->
-<!--        <item>Class 5</item>-->
-<!--        <item>Class 6</item>-->
-<!--        <item>Class 7</item>-->
-<!--        <item>Class 8</item>-->
-<!--        <item>Class 9</item>-->
-<!--        <item>Class 10</item>-->
-<!--    </string-array>-->
+    <!-- Activity: adminManageListOfClasses-->
+    <string name="list_of_class_add_new_button">Add New Class</string>
+    <string name="list_of_class_above_text">Click to view the timetables of these classes:</string>
+
+    <!-- Activity: adminManageListOfTeachers-->
+    <string name="list_of_teacher_add_new_button">Add New Teacher</string>
+    <string name="list_of_teacher_above_text">Click to view the timetables of these teachers:</string>
 
     <!-- Buttons -->
     <string name="skip_button">Skip</string>
@@ -114,7 +107,5 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

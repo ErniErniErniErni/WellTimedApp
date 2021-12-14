@@ -130,7 +130,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             return;
         }
 
-//        int type;
         if(checkedId == -1) {
             Message.showMessage(getApplicationContext(),"Please choose your role!");
             return;

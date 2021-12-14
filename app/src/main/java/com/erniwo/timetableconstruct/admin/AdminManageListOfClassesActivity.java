@@ -1,12 +1,10 @@
 package com.erniwo.timetableconstruct.admin;
 
-import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -14,6 +12,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.erniwo.timetableconstruct.Message;
@@ -24,8 +23,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
 
 public class AdminManageListOfClassesActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
@@ -41,29 +40,69 @@ public class AdminManageListOfClassesActivity extends AppCompatActivity implemen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_manage_list_of_classes);
 
+        // init elements
         listOfClasses = findViewById(R.id.list_of_classes);
         addClassButton = findViewById(R.id.add_class);
-        addClassButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent addClassButtonIntent = new Intent(AdminManageListOfClassesActivity.this, AdminAddNewClassActivity.class);
-                startActivity(addClassButtonIntent);
-            }
-        });
 
+        // adapt to array
         ArrayList<String> classNameArray = new ArrayList<>();
         ArrayAdapter adapter = new ArrayAdapter<String>(this,
                 R.layout.activity_listview, classNameArray);
-
         listOfClasses.setAdapter(adapter);
-//        MyListAdapter myListAdapter = new MyListAdapter(this,
-//                R.layout.list_item, classNameArray);
-//        MyListAdapter myListAdapter = new MyListAdapter(this,
-//                R.layout.activity_listview, classNameArray);
 
-//        listOfClasses.setAdapter(myListAdapter);
+        // onClick behaviours
         listOfClasses.setOnItemClickListener(this);
+            // long click a class name to delete its info
+        listOfClasses.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                final int which_item = position;
 
+                new AlertDialog.Builder(AdminManageListOfClassesActivity.this)
+                        .setIcon(R.drawable.ic_baseline_delete_forever_24)
+                        .setTitle("Delete Item")
+                        .setMessage("Do you want to delete this item?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                String clickClassName = ((TextView) view).getText().toString().trim();
+                                setClickedClassName(clickClassName);
+
+                                DatabaseReference classRef = FirebaseDatabase.getInstance().getReference()
+                                        .child("Classes");
+                                classRef.addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        for (DataSnapshot child: snapshot.getChildren()) {
+                                            String childNameValue = child.child("Name").getValue().toString().trim();
+                                            if (childNameValue.equals(getClickedClassName())) {
+                                                String matchingClassID = child.getKey().trim();
+                                                setClickedClassID(matchingClassID);
+
+                                                // delete from back end
+                                                classRef.child(getClickedClassID()).removeValue();
+                                            }
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
+
+                                // delete from front end
+                                classNameArray.remove(which_item);
+                                adapter.notifyDataSetChanged();
+                            }
+                        })
+                        .setNegativeButton("No",null)
+                        .show();
+                return true;
+            }
+        });
+
+        // show list of classes
         DatabaseReference classInfoRef = FirebaseDatabase.getInstance().getReference("Classes");//.child();
         classInfoRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -82,44 +121,15 @@ public class AdminManageListOfClassesActivity extends AppCompatActivity implemen
 
             }
         });
-    } // onCreate
 
-//    private class MyListAdapter extends ArrayAdapter<String> {
-//        private int layout;
-//        private MyListAdapter (Context context, int resource, List<String> objects) {
-//            super(context, resource, objects);
-//            layout = resource;
-//        }
-//
-//        @Override
-//        public View getView(int position, View convertView, ViewGroup parent) {
-//            ViewHolder mainViewHolder = null;
-//            if(convertView == null) {
-//                LayoutInflater inflater = LayoutInflater.from(getContext());
-//                convertView = inflater.inflate(layout, parent, false);
-//                ViewHolder viewHolder = new ViewHolder();
-//                viewHolder.title = convertView.findViewById(R.id.list_item_text);
-//                viewHolder.button = convertView.findViewById(R.id.list_delete_button);
-//                viewHolder.button.setOnClickListener(new View.OnClickListener() {
-//
-//                    @Override
-//                    public void onClick(View v) {
-//                        deleteClass(getClickedClassID());
-//                    }
-//                });
-//                convertView.setTag(viewHolder);
-//            } else {
-//                mainViewHolder = (ViewHolder) convertView.getTag();
-//                mainViewHolder.title.setText(getItem(position));
-//            }
-//            return convertView;
-//        }
-//    }
-//
-//    public class ViewHolder {
-//        TextView title;
-//        Button button;
-//    }
+        addClassButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent addClassButtonIntent = new Intent(AdminManageListOfClassesActivity.this, AdminAddNewClassActivity.class);
+                startActivity(addClassButtonIntent);
+            }
+        });
+    } // onCreate
 
     private void deleteClass(String classID) {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance()

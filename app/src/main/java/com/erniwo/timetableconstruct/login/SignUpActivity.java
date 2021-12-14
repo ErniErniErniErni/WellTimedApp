@@ -139,12 +139,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             return;
         }
 
-//        if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-//            editTextEmail.setError("Please imput valid email!");
-//            editTextEmail.requestFocus();
-//            return;
-//        }
-
         if(password.isEmpty()) {
             editTextPassword.setError("Please enter your password!");
             editTextPassword.requestFocus();
@@ -227,7 +221,19 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                                         Toast.makeText(SignUpActivity.this, "User signed up successfully.", Toast.LENGTH_LONG).show();
                                         progressBar.setVisibility(View.GONE);
 
-                                        // log out to avoid auto login immediately after signing up
+                                        FirebaseDatabase.getInstance().getReference("Teachers")
+                                                .child(idNumber).setValue(name).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if(task.isSuccessful()) {
+                                                    Log.d(TAG, "Teacher info saved to 'Teachers'");
+                                                }else {
+                                                    Log.d(TAG, "Teacher info save failed.");
+                                                }
+                                            }
+                                        });
+
+                                        // log out to avoid automatically logging in immediately after signing up
                                         FirebaseAuth.getInstance().signOut();
 
                                         //redirect to login page
