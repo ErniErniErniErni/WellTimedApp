@@ -40,6 +40,42 @@
     <string name="placeholder_period">Range: 1 - 9</string>
     <string name="placeholder_teacher">e.g.: Jane Smith</string>
 
+    <!-- Activity: adminAddNewCLass-->
+    <string name="hint_select_grade">Enter Grade Number</string>
+    <string name="hint_select_class">Enter Class Number</string>
+    <string name="hint_select_students">Select Student Numbers</string>
+
+    <string name="placeholder_select_grade">e.g. Grade 5</string>
+    <string name="placeholder_select_class">Range: 1 - 99</string>
+    <string name="placeholder_select_students">e.g.: S0002, S0006</string>
+    
+    <string-array name="select_grades">
+        <item>Grade 1</item>
+        <item>Grade 2</item>
+        <item>Grade 3</item>
+        <item>Grade 4</item>
+        <item>Grade 5</item>
+        <item>Grade 6</item>
+        <item>Grade 7</item>
+        <item>Grade 8</item>
+        <item>Grade 9</item>
+        <item>Grade 10</item>
+        <item>Grade 11</item>
+        <item>Grade 12</item>
+    </string-array>
+
+<!--    <string-array name="select_classes">-->
+<!--        <item>Class 1</item>-->
+<!--        <item>Class 2</item>-->
+<!--        <item>Class 3</item>-->
+<!--        <item>Class 4</item>-->
+<!--        <item>Class 5</item>-->
+<!--        <item>Class 6</item>-->
+<!--        <item>Class 7</item>-->
+<!--        <item>Class 8</item>-->
+<!--        <item>Class 9</item>-->
+<!--        <item>Class 10</item>-->
+<!--    </string-array>-->
 
     <!-- Buttons -->
     <string name="skip_button">Skip</string>

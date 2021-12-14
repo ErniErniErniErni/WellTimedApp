@@ -59,6 +59,7 @@
         android:inputType="textEmailAddress"
         android:textSize="@dimen/text_size_medium"
         app:placeholderText="@string/placeholder_location"
+        app:endIconMode="clear_text"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edit_class_ttb_subject">
@@ -81,6 +82,7 @@
         android:hint="@string/hint_day_of_week"
         android:textSize="@dimen/text_size_medium"
         app:placeholderText="@string/placeholder_day_of_week"
+        app:endIconMode="clear_text"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edit_class_ttb_location">
@@ -104,6 +106,7 @@
         android:hint="@string/hint_period"
         android:textSize="@dimen/text_size_medium"
         app:placeholderText="@string/placeholder_period"
+        app:endIconMode="clear_text"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edit_class_ttb_day_of_week">

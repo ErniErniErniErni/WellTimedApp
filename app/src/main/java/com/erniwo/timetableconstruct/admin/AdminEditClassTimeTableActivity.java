@@ -1,8 +1,5 @@
 package com.erniwo.timetableconstruct.admin;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,25 +7,17 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.erniwo.timetableconstruct.Message;
 import com.erniwo.timetableconstruct.R;
-import com.erniwo.timetableconstruct.admin.AdminManageListOfClassesActivity;
-import com.erniwo.timetableconstruct.login.LoginActivity;
-import com.erniwo.timetableconstruct.login.SignUpActivity;
 import com.erniwo.timetableconstruct.model.Course;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
 
 public class AdminEditClassTimeTableActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -90,26 +79,6 @@ public class AdminEditClassTimeTableActivity extends AppCompatActivity implement
 
         saveButton = (TextView) findViewById(R.id.edit_class_ttb_save_button);
         saveButton.setOnClickListener(this);
-
-//        DatabaseReference classesRef = FirebaseDatabase.getInstance().getReference("Classes");
-//        classesRef.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                for (DataSnapshot child: snapshot.getChildren()) {
-//
-//                    String childNameValue = child.child("Name").getValue().toString().trim();
-//
-//                    if (childNameValue.equals(currentClassName)) {
-//                        currentClassID = child.getKey();
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
 
     } // onCreate
 
@@ -189,7 +158,6 @@ public class AdminEditClassTimeTableActivity extends AppCompatActivity implement
             return;
         }
 
-//        Course course = new Course(subject, location, dayOfWeek, period, teacher);
         String courseID = dayOfWeek + period;
 
         course.setSubject(subject);
@@ -211,13 +179,6 @@ public class AdminEditClassTimeTableActivity extends AppCompatActivity implement
                 Message.showMessage(getApplicationContext(), "Failed to save course info.");
             }
         });
-            Log.wtf(TAG,"wtff");
-//        courseIDRef.child("Subject").setValue(subject);
-//        courseIDRef.child("DayOfWeek").setValue(dayOfWeek);
-//        courseIDRef.child("Period").setValue(period);
-//        courseIDRef.child("Location").setValue(location);
-//        courseIDRef.child("Teacher").setValue(teacher);
-//        Message.showMessage(getApplicationContext(), "Course info saved successfully.");
         Intent intent = new Intent(getApplicationContext(), AdminManageClassTimetableActivity.class);
 //        intent.putExtra("ClickedClassName", getCurrentClassName());
 //        intent.putExtra("ClickedClassID", getCurrentClassID());

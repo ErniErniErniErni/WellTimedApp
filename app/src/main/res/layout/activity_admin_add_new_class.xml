@@ -6,79 +6,96 @@
     android:layout_height="match_parent"
     tools:context=".admin.AdminAddNewClassActivity">
 
-<!--    <EditText-->
-<!--        android:id="@+id/edit_classId"-->
-<!--        android:layout_width="380dp"-->
-<!--        android:layout_height="50dp"-->
-<!--        android:hint="Enter class ID"-->
-<!--        android:layout_marginTop="40dp"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"/>-->
-<!--    <EditText-->
-<!--        android:id="@+id/edit_grade_num"-->
-<!--        android:layout_width="380dp"-->
-<!--        android:layout_height="50dp"-->
-<!--        android:hint="Enter Grade Number"-->
-<!--        android:layout_marginTop="30dp"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/edit_classId"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"/>-->
-    <TextView
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:id="@+id/select_grade_num"
-        android:layout_width="380dp"
-        android:layout_height="50dp"
-        android:hint="Select Grade"
-        android:textSize="15dp"
+        android:layout_width="@dimen/edit_text_width"
+        android:layout_height="@dimen/edit_text_height"
         android:layout_marginTop="40dp"
-        android:padding="16dp"
+        android:ems="10"
+        android:fontFamily="sans-serif"
+        android:hint="@string/hint_select_grade"
+        android:inputType="none"
+        android:textSize="@dimen/text_size_medium"
+        app:placeholderText="@string/placeholder_select_grade"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:drawableEnd="@android:drawable/arrow_down_float"
-        android:background="@android:drawable/editbox_background"/>
-<!--    <EditText-->
-<!--        android:id="@+id/edit_class_num"-->
-<!--        android:layout_width="380dp"-->
-<!--        android:layout_height="50dp"-->
-<!--        android:hint="Enter class Number"-->
-<!--        android:layout_marginTop="30dp"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/select_grade_num"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"/>-->
-    <TextView
+        app:layout_constraintStart_toStartOf="parent">
+            <AutoCompleteTextView
+                android:id="@+id/select_edit_text_grade_num"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="none">
+            </AutoCompleteTextView>
+        </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:id="@+id/select_class_num"
-        android:layout_width="380dp"
-        android:layout_height="50dp"
-        android:hint="Select Class Number"
-        android:textSize="15dp"
-        android:layout_marginTop="30dp"
-        android:padding="16dp"
+        android:layout_width="@dimen/edit_text_width"
+        android:layout_height="@dimen/edit_text_height"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:fontFamily="sans-serif"
+        android:hint="@string/hint_select_class"
+        android:inputType="text"
+        android:textSize="@dimen/text_size_medium"
+        app:placeholderText="@string/placeholder_select_class"
         app:layout_constraintTop_toBottomOf="@+id/select_grade_num"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:drawableEnd="@android:drawable/arrow_down_float"
-        android:background="@android:drawable/editbox_background"/>
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/select_edit_text_class_num"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </com.google.android.material.textfield.TextInputEditText>
+    </com.google.android.material.textfield.TextInputLayout>
+
     <TextView
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:id="@+id/select_student_num"
-        android:layout_width="380dp"
-        android:layout_height="50dp"
-        android:hint="Select Students"
-        android:textSize="15dp"
-        android:layout_marginTop="30dp"
-        android:padding="16dp"
+        android:layout_width="@dimen/edit_text_width"
+        android:layout_height="@dimen/edit_text_height"
+        android:hint="@string/hint_select_students"
+        android:textSize="16dp"
+        android:layout_marginTop="20dp"
+        android:padding="20dp"
         app:layout_constraintTop_toBottomOf="@+id/select_class_num"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:drawableEnd="@android:drawable/arrow_down_float"
         android:background="@android:drawable/editbox_background"/>
+
+<!--    <com.google.android.material.textfield.TextInputLayout-->
+<!--        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"-->
+<!--        android:id="@+id/select_student_num"-->
+<!--        android:layout_width="@dimen/edit_text_width"-->
+<!--        android:layout_height="@dimen/edit_text_height"-->
+<!--        android:layout_marginTop="20dp"-->
+<!--        android:ems="10"-->
+<!--        android:fontFamily="sans-serif"-->
+<!--        android:hint="@string/hint_select_students"-->
+<!--        android:inputType="text"-->
+<!--        android:textSize="@dimen/text_size_medium"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/select_class_num"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:placeholderText="@string/placeholder_select_students">-->
+<!--        <AutoCompleteTextView-->
+<!--            android:id="@+id/select_edit_text_student_num"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:inputType="none">-->
+<!--        </AutoCompleteTextView>-->
+<!--    </com.google.android.material.textfield.TextInputLayout>-->
+
     <Button
-        android:id="@+id/add_new_class_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="Add New Class"
-        app:layout_constraintTop_toBottomOf="@+id/select_student_num"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+            android:id="@+id/add_new_class_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="Add New Class"
+            app:layout_constraintTop_toBottomOf="@+id/select_student_num"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>

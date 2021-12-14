@@ -6,44 +6,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-        <EditText
-            android:id="@+id/search_text"
-
-            android:layout_width="380dp"
-            android:layout_height="wrap_content"
-            android:inputType="text"
-            android:text="Search for a class..."
-            android:layout_gravity="center_horizontal"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            android:textColor="@color/LightGrey"/>
-
-    <!--Add your list view here-->
-
-    <Button
-        android:id="@+id/search_button"
-        android:layout_gravity="center_horizontal"
-        android:layout_width="380dp"
-        android:layout_height="wrap_content"
-        android:backgroundTint="#ddbea9"
-        android:fontFamily="sans-serif"
-        android:text="Search"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
     <Button
         android:id="@+id/add_class"
         android:layout_gravity="center_horizontal"
-        android:layout_width="380dp"
+        android:layout_width="@dimen/button_width"
         android:layout_height="wrap_content"
         android:backgroundTint="#ddbea9"
         android:fontFamily="sans-serif"
         android:text="Add Class"
+        android:layout_marginTop="30dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 
     <ListView
-            android:id="@+id/list_of_classes"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+        android:id="@+id/list_of_classes"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp"
+        android:layout_width="@dimen/edit_text_width"
+        android:layout_height="match_parent"/>
 
     </LinearLayout>

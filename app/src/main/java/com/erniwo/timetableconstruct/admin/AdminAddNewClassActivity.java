@@ -6,10 +6,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -32,55 +34,37 @@ import java.util.List;
 
 public class AdminAddNewClassActivity extends AppCompatActivity implements View.OnClickListener {
 
+    AutoCompleteTextView selectGradeTextView;
+    EditText classNumEditText;
 
-//    private EditText editClassID;
-//    private EditText editGradeNum;
-//    private EditText editClassNum;
-//    private EditText editStudentNum;
+    TextView selectStudentsArrowDown;
+    boolean[] selectedStudent;
 
-    private TextView addStudentsArrowDown;
-    ArrayList<Integer> studentList = new ArrayList<>();
+    ArrayList<Integer> studentList = new ArrayList<>(); // off
     ArrayList<String> studentListList = new ArrayList<>();
     static String[] studentArray = new String[1000];
-    private boolean[] selectedStudent;
-
-    private TextView selectGradeNumArrowDown;
-    ArrayList<Integer> gradeList = new ArrayList<>();
-    static String[] gradeArray = new String[]{"Grade 1", "Grade 2", "Grade 3", "Grade 4",
-            "Grade 5", "Grade 6", "Grade 7","Grade 8",
-            "Grade 9", "Grade 10", "Grade 11", "Grade 12"};
-    private boolean[] selectedGrade;
-
-    private TextView selectClassNumArrowDown;
-    ArrayList<Integer> classList = new ArrayList<>();
-    static String[] classArray = new String[]{"Class 1", "Class 2", "Class 3", "Class 4",
-    "Class 5", "Class 6", "Class 7", "Class 8",
-    "Class 9", "Class 10", "Class 11", "Class 12"};
-    private boolean[] selectedClass;
 
     private Button addNewClassButton;
 
     private String TAG = "AdminAddNewClassActivityLog";
-
-
-
-//    AlertDialog.Builder builder = new AlertDialog.Builder();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_add_new_class);
 
-//        editClassID = findViewById(R.id.edit_classId);
-//        editGradeNum = findViewById(R.id.edit_grade_num);
-//        editClassNum = findViewById(R.id.edit_class_num);
-        addStudentsArrowDown = findViewById(R.id.select_student_num);
-        addStudentsArrowDown.setOnClickListener(this);
-        selectGradeNumArrowDown = findViewById(R.id.select_grade_num);
-        selectGradeNumArrowDown.setOnClickListener(this);
-        selectClassNumArrowDown = findViewById(R.id.select_class_num);
-        selectClassNumArrowDown.setOnClickListener(this);
+
+        String[] listOfGradeNum = getResources().getStringArray(R.array.select_grades);
+        ArrayAdapter arrayAdapterGrade = new ArrayAdapter(getApplicationContext(),R.layout.dropdown_item, listOfGradeNum);
+        selectGradeTextView = (AutoCompleteTextView) findViewById(R.id.select_edit_text_grade_num);
+        selectGradeTextView.setAdapter(arrayAdapterGrade);
+
+        classNumEditText = findViewById(R.id.select_edit_text_class_num);
+
+        selectStudentsArrowDown = findViewById(R.id.select_student_num);
+        selectStudentsArrowDown.setOnClickListener(this);
+        selectedStudent = new boolean[studentArray.length];
+
         addNewClassButton = findViewById(R.id.add_new_class_button);
         addNewClassButton.setOnClickListener(this);
 
@@ -123,47 +107,61 @@ public class AdminAddNewClassActivity extends AppCompatActivity implements View.
         Log.d(TAG,"onStop");
     }
     public void addNewClass() {
-//        String txt_ID = editClassID.getText().toString().trim();
-//        String txt_GradeNum = editGradeNum.getText().toString().trim();
-//        String txt_ClassNum = editClassNum.getText().toString().trim();
-//        String className = "Grade " + txt_GradeNum + " Class " + txt_ClassNum;
-//
-//        if(txt_ID.isEmpty()) {
-////            Message.showMessage(getApplicationContext(),"Please enter Class ID!");
-//             editClassID.setError("Please enter Class ID!");
-//             editClassID.requestFocus();
-//             return;
-//        }
-//
-//        if(txt_GradeNum.isEmpty()) {
-////            Message.showMessage(getApplicationContext(),"Please enter Grade Number!");
-//            editGradeNum.setError("Please enter Grade Number!");
-//            editGradeNum.requestFocus();
-//            return;
-//        }
-//
-//        if(txt_ClassNum.isEmpty()) {
-////          Message.showMessage(getApplicationContext(), "Please enter Class Number!");
-//             editClassNum.setError("Please enter Class Number!");
-//             editClassID.requestFocus();
-//             return;
-//        }
 
+        String txt_GradeNum = selectGradeTextView.getText().toString().trim();
+        String txt_ClassNum = classNumEditText.getText().toString().trim();
+        String className = txt_GradeNum + " Class " + txt_ClassNum;
 
-//        FirebaseDatabase.getInstance().getReference().child("Classes").child(txt_ID).child("Name").setValue(className);//.push();
-//        String stringListOfStudentID = addStudentsArrowDown.getText().toString();
-//        List<String> stringListOfStudentIDList = Arrays.asList(stringListOfStudentID.split(","));
-//        for (String id: stringListOfStudentIDList ){
-//            System.out.println(id);
-//            FirebaseDatabase.getInstance().getReference().child("Classes").child(txt_ID).child("Student").child(id).setValue("");
-//        }
-//        //.push();
-//        Message.showMessage(getApplicationContext(),"Added new class successfully!");
+        if(txt_GradeNum.isEmpty()) {
+            selectGradeTextView.setError("Please select a Grade!");
+            selectGradeTextView.requestFocus();
+            return;
+        }
 
+        if(txt_ClassNum.isEmpty()) {
+             classNumEditText.setError("Please enter Class Number!");
+             classNumEditText.requestFocus();
+             return;
+        }
+
+        String gradeNumLastTwoChar = txt_GradeNum.length() > 2 ? txt_GradeNum.substring(txt_GradeNum.length() - 2) : txt_GradeNum;
+        String gradeNumInTwoChars;
+        if(gradeNumLastTwoChar.trim().length() == 2) {
+            gradeNumInTwoChars = gradeNumLastTwoChar.trim();
+        }else {
+            gradeNumInTwoChars = "0" + gradeNumLastTwoChar.trim();
+        }
+
+        String classNumLastTwoChar = txt_ClassNum.length() > 2 ? txt_ClassNum.substring(txt_ClassNum.length() - 2) : txt_ClassNum;
+        String classNumInTwoChars;
+        if(classNumLastTwoChar.trim().length() == 2) {
+            classNumInTwoChars = classNumLastTwoChar.trim();
+        }else {
+            classNumInTwoChars = "0" + classNumLastTwoChar.trim();
+        }
+
+        String txt_ClassID = "C" + gradeNumInTwoChars + classNumInTwoChars;
+        Log.i(TAG, txt_ClassID);
+
+        FirebaseDatabase.getInstance().getReference().child("Classes").child(txt_ClassID)
+                .child("Name").setValue(className);//.push();
+
+        String stringListOfStudentID = selectStudentsArrowDown.getText().toString();
+        List<String> stringListOfStudentIDList = Arrays.asList(stringListOfStudentID.split(","));
+        for (String id: stringListOfStudentIDList ){
+            Log.i(TAG, id);
+            FirebaseDatabase.getInstance().getReference().child("Classes").child(txt_ClassID)
+                    .child("Student").child(id).setValue("");
+        }
+        //.push();
+        Message.showMessage(getApplicationContext(),"Added new class successfully!");
+        Intent intent = new Intent(AdminAddNewClassActivity.this, AdminManageListOfClassesActivity.class);
+        startActivity(intent);
     }
 
 
     public void multipleCheckStudents() {
+
         ArrayAdapter adapter = new ArrayAdapter<String>(this, R.layout.activity_listview, studentListList);
         DatabaseReference classInfoRef = FirebaseDatabase.getInstance().getReference().child("Users");
         classInfoRef.addValueEventListener(new ValueEventListener() {
@@ -175,14 +173,16 @@ public class AdminAddNewClassActivity extends AppCompatActivity implements View.
                 for (DataSnapshot child : snapshot.getChildren()) {
                     String userType = child.child("type").getValue().toString();
                     if (userType.equals("student")) {
-                        String studentID = child.child("IDNumber").getValue().toString();
-                        studentListList.add(studentID);
-                        System.out.println(studentListList.size());
+                        try {
+                            String studentID = child.child("IDNumber").getValue().toString();
+                            studentListList.add(studentID);
+                        }catch (NullPointerException e) {
+                            Log.e(TAG, "IDNumber Null");
+                        }
                     }
                 }
                 adapter.notifyDataSetChanged();
                 if (!studentListList.isEmpty()) {
-                    Message.showMessage(getApplicationContext(), "Listlist not Empty!");
 //                    return;
                 }
 
@@ -242,7 +242,7 @@ public class AdminAddNewClassActivity extends AppCompatActivity implements View.
                             }
                         }
                         //Set text on text view
-                        addStudentsArrowDown.setText(stringBuilder.toString());
+                        selectStudentsArrowDown.setText(stringBuilder.toString());
                     }
                 });
 
@@ -264,7 +264,7 @@ public class AdminAddNewClassActivity extends AppCompatActivity implements View.
                             //Clear student list
                             studentList.clear();
                             //Clear text view value
-                            addStudentsArrowDown.setText("");
+                            selectStudentsArrowDown.setText("");
                         }
                     }
                 });

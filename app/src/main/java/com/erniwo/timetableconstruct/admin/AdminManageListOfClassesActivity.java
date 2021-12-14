@@ -1,22 +1,23 @@
 package com.erniwo.timetableconstruct.admin;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.erniwo.timetableconstruct.Message;
 import com.erniwo.timetableconstruct.R;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,13 +25,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
+import java.util.List;
 
 public class AdminManageListOfClassesActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     private ListView listOfClasses;
-    private Button addClass;
+    private Button addClassButton;
     private static String clickedClassName;
     private static String clickedClassID;
 
@@ -42,12 +42,12 @@ public class AdminManageListOfClassesActivity extends AppCompatActivity implemen
         setContentView(R.layout.activity_admin_manage_list_of_classes);
 
         listOfClasses = findViewById(R.id.list_of_classes);
-        addClass = findViewById(R.id.add_class);
-        addClass.setOnClickListener(new View.OnClickListener() {
+        addClassButton = findViewById(R.id.add_class);
+        addClassButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent in2 = new Intent(getApplicationContext(), AdminAddNewClassActivity.class);
-                startActivity(in2);
+                Intent addClassButtonIntent = new Intent(AdminManageListOfClassesActivity.this, AdminAddNewClassActivity.class);
+                startActivity(addClassButtonIntent);
             }
         });
 
@@ -56,10 +56,15 @@ public class AdminManageListOfClassesActivity extends AppCompatActivity implemen
                 R.layout.activity_listview, classNameArray);
 
         listOfClasses.setAdapter(adapter);
+//        MyListAdapter myListAdapter = new MyListAdapter(this,
+//                R.layout.list_item, classNameArray);
+//        MyListAdapter myListAdapter = new MyListAdapter(this,
+//                R.layout.activity_listview, classNameArray);
+
+//        listOfClasses.setAdapter(myListAdapter);
         listOfClasses.setOnItemClickListener(this);
 
         DatabaseReference classInfoRef = FirebaseDatabase.getInstance().getReference("Classes");//.child();
-
         classInfoRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -68,6 +73,7 @@ public class AdminManageListOfClassesActivity extends AppCompatActivity implemen
                     classNameArray.add(snapshot.child("Name").getValue().toString());
                 }
                 adapter.notifyDataSetChanged();
+                Log.e(TAG, "classNameArray Updated");
 
             }
 
@@ -77,6 +83,50 @@ public class AdminManageListOfClassesActivity extends AppCompatActivity implemen
             }
         });
     } // onCreate
+
+//    private class MyListAdapter extends ArrayAdapter<String> {
+//        private int layout;
+//        private MyListAdapter (Context context, int resource, List<String> objects) {
+//            super(context, resource, objects);
+//            layout = resource;
+//        }
+//
+//        @Override
+//        public View getView(int position, View convertView, ViewGroup parent) {
+//            ViewHolder mainViewHolder = null;
+//            if(convertView == null) {
+//                LayoutInflater inflater = LayoutInflater.from(getContext());
+//                convertView = inflater.inflate(layout, parent, false);
+//                ViewHolder viewHolder = new ViewHolder();
+//                viewHolder.title = convertView.findViewById(R.id.list_item_text);
+//                viewHolder.button = convertView.findViewById(R.id.list_delete_button);
+//                viewHolder.button.setOnClickListener(new View.OnClickListener() {
+//
+//                    @Override
+//                    public void onClick(View v) {
+//                        deleteClass(getClickedClassID());
+//                    }
+//                });
+//                convertView.setTag(viewHolder);
+//            } else {
+//                mainViewHolder = (ViewHolder) convertView.getTag();
+//                mainViewHolder.title.setText(getItem(position));
+//            }
+//            return convertView;
+//        }
+//    }
+//
+//    public class ViewHolder {
+//        TextView title;
+//        Button button;
+//    }
+
+    private void deleteClass(String classID) {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance()
+                .getReference().child("Classes").child(classID);
+        databaseReference.removeValue();
+        Message.showMessage(getApplicationContext(), "Deleted!" + getClickedClassName());
+    }
 
     @Override
     protected void onStart() {
