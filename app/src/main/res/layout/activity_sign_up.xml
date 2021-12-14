@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="40dp"
         android:layout_marginHorizontal="50dp"
         />
 
@@ -74,31 +74,6 @@
 
     <com.google.android.material.textfield.TextInputLayout
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:id="@+id/signup_password"
-        android:layout_width="@dimen/edit_text_width"
-        android:layout_height="@dimen/edit_text_height"
-        android:layout_marginTop="20dp"
-        android:ems="10"
-        android:fontFamily="sans-serif"
-        android:hint="@string/hint_password"
-        android:textSize="@dimen/text_size_medium"
-        app:placeholderText="@string/placeholder_password"
-        app:startIconDrawable="@drawable/ic_baseline_lock_24"
-        app:endIconMode="password_toggle"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signup_email">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/signup_edit_text_password"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:inputType="textPassword">
-        </com.google.android.material.textfield.TextInputEditText>
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:id="@+id/signup_id"
         android:layout_width="@dimen/edit_text_width"
         android:layout_height="@dimen/edit_text_height"
@@ -112,13 +87,38 @@
         app:endIconMode="clear_text"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signup_password">
+        app:layout_constraintTop_toBottomOf="@+id/signup_email">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/signup_edit_text_id"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="text">
+        </com.google.android.material.textfield.TextInputEditText>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:id="@+id/signup_password"
+        android:layout_width="@dimen/edit_text_width"
+        android:layout_height="@dimen/edit_text_height"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:fontFamily="sans-serif"
+        android:hint="@string/hint_password"
+        android:textSize="@dimen/text_size_medium"
+        app:placeholderText="@string/placeholder_password"
+        app:startIconDrawable="@drawable/ic_baseline_lock_24"
+        app:endIconMode="password_toggle"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/signup_id">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/signup_edit_text_password"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="textPassword">
         </com.google.android.material.textfield.TextInputEditText>
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -131,7 +131,7 @@
         android:textSize="@dimen/text_size_small_medium"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signup_id"/>
+        app:layout_constraintTop_toBottomOf="@+id/signup_password"/>
 
     <RadioGroup
         android:id="@+id/signup_chooseRoleGroup"

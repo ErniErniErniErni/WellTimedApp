@@ -23,10 +23,10 @@
         <entry key="app/src/main/res/layout/activity_forgot_password.xml" value="0.23802083333333332" />
         <entry key="app/src/main/res/layout/activity_home_page.xml" value="0.1012121620525619" />
         <entry key="app/src/main/res/layout/activity_listview.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/activity_login.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.5" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.20462046204620463" />
         <entry key="app/src/main/res/layout/activity_profile_student.xml" value="0.2418478260869565" />
-        <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.32456140350877194" />
         <entry key="app/src/main/res/layout/activity_student_timetable.xml" value="0.20202020202020202" />
         <entry key="app/src/main/res/layout/activity_teacher_timetable.xml" value="0.40924092409240925" />
         <entry key="app/src/main/res/layout/activity_timetable_student.xml" value="0.3286004056795132" />

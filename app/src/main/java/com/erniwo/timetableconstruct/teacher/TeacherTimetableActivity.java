@@ -27,13 +27,9 @@ public class TeacherTimetableActivity extends AppCompatActivity implements View.
     private TextView nameOfUser;
     private ImageView logout;
 
-    private String TAG = "TeacherTimetableActivityLog";
+    private String currentID;
 
-//    private FirebaseAuth firebaseAuth;
-//    private FirebaseDatabase mDatabase;
-//    private DatabaseReference mDb;
-//    private String userKey;
-//    private String currentUsername;
+    private String TAG = "TeacherTimetableActivityLog";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,28 +40,22 @@ public class TeacherTimetableActivity extends AppCompatActivity implements View.
         logout.setOnClickListener(this);
         nameOfUser = findViewById(R.id.name_of_user_teacher);
 
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String currentUserId = user.getUid();
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                setCurrentID(snapshot.child(currentUserId).child("IDNumber").getValue().toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         loadTeacherName();
-
-
-//        firebaseAuth = FirebaseAuth.getInstance();
-//        mDatabase = FirebaseDatabase.getInstance();
-//        mDb = mDatabase.getReference();
-//        FirebaseUser user = firebaseAuth.getCurrentUser();
-//        userKey = user.getUid();
-//
-//        mDb.child("Users").child(userKey).addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                currentUsername = snapshot.child("type").getValue().toString();
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
-
-
 
     }
 
@@ -99,30 +89,6 @@ public class TeacherTimetableActivity extends AppCompatActivity implements View.
         Log.d(TAG,"onDestroy");
     }
 
-    private void loadTeacherName() {
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String userID = user.getUid();
-        ref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                for (DataSnapshot child: snapshot.getChildren()) {
-//                    String key = child.getKey();
-                    String userName = snapshot.child(userID).child("name").getValue().toString();
-//                    String userKeyName = snapshot.child(userID).getKey();
-                    nameOfUser.setText( userName + "'s Timetable");
-//                }
-
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -132,43 +98,36 @@ public class TeacherTimetableActivity extends AppCompatActivity implements View.
         }
     }
 
-//    public String getTeacherName(){
-//        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
-//        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-//        String userID = user.getUid();
-//        ref.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                String userName = snapshot.child(userID).child("name").getValue().toString();
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
-//        return userName;
-//        String userID = user.getUid();
-////        ref.child(userID).get
-//        ref.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                if(snapshot.getValue() == userID) {
-//                    String currentUserName = snapshot.child("name").toString();
-//                    return currentUserName;
-//                }
-//                adapter
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
-//    }
+    private void loadTeacherName() {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String userID = user.getUid();
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    String userName = snapshot.child(userID).child("name").getValue().toString();
+                setCurrentID(snapshot.child(userID).child("IDNumber").getValue().toString());
+                nameOfUser.setText( userName + "'s Timetable");
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
     public void logout() {
         FirebaseAuth.getInstance().signOut();
         Message.showMessage(getApplicationContext(),"You have logged out!");
         startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+    }
+
+    public String getCurrentID() {
+        return currentID;
+    }
+
+    public void setCurrentID(String currentID) {
+        this.currentID = currentID;
     }
 }

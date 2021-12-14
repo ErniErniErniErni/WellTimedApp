@@ -73,7 +73,7 @@ public class AdminManageListOfClassesActivity extends AppCompatActivity implemen
                     classNameArray.add(snapshot.child("Name").getValue().toString());
                 }
                 adapter.notifyDataSetChanged();
-                Log.e(TAG, "classNameArray Updated");
+                Log.i(TAG, "classNameArray Updated");
 
             }
 
@@ -161,10 +161,10 @@ public class AdminManageListOfClassesActivity extends AppCompatActivity implemen
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         String clickClassName = ((TextView) view).getText().toString().trim();
-        Log.d(TAG, clickClassName); // this step is logged
+        Log.d(TAG, "On Item Cicked()" + clickClassName); // this step is logged
 
         setClickedClassName(clickClassName);
-        Log.d(TAG, getClickedClassName()); // this step is logged
+        Log.d(TAG, "On Item Cicked()" + getClickedClassName()); // this step is logged
 
         DatabaseReference classesRef = FirebaseDatabase.getInstance().getReference("Classes");
         classesRef.addValueEventListener(new ValueEventListener() {

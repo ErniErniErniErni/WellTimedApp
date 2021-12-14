@@ -73,6 +73,36 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d(TAG,"onStart");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG,"onResume");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(TAG,"onPause");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(TAG,"onStop");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG,"onDestroy");
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.header:
@@ -196,8 +226,13 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                                     if (task.isSuccessful()) {
                                         Toast.makeText(SignUpActivity.this, "User signed up successfully.", Toast.LENGTH_LONG).show();
                                         progressBar.setVisibility(View.GONE);
+
+                                        // log out to avoid auto login immediately after signing up
+                                        FirebaseAuth.getInstance().signOut();
+
                                         //redirect to login page
                                         startActivity((new Intent(SignUpActivity.this,LoginActivity.class)));
+                                        finish();
                                     } else {
                                         Toast.makeText(SignUpActivity.this, "Failed to sign up. Try again.", Toast.LENGTH_LONG).show();
                                         progressBar.setVisibility(View.GONE);

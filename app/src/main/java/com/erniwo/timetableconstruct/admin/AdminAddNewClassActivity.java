@@ -204,7 +204,7 @@ public class AdminAddNewClassActivity extends AppCompatActivity implements View.
                         AdminAddNewClassActivity.this
                 );
                 //Set title
-                builder.setTitle("Please Select from the Following Student IDs:");
+                builder.setTitle("Please Select from the Following Registered Student IDs:");
                 //Set dialog non cancelable
                 builder.setCancelable(false);
 

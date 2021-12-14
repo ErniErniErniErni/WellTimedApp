@@ -75,6 +75,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         firebaseAuth = FirebaseAuth.getInstance();
 
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            onAuthSuccessAutomatic(user);
+            Log.d(TAG, "AutoLogin");
+        }else {
+            Log.d(TAG, "No Current User");
+            return;
+        }
+
     }
 
     @Override
@@ -126,16 +135,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             Message.showMessage(getApplicationContext(),"Please choose your role!");
             return;
         }
-//        }else if (checkedId == R.id.radiobutton_student){
-//            type = 1;
-//        }else if (checkedId == R.id.radiobutton_teacher){
-//            type = 2;
-//        }else if (checkedId == R.id.radiobutton_admin){
-//            type = 3;
-//        }else {
-//            Message.showMessage(getApplicationContext(), "Something is wrong, please try again!");
-//            type = 0;
-//        }
 
         progressBar.setVisibility((View.VISIBLE));
 
@@ -215,16 +214,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onStart() {
         super.onStart();
-
         Log.d(TAG,"onStart");
-        checkLoginStatus();
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-        if (user != null) {
-            onAuthSuccessAutomatic(user);
-        }else {
-            return;
-        }
     }
 
     @Override
@@ -250,14 +240,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onDestroy() {
         super.onDestroy();
         Log.d(TAG,"onDestroy");
-    }
-
-    public void checkLoginStatus() {
-        if(isLoggedIn) {
-            Log.d(TAG, "Logged In");
-        } else {
-            Log.d(TAG, "Log Out");
-        }
     }
 
     private void onAuthSuccessAutomatic(FirebaseUser user) {
@@ -297,7 +279,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
         });
     }
-
 }
 
 
