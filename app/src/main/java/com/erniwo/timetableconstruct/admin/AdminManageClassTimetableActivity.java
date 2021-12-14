@@ -8,6 +8,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -45,23 +46,14 @@ import java.util.List;
 
 public class AdminManageClassTimetableActivity extends AppCompatActivity {
 
-//    RecyclerView recyclerView;
-//    MyRecyclerViewAdapter myRecyclerAdapter;
-//    GridLayout grid;
-
-    public String getCurrentClassName() {
-        return currentClassName;
-    }
-
-    public void setCurrentClassName(String currentClassName) {
-        this.currentClassName = currentClassName;
-    }
-
     private String currentClassName;
+    private String currentClassID;
 
     private TextView nameOfClass;
     private Button tryButton;
     private TextView addButton;
+
+    private String TAG = "AdminManageClassTimeTableActivityLog";
 
     private FrameLayout mFrameLayout;
     private TableLayout mTableLayout;
@@ -73,12 +65,26 @@ public class AdminManageClassTimetableActivity extends AppCompatActivity {
     private Button courseButton3;
     private LinearLayout headerClassNumLl;
     private boolean flagUpdateCalendar = false;
-//    private GridLayout
     public static List<Course> sCourseList;
     public static Time[] sTimes;
 
     private final List<TextView> mClassTableTvList = new ArrayList<>();
     private TextView[] mClassNumHeaders = null;
+
+    public String getCurrentClassName() {
+        return currentClassName;
+    }
+
+    public void setCurrentClassName(String currentClassName) {
+        this.currentClassName = currentClassName;
+    }
+    public String getCurrentClassID() {
+        return currentClassID;
+    }
+
+    public void setCurrentClassID(String currentClassID) {
+        this.currentClassID = currentClassID;
+    }
 
 
     private static final int REQUEST_CODE_COURSE_DETAILS = 0;
@@ -122,15 +128,13 @@ public class AdminManageClassTimetableActivity extends AppCompatActivity {
         Bundle bundle = intent.getExtras();
         if (bundle != null) {
             String currClassName = (String) bundle.get("ClickedClassName");
+            String currClassID = (String) bundle.get("ClickedClassID");
             setCurrentClassName(currClassName);
+            setCurrentClassID(currClassID);
         }
-
-//        setCurrentClassName(intent.getStringExtra("ClickedClassName"));
-
 
         headerClassNumLl = findViewById(R.id.ll_header_class_num);
         nameOfClass = (TextView) findViewById(R.id.name_of_class) ;
-//        setCurrentClassName(AdminManageListOfClassesActivity.getClickedClassName());
         nameOfClass.setText("Timetable of " + getCurrentClassName());
 
         tryButton = (Button) findViewById(R.id.course11);
@@ -139,6 +143,8 @@ public class AdminManageClassTimetableActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(AdminManageClassTimetableActivity.this, AdminEditClassTimeTableActivity.class);
+                intent.putExtra("ClickedClassName", getCurrentClassName());
+                intent.putExtra("ClickedClassID", getCurrentClassID());
                 startActivity(intent);
             }
         });
@@ -155,81 +161,76 @@ public class AdminManageClassTimetableActivity extends AppCompatActivity {
         setTableCellDimens(headerClassNumWidth);
 
 //        initTimetable();
+
+    } // onCreate
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d(TAG,"onStart");
         pullExistingClasses();
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG,"onResume");
+    }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(TAG,"onPause");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(TAG,"onStop");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG,"onDestroy");
     }
 
     private void pullExistingClasses() {
         //Pull timetable from backend
-        String classID = AdminManageListOfClassesActivity.getClickedClassID();
-        DatabaseReference ref2 = FirebaseDatabase.getInstance().getReference("Classes")
-                .child(classID).child("Timetable");
-        ref2.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot2) {
-                for(DataSnapshot child2 : snapshot2.getChildren()){
+        try {
+            String classID = getCurrentClassID();
+            DatabaseReference ref2 = FirebaseDatabase.getInstance().getReference("Classes")
+                    .child(classID)
+                    .child("Timetable");
+            ref2.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot2) {
+                    for (DataSnapshot child2 : snapshot2.getChildren()) {
 
-                    String subject = child2.child("Subject").getValue().toString();
-                    String location = child2.child("Location").getValue().toString();
-                    String teacher = child2.child("Teacher").getValue().toString();
-                    String dayOfWeek = child2.child("DayOfWeek").getValue().toString();
-                    String period = child2.child("Period").getValue().toString();
 
-                    String textOnCourseCard = subject + "\n" + location + "\n" + teacher;
-                    tryButton.setText(textOnCourseCard);
-                    tryButton.setVisibility(View.VISIBLE);
+                        String subject = child2.child("subject").getValue().toString();
+                        String location = child2.child("location").getValue().toString();
+    //                        String period = child2.child("Period").getValue().toString();
+    //                        String dayOfWeek = child2.child("DayOfWeek").getValue().toString();
+                        String teacher = child2.child("teacher").getValue().toString();
+
+                        String textOnCourseCard = subject + "\n" + location + "\n" + teacher;
+                        tryButton.setText(textOnCourseCard);
+                        tryButton.setVisibility(View.VISIBLE);
+                    }
                 }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
+                }
+            });
+        }catch (NullPointerException e){
+            Log.d(TAG, "Null");
+        }
     }
 
 
-    /**
-     * 初始化课表
-     */
-//    private void initTimetable()//根据保存的信息，创建课程表
-//    {
-//        //初始化设置按钮
-//        initAddBtn();
-//        //设置标题中显示的当前周数
-////        mWeekOfTermTextView.setText(String.format(getString(R.string.day_of_week), Config.getCurrentWeek()));
-//        //初始化课程表视图
-//        initFrameLayout();
-//
-//        //读取时间数据
-////        sTimes = new FileUtils<Time[]>().readFromJson(this, FileUtils.TIME_FILE_NAME, Time[].class);
-//
-//        //读取课程数据
-////        sCourseList = new FileUtils<ArrayList<Course>>().readFromJson(
-////                this,
-////                FileUtils.TIMETABLE_FILE_NAME,
-////                new TypeToken<ArrayList<Course>>() {
-////                }.getType());
-//
-//        //更新节数表头
-////        updateClassNumHeader();
-//        //读取失败返回
-//        if (sCourseList == null) {
-//            sCourseList = new ArrayList<>();
-//            return;
-//        }
-//
-//        //Log.d("courseNum",String.valueOf(sCourseList.size()));
-//
-//        int size = sCourseList.size();
-//        if (size != 0) {
-////            updateTimetable();
-//        }
-//
-//        flagUpdateCalendar = false;
-//
-//    }
 
     /**
      * 计算课程格子的长宽

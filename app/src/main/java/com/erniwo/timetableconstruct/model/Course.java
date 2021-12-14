@@ -3,11 +3,11 @@ package com.erniwo.timetableconstruct.model;
 import androidx.annotation.NonNull;
 
 public class Course implements Cloneable, Comparable<Course>{
-    private String subject;//subject name
 
+    private String subject;//subject name
+    private String location;
     private String dayOfWeek;//value between 1-7
     private String period;//1-8
-    private String location;
     private String teacher;
 
 //    private int classLength = 0;//课程时长
@@ -16,7 +16,7 @@ public class Course implements Cloneable, Comparable<Course>{
     public Course() {
 
     }
-    public Course(String subject, String dayOfWeek, String period, String location, String teacher ){
+    public Course(String subject, String location, String dayOfWeek, String period, String teacher ){
 
     }
 

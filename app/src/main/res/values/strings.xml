@@ -27,6 +27,19 @@
 
     <!-- Slide Onboarding Page -->
 
+    <!-- Activity: adminEditClassTimetable-->
+    <string name="hint_subject">Subject</string>
+    <string name="hint_location">Location</string>
+    <string name="hint_day_of_week">Day of Week</string>
+    <string name="hint_period">Period of the day</string>
+    <string name="hint_teacher">Teacher Name</string>
+
+    <string name="placeholder_subject">e.g.: Math</string>
+    <string name="placeholder_location">e.g.: Room 5</string>
+    <string name="placeholder_day_of_week">Range: 1 - 7</string>
+    <string name="placeholder_period">Range: 1 - 9</string>
+    <string name="placeholder_teacher">e.g.: Jane Smith</string>
+
 
     <!-- Buttons -->
     <string name="skip_button">Skip</string>

@@ -28,68 +28,95 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
+
 public class AdminEditClassTimeTableActivity extends AppCompatActivity implements View.OnClickListener{
+
+    private String currentClassID;
+    private String currentClassName;
 
     private TextView saveButton;
 
     private EditText editTextSubject;
-    private EditText editTextDayOfWeek;
     private EditText editTextLocation;
+    private EditText editTextDayOfWeek;
     private EditText editTextPeriod;
     private EditText editTextTeacher;
 
-    private String currentClassID;
-//    private String currentClassName;
+    Course course;
 
     private String TAG = "AdminEditClassTimeTableActivityLog";
+
+    public String getCurrentClassName() {
+        return currentClassName;
+    }
+
+    public String getCurrentClassID() {
+        return currentClassID;
+    }
+
+    public void setCurrentClassName(String currentClassName) {
+        this.currentClassName = currentClassName;
+    }
+
+    public void setCurrentClassID(String currentClassID) {
+        this.currentClassID = currentClassID;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_edit_class_time_table);
 
-        editTextSubject = (EditText) findViewById(R.id.editText_subject);
-        editTextDayOfWeek = (EditText) findViewById(R.id.editText_day_of_week);
-        editTextLocation = (EditText) findViewById(R.id.editText_location);
-        editTextPeriod = (EditText) findViewById(R.id.editText_period);
-        editTextTeacher = (EditText) findViewById(R.id.editText_teacher);
+        Log.d(TAG, "onCreate");
+        course = new Course();
 
-        saveButton = (TextView) findViewById(R.id.save_button);
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        if (bundle != null) {
+            String currClassName = (String) bundle.get("ClickedClassName");
+            String currClassID = (String) bundle.get("ClickedClassID");
+            setCurrentClassName(currClassName);
+            setCurrentClassID(currClassID);
+            Log.d(TAG, getCurrentClassName());
+            Log.d(TAG, getCurrentClassID());
+        }
+
+        editTextSubject = (EditText) findViewById(R.id.edit_class_ttb_edit_text_subject);
+        editTextLocation = (EditText) findViewById(R.id.edit_class_ttb_edit_text_location);
+        editTextDayOfWeek = (EditText) findViewById(R.id.edit_class_ttb_edit_text_day_of_week);
+        editTextPeriod = (EditText) findViewById(R.id.edit_class_ttb_edit_text_period);
+        editTextTeacher = (EditText) findViewById(R.id.edit_class_ttb_edit_text_teacher);
+
+        saveButton = (TextView) findViewById(R.id.edit_class_ttb_save_button);
         saveButton.setOnClickListener(this);
 
-        String currentClassName = AdminManageListOfClassesActivity.getClickedClassName();
-
-        DatabaseReference classesRef = FirebaseDatabase.getInstance().getReference("Classes");
-        classesRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot child: snapshot.getChildren()) {
-
-                    String childNameValue = child.child("Name").getValue().toString().trim();
-//                    Message.showMessage(getApplicationContext(),childNameValue);
-
-                    if (childNameValue.equals(currentClassName)) {
-//                        Message.showMessage(getApplicationContext(),"Yeahhhhhh");
-                        currentClassID = child.getKey();
-//                        Message.showMessage(getApplicationContext(),getClickedClassID());
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+//        DatabaseReference classesRef = FirebaseDatabase.getInstance().getReference("Classes");
+//        classesRef.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                for (DataSnapshot child: snapshot.getChildren()) {
+//
+//                    String childNameValue = child.child("Name").getValue().toString().trim();
+//
+//                    if (childNameValue.equals(currentClassName)) {
+//                        currentClassID = child.getKey();
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
 
     } // onCreate
 
     @Override
     protected void onStart() {
         super.onStart();
-
         Log.d(TAG,"onStart");
-
     }
 
     @Override
@@ -119,7 +146,7 @@ public class AdminEditClassTimeTableActivity extends AppCompatActivity implement
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.save_button:
+            case R.id.edit_class_ttb_save_button:
                 saveInfoAndLeave();
                 break;
         }
@@ -127,49 +154,73 @@ public class AdminEditClassTimeTableActivity extends AppCompatActivity implement
 
     private void saveInfoAndLeave() {
         String subject = editTextSubject.getText().toString().trim();
+        String location = editTextLocation.getText().toString().trim();
         String dayOfWeek = editTextDayOfWeek.getText().toString().trim();
         String period = editTextPeriod.getText().toString().trim();
-        String location = editTextLocation.getText().toString().trim();
         String teacher = editTextTeacher.getText().toString().trim();
 
         if(subject.isEmpty()) {
-            editTextSubject.setError("Please enter subject.");
+            editTextSubject.setError("Please enter a subject.");
             editTextSubject.requestFocus();
             return;
         }
-        if(dayOfWeek.isEmpty()) {
-            editTextDayOfWeek.setError("Please enter day of week.");
-            editTextDayOfWeek.requestFocus();
-            return;
-        }
+
         if(location.isEmpty()) {
-            editTextLocation.setError("Please enter course location.");
+            editTextLocation.setError("Please enter a course location.");
             editTextLocation.requestFocus();
             return;
         }
+
+        if(dayOfWeek.isEmpty()) {
+            editTextDayOfWeek.setError("Please enter a day of week.");
+            editTextDayOfWeek.requestFocus();
+            return;
+        }
+
         if(period.isEmpty()) {
-            editTextPeriod.setError("Please enter period.");
+            editTextPeriod.setError("Please enter a period.");
             editTextPeriod.requestFocus();
             return;
         }
+
         if(teacher.isEmpty()) {
-            editTextTeacher.setError("Please enter teacher's name.");
+            editTextTeacher.setError("Please enter a teacher's name.");
             editTextTeacher.requestFocus();
             return;
         }
-        Course course = new Course(subject, dayOfWeek, period, location, teacher);
+
+//        Course course = new Course(subject, location, dayOfWeek, period, teacher);
         String courseID = dayOfWeek + period;
 
-        DatabaseReference courseIDRef = FirebaseDatabase.getInstance().getReference().child("Classes").child(currentClassID).child("Timetable").child(courseID);
-        courseIDRef.child("Subject").setValue(subject);
-        courseIDRef.child("DayOfWeek").setValue(dayOfWeek);
-        courseIDRef.child("Period").setValue(period);
-        courseIDRef.child("Location").setValue(location);
-        courseIDRef.child("Teacher").setValue(teacher);
-        Message.showMessage(getApplicationContext(), "Course info saved successfully.");
-        Intent intent = new Intent(getApplicationContext(), AdminManageClassTimetableActivity.class);
-        startActivity(intent);
-        finish();
+        course.setSubject(subject);
+        course.setLocation(location);
+        course.setDayOfWeek(dayOfWeek);
+        course.setPeriod(period);
+        course.setTeacher(teacher);
 
+        DatabaseReference courseIDRef = FirebaseDatabase.getInstance().getReference().child("Classes").child(currentClassID).child("Timetable").child(courseID);
+        courseIDRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                courseIDRef.setValue(course);
+                Message.showMessage(getApplicationContext(), "Course info saved successfully.");
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Message.showMessage(getApplicationContext(), "Failed to save course info.");
+            }
+        });
+            Log.wtf(TAG,"wtff");
+//        courseIDRef.child("Subject").setValue(subject);
+//        courseIDRef.child("DayOfWeek").setValue(dayOfWeek);
+//        courseIDRef.child("Period").setValue(period);
+//        courseIDRef.child("Location").setValue(location);
+//        courseIDRef.child("Teacher").setValue(teacher);
+//        Message.showMessage(getApplicationContext(), "Course info saved successfully.");
+        Intent intent = new Intent(getApplicationContext(), AdminManageClassTimetableActivity.class);
+//        intent.putExtra("ClickedClassName", getCurrentClassName());
+//        intent.putExtra("ClickedClassID", getCurrentClassID());
+        startActivity(intent);
     }
 }

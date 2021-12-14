@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -59,6 +60,9 @@ public class AdminAddNewClassActivity extends AppCompatActivity implements View.
 
     private Button addNewClassButton;
 
+    private String TAG = "AdminAddNewClassActivityLog";
+
+
 
 //    AlertDialog.Builder builder = new AlertDialog.Builder();
 
@@ -80,7 +84,7 @@ public class AdminAddNewClassActivity extends AppCompatActivity implements View.
         addNewClassButton = findViewById(R.id.add_new_class_button);
         addNewClassButton.setOnClickListener(this);
 
-        }
+    }
 
 
     @Override
@@ -93,6 +97,30 @@ public class AdminAddNewClassActivity extends AppCompatActivity implements View.
                 multipleCheckStudents();
                 break;
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d(TAG,"onStart");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG,"onResume");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(TAG,"onPause");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(TAG,"onStop");
     }
     public void addNewClass() {
 //        String txt_ID = editClassID.getText().toString().trim();

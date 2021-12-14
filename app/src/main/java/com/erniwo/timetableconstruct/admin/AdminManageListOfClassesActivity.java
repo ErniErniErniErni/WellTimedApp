@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -32,6 +33,8 @@ public class AdminManageListOfClassesActivity extends AppCompatActivity implemen
     private Button addClass;
     private static String clickedClassName;
     private static String clickedClassID;
+
+    private String TAG = "AdminManageListOfClassesActivityLog";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,55 +76,67 @@ public class AdminManageListOfClassesActivity extends AppCompatActivity implemen
 
             }
         });
+    } // onCreate
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d(TAG,"onStart");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG,"onResume");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(TAG,"onPause");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(TAG,"onStop");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG,"onDestroy");
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//        clickedClassName = parent.getItemAtPosition(position).toString();
-        clickedClassName = ((TextView) view).getText().toString().trim();
+        String clickClassName = ((TextView) view).getText().toString().trim();
+        Log.d(TAG, clickClassName); // this step is logged
 
-        modifyClickedClassID();
+        setClickedClassName(clickClassName);
+        Log.d(TAG, getClickedClassName()); // this step is logged
 
-        Intent in1 = new Intent(AdminManageListOfClassesActivity.this, AdminManageClassTimetableActivity.class);
-
-        String clickedClassName = getClickedClassName();
-        in1.putExtra("ClickedClassName", clickedClassName);
-        startActivity(in1);
-
-
-        //for testing
-//        Message.showMessage(getApplicationContext(),getClickedClassName());
-//        Message.showMessage(getApplicationContext(),getClickedClassID());
-    }
-
-    public static String getClickedClassName() {
-        return clickedClassName;
-    }
-
-    public static String getClickedClassID() {
-        return clickedClassID;
-    }
-
-    public void setClickedClassID(String clickedClassID) {
-        this.clickedClassID = clickedClassID;
-    }
-
-    public void modifyClickedClassID() {
         DatabaseReference classesRef = FirebaseDatabase.getInstance().getReference("Classes");
         classesRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot child: snapshot.getChildren()) {
 
-
                     String childNameValue = child.child("Name").getValue().toString().trim();
-//                    Message.showMessage(getApplicationContext(),childNameValue);
-
-
+                    Log.d(TAG, childNameValue);
                     if (childNameValue.equals(getClickedClassName())) {
-//                        Message.showMessage(getApplicationContext(),"Yeahhhhhh");
-                        setClickedClassID(child.getKey());
-//                        Message.showMessage(getApplicationContext(),getClickedClassID());
+                        String classID = child.getKey().trim();
+                        Log.d(TAG, "childNameValue = " + classID);
+                        setClickedClassID(classID);
+                        Log.d(TAG, "clickedCLassID = " + getClickedClassID());
+                        Intent in1 = new Intent(AdminManageListOfClassesActivity.this, AdminManageClassTimetableActivity.class);
+                        String clickedClassName = getClickedClassName();
+                        String clickedClassID = getClickedClassID();
+                        Log.d(TAG, getClickedClassID());
+                        in1.putExtra("ClickedClassName", clickedClassName);
+                        in1.putExtra("ClickedClassID", clickedClassID);
+                        startActivity(in1);
+
                     }
                 }
             }
@@ -131,6 +146,22 @@ public class AdminManageListOfClassesActivity extends AppCompatActivity implemen
 
             }
         });
+    }
+
+    public String getClickedClassName() {
+        return clickedClassName;
+    }
+
+    public void setClickedClassName(String clickedClassName) {
+        this.clickedClassName = clickedClassName;
+    }
+
+    public String getClickedClassID() {
+        return clickedClassID;
+    }
+
+    public void setClickedClassID(String clickedClassID) {
+        this.clickedClassID = clickedClassID;
     }
 }
 

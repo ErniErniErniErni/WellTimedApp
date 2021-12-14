@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -18,8 +19,10 @@ public class AdminMainActivity extends AppCompatActivity implements View.OnClick
 
     private Button viewClassTimetable;
     private Button viewTeacherTimetable;
-    private Button exportTimetable;
     private ImageView logout;
+
+    private String TAG = "AdminMainActivityLog";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +37,36 @@ public class AdminMainActivity extends AppCompatActivity implements View.OnClick
 
         logout = findViewById(R.id.logout_icon);
         logout.setOnClickListener(this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d(TAG,"onStart");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG,"onResume");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(TAG,"onPause");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(TAG,"onStop");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG,"onDestroy");
     }
 
     @Override
