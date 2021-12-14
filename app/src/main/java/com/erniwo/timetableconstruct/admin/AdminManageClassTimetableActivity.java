@@ -199,10 +199,10 @@ public class AdminManageClassTimetableActivity extends AppCompatActivity {
         //Pull timetable from backend
         try {
             String classID = getCurrentClassID();
-            DatabaseReference ref2 = FirebaseDatabase.getInstance().getReference("Classes")
+            DatabaseReference refClasses = FirebaseDatabase.getInstance().getReference("Classes")
                     .child(classID)
                     .child("Timetable");
-            ref2.addValueEventListener(new ValueEventListener() {
+            refClasses.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot2) {
                     for (DataSnapshot child2 : snapshot2.getChildren()) {
@@ -212,11 +212,26 @@ public class AdminManageClassTimetableActivity extends AppCompatActivity {
                         String location = child2.child("location").getValue().toString();
     //                        String period = child2.child("Period").getValue().toString();
     //                        String dayOfWeek = child2.child("DayOfWeek").getValue().toString();
-                        String teacher = child2.child("teacher").getValue().toString();
+                        String teacherid = child2.child("idnumber").getValue().toString();
 
-                        String textOnCourseCard = subject + "\n" + location + "\n" + teacher;
-                        tryButton.setText(textOnCourseCard);
-                        tryButton.setVisibility(View.VISIBLE);
+                        DatabaseReference refTeachers = FirebaseDatabase.getInstance()
+                                .getReference("Teachers");
+                        refTeachers.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                String teacherName = snapshot.child(teacherid)
+                                        .getValue().toString().trim();
+                                String textOnCourseCard = subject + "\n" + location + "\n" + teacherName;
+                                tryButton.setText(textOnCourseCard);
+                                tryButton.setVisibility(View.VISIBLE);
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+
                     }
                 }
 

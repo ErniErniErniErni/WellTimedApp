@@ -7,11 +7,8 @@ public class Course implements Cloneable, Comparable<Course>{
     private String subject;//subject name
     private String location;
     private String dayOfWeek;//value between 1-7
-    private String period;//1-8
-    private String teacher;
-
-//    private int classLength = 0;//课程时长
-//    private int classStart = -1;//课程开始节数
+    private String period; //value between1-9
+    private String IDNumber; // teacher's ID
 
     public Course() {
 
@@ -20,13 +17,6 @@ public class Course implements Cloneable, Comparable<Course>{
 
     }
 
-//    public int getClassStart() {
-//        return classStart;
-//    }
-//
-//    public void setClassStart(int classStart) {
-//        this.classStart = classStart;
-//    }
     public String getPeriod() {return period;}
 
     public void setPeriod(String period) {this.period = period;}
@@ -47,18 +37,6 @@ public class Course implements Cloneable, Comparable<Course>{
         this.location = location;
     }
 
-//    public int getClassLength() {
-//        return classLength;
-//    }
-
-//    public void setClassLength(int classLength) {
-//        if (classLength <= 0)
-//            classLength = 1;
-//        else if (classLength > 12)
-//            classLength = 12;
-//        this.classLength = classLength;
-//    }
-
     public String getSubject() {
         return subject;
     }
@@ -67,12 +45,12 @@ public class Course implements Cloneable, Comparable<Course>{
         this.subject = subject;
     }
 
-    public String getTeacher() {
-        return teacher;
+    public String getIDNumber() {
+        return IDNumber;
     }
 
-    public void setTeacher(String teacher) {
-        this.teacher = teacher;
+    public void setIDNumber(String IDNumber) {
+        this.IDNumber = IDNumber;
     }
 
     @NonNull

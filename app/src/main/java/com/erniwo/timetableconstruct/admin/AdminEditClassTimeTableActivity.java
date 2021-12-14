@@ -34,7 +34,7 @@ public class AdminEditClassTimeTableActivity extends AppCompatActivity implement
     private EditText editTextLocation;
     private AutoCompleteTextView editTextDayOfWeek;
     private AutoCompleteTextView editTextPeriod;
-    private AutoCompleteTextView editTextTeacher;
+    private AutoCompleteTextView editTextTeacherID;
 
     Course course;
 
@@ -80,7 +80,7 @@ public class AdminEditClassTimeTableActivity extends AppCompatActivity implement
         editTextLocation = (EditText) findViewById(R.id.edit_class_ttb_edit_text_location);
         editTextDayOfWeek = (AutoCompleteTextView) findViewById(R.id.edit_class_ttb_edit_text_day_of_week);
         editTextPeriod = (AutoCompleteTextView) findViewById(R.id.edit_class_ttb_edit_text_period);
-        editTextTeacher = (AutoCompleteTextView) findViewById(R.id.edit_class_ttb_edit_text_teacher);
+        editTextTeacherID = (AutoCompleteTextView) findViewById(R.id.edit_class_ttb_edit_text_teacher);
         saveButton = (Button) findViewById(R.id.edit_add_new_class_button);
         saveButton.setOnClickListener(this);
 
@@ -97,31 +97,30 @@ public class AdminEditClassTimeTableActivity extends AppCompatActivity implement
         editTextPeriod.setAdapter(arrayAdapterPeriod);
 
         // adapt array to select Teacher
-        ArrayList<String> teacherNameArray = new ArrayList<>();
-        ArrayAdapter arrayAdapterTeachers = new ArrayAdapter<String>(this,
-                R.layout.activity_listview, teacherNameArray);
-        editTextTeacher.setAdapter(arrayAdapterTeachers);
+        ArrayList<String> teacherIDArray = new ArrayList<>();
+        ArrayAdapter arrayAdapterTeachersID = new ArrayAdapter<String>(this,
+                R.layout.activity_listview, teacherIDArray);
+        editTextTeacherID.setAdapter(arrayAdapterTeachersID);
 
         DatabaseReference classInfoRef = FirebaseDatabase.getInstance().getReference().child("Users");
         classInfoRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                teacherNameArray.clear();
+                teacherIDArray.clear();
 
                 for (DataSnapshot child : snapshot.getChildren()) {
                     String userType = child.child("type").getValue().toString();
                     if (userType.equals("teacher")) {
                         try {
                             String teacherID = child.child("IDNumber").getValue().toString();
-                            teacherNameArray.add(teacherID);
+                            teacherIDArray.add(teacherID);
                         } catch (NullPointerException e) {
                             Log.e(TAG, "IDNumber Null");
                         }
                     }
                 }
-                arrayAdapterTeachers.notifyDataSetChanged();
-
+                arrayAdapterTeachersID.notifyDataSetChanged();
             }
 
             @Override
@@ -175,7 +174,7 @@ public class AdminEditClassTimeTableActivity extends AppCompatActivity implement
         String location = editTextLocation.getText().toString().trim();
         String dayOfWeek = editTextDayOfWeek.getText().toString().trim();
         String period = editTextPeriod.getText().toString().trim();
-        String teacher = editTextTeacher.getText().toString().trim();
+        String IDNumber = editTextTeacherID.getText().toString().trim();
 
         if(subject.isEmpty()) {
             editTextSubject.setError("Please enter a subject.");
@@ -201,9 +200,9 @@ public class AdminEditClassTimeTableActivity extends AppCompatActivity implement
             return;
         }
 
-        if(teacher.isEmpty()) {
-            editTextTeacher.setError("Please enter a teacher's name.");
-            editTextTeacher.requestFocus();
+        if(IDNumber.isEmpty()) {
+            editTextTeacherID.setError("Please enter a teacher's name.");
+            editTextTeacherID.requestFocus();
             return;
         }
 
@@ -213,7 +212,7 @@ public class AdminEditClassTimeTableActivity extends AppCompatActivity implement
         course.setLocation(location);
         course.setDayOfWeek(dayOfWeek);
         course.setPeriod(period);
-        course.setTeacher(teacher);
+        course.setIDNumber(IDNumber);
 
         DatabaseReference courseIDRef = FirebaseDatabase.getInstance().getReference().child("Classes").child(currentClassID).child("Timetable").child(courseID);
         courseIDRef.addValueEventListener(new ValueEventListener() {
