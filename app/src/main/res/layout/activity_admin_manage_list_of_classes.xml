@@ -18,10 +18,20 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 
+    <TextView
+        android:id="@+id/above_item_list"
+        android:layout_width="@dimen/edit_text_width"
+        android:layout_height="@dimen/edit_text_height"
+        android:layout_marginTop="15dp"
+        android:layout_gravity="center"
+        android:text="Click to view the timetables of these classes:"
+        android:textAlignment="center"
+        android:textSize="@dimen/text_size_small_medium"/>
+
     <ListView
         android:id="@+id/list_of_classes"
         android:layout_gravity="center"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:layout_width="@dimen/edit_text_width"
         android:layout_height="match_parent"/>
 

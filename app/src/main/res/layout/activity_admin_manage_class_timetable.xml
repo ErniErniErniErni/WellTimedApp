@@ -9,7 +9,7 @@
 
     <!--header-->
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+        android:id="@+id/title_bar"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="?attr/colorPrimary"
@@ -170,7 +170,7 @@
 
                     <!--periods-->
                     <LinearLayout
-                        android:id="@+id/ll_header_class_num"
+                        android:id="@+id/header_class_num"
                         android:layout_width="35dp"
                         android:layout_height="840dp"
                         android:background="#ddbea9"

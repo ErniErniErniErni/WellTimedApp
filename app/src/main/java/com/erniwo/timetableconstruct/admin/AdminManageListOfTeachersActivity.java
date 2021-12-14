@@ -33,15 +33,7 @@ public class AdminManageListOfTeachersActivity extends AppCompatActivity impleme
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_manage_list_of_teachers);
 
-        listOfTeachers = findViewById(R.id.ListOfTeachers);
-        addNewTeacher = findViewById(R.id.add_teacher);
-        addNewTeacher.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent in2 = new Intent(AdminManageListOfTeachersActivity.this, AdminAddNewTeacherActivity.class);
-                startActivity(in2);
-            }
-        });
+        listOfTeachers = findViewById(R.id.list_of_teachers);
 
         ArrayList<String> teacherNameArray = new ArrayList<>();
         ArrayAdapter adapter = new ArrayAdapter<String>(this,

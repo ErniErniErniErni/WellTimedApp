@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -19,18 +22,19 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+
 public class AdminEditClassTimeTableActivity extends AppCompatActivity implements View.OnClickListener{
 
     private String currentClassID;
     private String currentClassName;
 
-    private TextView saveButton;
-
+    private Button saveButton;
     private EditText editTextSubject;
     private EditText editTextLocation;
-    private EditText editTextDayOfWeek;
-    private EditText editTextPeriod;
-    private EditText editTextTeacher;
+    private AutoCompleteTextView editTextDayOfWeek;
+    private AutoCompleteTextView editTextPeriod;
+    private AutoCompleteTextView editTextTeacher;
 
     Course course;
 
@@ -71,15 +75,60 @@ public class AdminEditClassTimeTableActivity extends AppCompatActivity implement
             Log.d(TAG, getCurrentClassID());
         }
 
+        // init elements
         editTextSubject = (EditText) findViewById(R.id.edit_class_ttb_edit_text_subject);
         editTextLocation = (EditText) findViewById(R.id.edit_class_ttb_edit_text_location);
-        editTextDayOfWeek = (EditText) findViewById(R.id.edit_class_ttb_edit_text_day_of_week);
-        editTextPeriod = (EditText) findViewById(R.id.edit_class_ttb_edit_text_period);
-        editTextTeacher = (EditText) findViewById(R.id.edit_class_ttb_edit_text_teacher);
-
-        saveButton = (TextView) findViewById(R.id.edit_class_ttb_save_button);
+        editTextDayOfWeek = (AutoCompleteTextView) findViewById(R.id.edit_class_ttb_edit_text_day_of_week);
+        editTextPeriod = (AutoCompleteTextView) findViewById(R.id.edit_class_ttb_edit_text_period);
+        editTextTeacher = (AutoCompleteTextView) findViewById(R.id.edit_class_ttb_edit_text_teacher);
+        saveButton = (Button) findViewById(R.id.edit_add_new_class_button);
         saveButton.setOnClickListener(this);
 
+        // adapt array to select Day of Week
+        String[] listOfDaysOfWeek = getResources().getStringArray(R.array.select_day_of_week);
+        ArrayAdapter arrayAdapterDaysOfWeek = new ArrayAdapter(getApplicationContext(),
+                R.layout.dropdown_item,listOfDaysOfWeek);
+        editTextDayOfWeek.setAdapter(arrayAdapterDaysOfWeek);
+
+        // adapt array to select Period of Day
+        String[] listOfPeriods = getResources().getStringArray(R.array.select_period_of_day);
+        ArrayAdapter arrayAdapterPeriod = new ArrayAdapter(getApplicationContext(),
+                R.layout.dropdown_item,listOfPeriods);
+        editTextPeriod.setAdapter(arrayAdapterPeriod);
+
+        // adapt array to select Teacher
+        ArrayList<String> teacherNameArray = new ArrayList<>();
+        ArrayAdapter arrayAdapterTeachers = new ArrayAdapter<String>(this,
+                R.layout.activity_listview, teacherNameArray);
+        editTextTeacher.setAdapter(arrayAdapterTeachers);
+
+        DatabaseReference classInfoRef = FirebaseDatabase.getInstance().getReference().child("Users");
+        classInfoRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                teacherNameArray.clear();
+
+                for (DataSnapshot child : snapshot.getChildren()) {
+                    String userType = child.child("type").getValue().toString();
+                    if (userType.equals("teacher")) {
+                        try {
+                            String teacherID = child.child("IDNumber").getValue().toString();
+                            teacherNameArray.add(teacherID);
+                        } catch (NullPointerException e) {
+                            Log.e(TAG, "IDNumber Null");
+                        }
+                    }
+                }
+                arrayAdapterTeachers.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     } // onCreate
 
     @Override
@@ -115,7 +164,7 @@ public class AdminEditClassTimeTableActivity extends AppCompatActivity implement
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.edit_class_ttb_save_button:
+            case R.id.edit_add_new_class_button:
                 saveInfoAndLeave();
                 break;
         }

@@ -1,10 +1,5 @@
 package com.erniwo.timetableconstruct.admin;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,10 +11,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.erniwo.timetableconstruct.Message;
 import com.erniwo.timetableconstruct.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -28,7 +25,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -36,14 +32,11 @@ public class AdminAddNewClassActivity extends AppCompatActivity implements View.
 
     AutoCompleteTextView selectGradeTextView;
     EditText classNumEditText;
-
     TextView selectStudentsArrowDown;
     boolean[] selectedStudent;
-
     ArrayList<Integer> studentList = new ArrayList<>(); // off
     ArrayList<String> studentListList = new ArrayList<>();
     static String[] studentArray = new String[1000];
-
     private Button addNewClassButton;
 
     private String TAG = "AdminAddNewClassActivityLog";
@@ -53,20 +46,24 @@ public class AdminAddNewClassActivity extends AppCompatActivity implements View.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_add_new_class);
 
+        Log.d(TAG, "onCreate");
 
+        // init elements
+        selectGradeTextView = (AutoCompleteTextView) findViewById(R.id.select_edit_text_grade_num);
+        classNumEditText = findViewById(R.id.select_edit_text_class_num);
+        selectStudentsArrowDown = findViewById(R.id.select_student_num);
+        addNewClassButton = findViewById(R.id.add_new_class_button);
+
+        // init onClickListener
+        selectStudentsArrowDown.setOnClickListener(this);
+        addNewClassButton.setOnClickListener(this);
+
+        // adapt array to select Grade
         String[] listOfGradeNum = getResources().getStringArray(R.array.select_grades);
         ArrayAdapter arrayAdapterGrade = new ArrayAdapter(getApplicationContext(),R.layout.dropdown_item, listOfGradeNum);
-        selectGradeTextView = (AutoCompleteTextView) findViewById(R.id.select_edit_text_grade_num);
         selectGradeTextView.setAdapter(arrayAdapterGrade);
 
-        classNumEditText = findViewById(R.id.select_edit_text_class_num);
-
-        selectStudentsArrowDown = findViewById(R.id.select_student_num);
-        selectStudentsArrowDown.setOnClickListener(this);
         selectedStudent = new boolean[studentArray.length];
-
-        addNewClassButton = findViewById(R.id.add_new_class_button);
-        addNewClassButton.setOnClickListener(this);
 
     }
 
@@ -192,7 +189,7 @@ public class AdminAddNewClassActivity extends AppCompatActivity implements View.
                     studentArray[q] = studentListList.get(q);
                 }
                 if (studentArray == null) {
-                    Message.showMessage(getApplicationContext(), "Array Null!");
+                    Log.d(TAG, "Array Null!");
                     return;
                 }
 
@@ -268,8 +265,6 @@ public class AdminAddNewClassActivity extends AppCompatActivity implements View.
                         }
                     }
                 });
-                Message.showMessage(getApplicationContext(), "Almost");
-//                return;
                 //Show dialog
                 builder.show();
             }

@@ -7,28 +7,12 @@
     android:id="@+id/layout_sign_up"
     tools:context=".login.SignUpActivity">
 
-    <TextView
-        android:id="@+id/edit_class_ttb_save_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="50dp"
-        android:layout_marginTop="16dp"
-        android:fontFamily="sans-serif"
-        android:text="Save"
-        android:textAlignment="textEnd"
-        android:textSize="@dimen/text_size_medium"
-        android:textStyle="bold"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <com.google.android.material.textfield.TextInputLayout
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:id="@+id/edit_class_ttb_subject"
         android:layout_width="@dimen/edit_text_width"
         android:layout_height="@dimen/edit_text_height"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="40dp"
         android:ems="10"
         android:fontFamily="sans-serif"
         android:hint="@string/hint_subject"
@@ -38,7 +22,7 @@
         app:endIconMode="clear_text"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_class_ttb_save_button">
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edit_class_ttb_edit_text_subject"
@@ -72,31 +56,29 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:id="@+id/edit_class_ttb_day_of_week"
         android:layout_width="@dimen/edit_text_width"
         android:layout_height="@dimen/edit_text_height"
         android:layout_marginTop="20dp"
         android:ems="10"
         android:fontFamily="sans-serif"
-        android:hint="@string/hint_day_of_week"
         android:textSize="@dimen/text_size_medium"
-        app:placeholderText="@string/placeholder_day_of_week"
-        app:endIconMode="clear_text"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edit_class_ttb_location">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <AutoCompleteTextView
             android:id="@+id/edit_class_ttb_edit_text_day_of_week"
+            android:hint="@string/hint_day_of_week"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:inputType="text">
-        </com.google.android.material.textfield.TextInputEditText>
+            android:inputType="none">
+        </AutoCompleteTextView>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:id="@+id/edit_class_ttb_period"
         android:layout_width="@dimen/edit_text_width"
         android:layout_height="@dimen/edit_text_height"
@@ -105,22 +87,20 @@
         android:fontFamily="sans-serif"
         android:hint="@string/hint_period"
         android:textSize="@dimen/text_size_medium"
-        app:placeholderText="@string/placeholder_period"
-        app:endIconMode="clear_text"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edit_class_ttb_day_of_week">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <AutoCompleteTextView
             android:id="@+id/edit_class_ttb_edit_text_period"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="text">
-        </com.google.android.material.textfield.TextInputEditText>
+        </AutoCompleteTextView>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:id="@+id/edit_class_ttb_teacher"
         android:layout_width="@dimen/edit_text_width"
         android:layout_height="@dimen/edit_text_height"
@@ -129,18 +109,26 @@
         android:fontFamily="sans-serif"
         android:hint="@string/hint_teacher"
         android:textSize="@dimen/text_size_medium"
-        app:placeholderText="@string/placeholder_teacher"
-        app:endIconMode="clear_text"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edit_class_ttb_period">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <AutoCompleteTextView
             android:id="@+id/edit_class_ttb_edit_text_teacher"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:inputType="text">
-        </com.google.android.material.textfield.TextInputEditText>
+            android:inputType="none">
+        </AutoCompleteTextView>
     </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/edit_add_new_class_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="Save"
+        app:layout_constraintTop_toBottomOf="@+id/edit_class_ttb_teacher"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

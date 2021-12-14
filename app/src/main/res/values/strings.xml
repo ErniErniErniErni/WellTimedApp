@@ -32,16 +32,38 @@
     <string name="hint_location">Location</string>
     <string name="hint_day_of_week">Day of Week</string>
     <string name="hint_period">Period of the day</string>
-    <string name="hint_teacher">Teacher Name</string>
+    <string name="hint_teacher">Select Teacher\'s ID</string>
 
     <string name="placeholder_subject">e.g.: Math</string>
     <string name="placeholder_location">e.g.: Room 5</string>
-    <string name="placeholder_day_of_week">Range: 1 - 7</string>
-    <string name="placeholder_period">Range: 1 - 9</string>
+<!--    <string name="placeholder_day_of_week">Range: 1 - 7</string>-->
+<!--    <string name="placeholder_period">Range: 1 - 9</string>-->
     <string name="placeholder_teacher">e.g.: Jane Smith</string>
 
+    <string-array name="select_day_of_week">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+    </string-array>
+
+    <string-array name="select_period_of_day">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+    </string-array>
+
     <!-- Activity: adminAddNewCLass-->
-    <string name="hint_select_grade">Enter Grade Number</string>
+    <string name="hint_select_grade">Select Grade Number</string>
     <string name="hint_select_class">Enter Class Number</string>
     <string name="hint_select_students">Select Student Numbers</string>
 
