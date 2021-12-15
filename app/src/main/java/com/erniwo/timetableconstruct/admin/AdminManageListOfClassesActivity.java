@@ -188,8 +188,12 @@ public class AdminManageListOfClassesActivity extends AppCompatActivity implemen
                         Log.d(TAG, getClickedClassID());
                         in1.putExtra("ClickedClassName", clickedClassName);
                         in1.putExtra("ClickedClassID", clickedClassID);
-                        startActivity(in1);
-
+                        try {
+                            startActivity(in1);
+                        } catch (NullPointerException ex) {
+                            Log.e(TAG, Log.getStackTraceString(null));
+                        }
+//                        startActivity(in1);
                     }
                 }
             }

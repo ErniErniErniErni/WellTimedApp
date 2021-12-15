@@ -15,6 +15,8 @@ import com.erniwo.timetableconstruct.R;
 import com.erniwo.timetableconstruct.login.LoginActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
+import org.slf4j.helpers.Util;
+
 public class AdminMainActivity extends AppCompatActivity implements View.OnClickListener{
 
     private Button viewClassTimetable;
@@ -73,6 +75,7 @@ public class AdminMainActivity extends AppCompatActivity implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.manage_class_timetable:
+
                 startActivity(new Intent(this, AdminManageListOfClassesActivity.class));
                 break;
             case R.id.manage_teacher_timetable:

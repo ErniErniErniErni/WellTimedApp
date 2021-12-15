@@ -1,0 +1,15 @@
+<Button
+    android:id="@+id/course_card_button"
+    android:background="@drawable/backgroud_lesson_card"
+    android:foregroundTint="@color/LightPeach"
+    android:layout_width="40dp"
+    android:layout_height="200dp"
+    android:layout_weight="1"
+    android:visibility="visible"
+    android:text="aa"
+    android:textSize="@dimen/timetable_course_card_font_size"
+    android:paddingRight="@dimen/spacing_zero"
+    android:paddingLeft="@dimen/spacing_zero"
+    android:paddingTop="@dimen/spacing_zero"
+    android:paddingBottom="@dimen/spacing_zero"
+    xmlns:android="http://schemas.android.com/apk/res/android"/>
