@@ -64,7 +64,7 @@ public class AdminManageClassTimetableActivity extends AppCompatActivity {
         addButton = (TextView) findViewById(R.id.add_button);
         frameLayoutLessonSection = (FrameLayout) findViewById(R.id.frame_layout_lesson_section);
 
-        pullExistingLessonsFromDatabaseAndInitLessonsOnTimetable();
+        pullExistingLessonsFromDatabaseAndInitLessonsOnTimetable2();
 
         nameOfClass.setText("Timetable of " + getCurrentClassName());
         addButton.setOnClickListener(new View.OnClickListener() {
@@ -130,6 +130,7 @@ public class AdminManageClassTimetableActivity extends AppCompatActivity {
                         String teacherid = child2.child("idnumber").getValue().toString();
                         String lessonKey = child2.getKey().trim();
                         Log.d(TAG, "Current lesson key: " + lessonKey);
+
                         lessonKeyList.add(lessonKey);
                         Log.d(TAG, "Added new lesson to List");
 
@@ -168,7 +169,7 @@ public class AdminManageClassTimetableActivity extends AppCompatActivity {
                                 inflatedButton.setPadding(0, 0, 0, 0);
                                 if (lessonKeyList.contains(currentLessonKey)) {
 
-                                    inflatedButton.setText("textOnCourseCard");
+                                    inflatedButton.setText("bb");
                                     inflatedButton.setVisibility(VISIBLE);
                                     Log.d(TAG, "Button set to VISIBLE");
                                     row.addView(inflatedButton, cellLp);
@@ -196,6 +197,139 @@ public class AdminManageClassTimetableActivity extends AppCompatActivity {
 
                 }
             });
+    }
+
+    private void pullExistingLessonsFromDatabaseAndInitLessonsOnTimetable2() {
+
+        LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        Context context = getApplicationContext();
+
+        TableLayout tableLayout = new TableLayout(context);
+        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT);
+        tableLayout.setLayoutParams(lp);
+        tableLayout.setStretchAllColumns(true);
+
+        TableLayout.LayoutParams rowLp = new TableLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                1.0f);
+        TableRow.LayoutParams cellLp = new TableRow.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                1.0f);
+//                        rowLp.bottomMargin = 2;
+        cellLp.topMargin = 4;
+        cellLp.leftMargin = 6;
+//                        cellLp.bottomMargin = 2;
+//                        cellLp.rightMargin = 2;
+
+        String classID = getCurrentClassID();
+
+        for (int r = 0; r < 9; ++r) {
+
+            TableRow row = new TableRow(context);
+
+            for (int c = 0; c < 7; ++c) {
+                Button btn = new Button(this);
+                btn.setText("A");
+                row.addView(btn, cellLp);
+
+
+//                String currentLessonKey = String.valueOf(r + 1) + String.valueOf(c + 1);
+//                Button inflatedButton = (Button) layoutInflater.inflate(R.layout.item_lesson_card, null);
+//                inflatedButton.setPadding(0, 0, 0, 0);
+//
+//                DatabaseReference refClasses = FirebaseDatabase.getInstance().getReference("Classes")
+//                        .child(classID)
+//                        .child("timetable");
+//                refClasses.addValueEventListener(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(@NonNull DataSnapshot snapshot2) {
+//                        for (DataSnapshot child2 : snapshot2.getChildren()) {
+//
+//
+//                        String subject = child2.child("subject").getValue().toString();
+//                        String location = child2.child("location").getValue().toString();
+//                        // String period = child2.child("Period").getValue().toString();
+//                        // String dayOfWeek = child2.child("DayOfWeek").getValue().toString();
+//                        String teacherid = child2.child("idnumber").getValue().toString();
+//                        String lessonKey = child2.getKey().trim();
+//                        Log.d(TAG, "Current lesson key: " + lessonKey);
+//
+//                        lessonKeyList.add(lessonKey);
+//                        Log.d(TAG, "Added new lesson to List");
+//
+////                    LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+////                    Context context = getApplicationContext();
+////
+////                    TableLayout tableLayout = new TableLayout(context);
+////                    FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
+////                            ViewGroup.LayoutParams.MATCH_PARENT,
+////                            ViewGroup.LayoutParams.MATCH_PARENT);
+////                    tableLayout.setLayoutParams(lp);
+////                    tableLayout.setStretchAllColumns(true);
+////
+////                    TableLayout.LayoutParams rowLp = new TableLayout.LayoutParams(
+////                            ViewGroup.LayoutParams.MATCH_PARENT,
+////                            ViewGroup.LayoutParams.MATCH_PARENT,
+////                            1.0f);
+////                    TableRow.LayoutParams cellLp = new TableRow.LayoutParams(
+////                            ViewGroup.LayoutParams.MATCH_PARENT,
+////                            ViewGroup.LayoutParams.MATCH_PARENT,
+////                            1.0f);
+//////                        rowLp.bottomMargin = 2;
+////                    cellLp.topMargin = 4;
+////                    cellLp.leftMargin = 6;
+//////                        cellLp.bottomMargin = 2;
+//////                        cellLp.rightMargin = 2;
+//
+////                    for (int r = 0; r < 9; ++r) {
+////
+////                        TableRow row = new TableRow(context);
+////
+////                        for (int c = 0; c < 7; ++c) {
+////
+////                            String currentLessonKey = String.valueOf(r + 1) + String.valueOf(c + 1);
+////                            Button inflatedButton = (Button) layoutInflater.inflate(R.layout.item_lesson_card, null);
+////                            inflatedButton.setPadding(0, 0, 0, 0);
+//                        if (lessonKeyList.contains(currentLessonKey)) {
+//
+//                            inflatedButton.setText("bb");
+//                            inflatedButton.setVisibility(VISIBLE);
+//                            Log.d(TAG, "Button set to VISIBLE");
+//                            row.addView(inflatedButton, cellLp);
+//                            Log.d(TAG, "Added cell to row, visible");
+//
+//
+//                        } else {
+//                            inflatedButton.setText("");
+//                            inflatedButton.setVisibility(VISIBLE);
+//                            Log.d(TAG, "Button set to INVISIBLE");
+//                            row.addView(inflatedButton, cellLp);
+//                            Log.d(TAG, "Added cell to row");
+//
+//                        }
+////                        }
+////                        tableLayout.addView(row, rowLp);
+////                        Log.d(TAG, "Added row to table");
+////                    }
+////                    frameLayoutLessonSection.addView(tableLayout);
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError error) {
+//
+//                    }
+//                });
+            }
+            tableLayout.addView(row, rowLp);
+            Log.d(TAG, "Added row to table");
+        }
+        frameLayoutLessonSection.addView(tableLayout);
+//        setContentView(tableLayout);
     }
 
 
