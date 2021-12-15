@@ -232,13 +232,15 @@ public class AdminManageClassTimetableActivity extends AppCompatActivity {
             TableRow row = new TableRow(context);
 
             for (int c = 0; c < 7; ++c) {
-                Button btn = new Button(this);
-                btn.setText("A");
+//                Button btn = new Button(this);
+                Button btn = (Button) layoutInflater.inflate(R.layout.item_lesson_card, null);
+//                Button inflatedButton = (Button) layoutInflater.inflate(R.layout.item_lesson_card, null);
+
+                String currentLessonKey = String.valueOf(r + 1) + String.valueOf(c + 1);
+                btn.setText(currentLessonKey);
                 row.addView(btn, cellLp);
 
 
-//                String currentLessonKey = String.valueOf(r + 1) + String.valueOf(c + 1);
-//                Button inflatedButton = (Button) layoutInflater.inflate(R.layout.item_lesson_card, null);
 //                inflatedButton.setPadding(0, 0, 0, 0);
 //
 //                DatabaseReference refClasses = FirebaseDatabase.getInstance().getReference("Classes")
