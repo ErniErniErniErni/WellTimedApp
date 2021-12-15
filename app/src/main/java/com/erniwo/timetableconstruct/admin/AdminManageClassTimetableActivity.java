@@ -28,6 +28,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 //public class AdminManageClassTimetableActivity extends AppCompatActivity implements View.OnClickListener {
 public class AdminManageClassTimetableActivity extends AppCompatActivity {
@@ -276,9 +278,10 @@ public class AdminManageClassTimetableActivity extends AppCompatActivity {
 
                         String currentLessonKey = String.valueOf(r + 1) + String.valueOf(c + 1);
 
-                        btn.setTextSize(50);
+                        btn.setTextSize(9);
 
                         String textOnLessonCard;
+                        Map<String,String> textOnLessonButtonMap = new HashMap<>();
                         for (DataSnapshot child: snapshot.getChildren()) {
                             try {
                                 String subject = child.child("subject").getValue().toString().trim();
@@ -289,21 +292,24 @@ public class AdminManageClassTimetableActivity extends AppCompatActivity {
                                 String lessonKey = child.getKey().trim();
                                 Log.d(TAG, "Current lesson key: " + lessonKey);
                                 textOnLessonCard = subject + "\n" + location + "\n" + teacherid;
+//                                String
                                 lessonKeyList.add(lessonKey);
+                                textOnLessonButtonMap.put(lessonKey,textOnLessonCard);
 
                             }catch (Exception e){
                                 Log.e(TAG, Log.getStackTraceString(e));
                             }
                         }
-
-
-
-
-                        if (lessonKeyList.contains(currentLessonKey)) {
-
-                            btn.setText(currentLessonKey);
+                        if (textOnLessonButtonMap.containsKey(currentLessonKey)) {
+                            String s = textOnLessonButtonMap.get(currentLessonKey);
+                            Log.d(TAG, "textOnLessonButton"+ s);
+                            btn.setText(s);
+                            Log.d(TAG, "Button text set");
                             btn.setVisibility(VISIBLE);
                             Log.d(TAG, "Button set to VISIBLE");
+                            if(row.getParent() != null) {
+                                ((ViewGroup)row.getParent()).removeView(row);
+                            }
                             row.addView(btn, cellLp);
                             Log.d(TAG, "Added cell to row, visible");
 
@@ -313,10 +319,35 @@ public class AdminManageClassTimetableActivity extends AppCompatActivity {
                             btn.setText(currentLessonKey);
                             btn.setVisibility(INVISIBLE);
                             Log.d(TAG, "Button set to INVISIBLE");
+                            if(row.getParent() != null) {
+                                ((ViewGroup)row.getParent()).removeView(row);
+                            }
                             row.addView(btn, cellLp);
                             Log.d(TAG, "Added cell to row");
 
                         }
+
+
+
+
+//                        if (lessonKeyList.contains(currentLessonKey)) {
+//
+//                            btn.setText(currentLessonKey);
+//                            btn.setVisibility(VISIBLE);
+//                            Log.d(TAG, "Button set to VISIBLE");
+//                            row.addView(btn, cellLp);
+//                            Log.d(TAG, "Added cell to row, visible");
+//
+//
+//                        } else {
+//
+//                            btn.setText(currentLessonKey);
+//                            btn.setVisibility(INVISIBLE);
+//                            Log.d(TAG, "Button set to INVISIBLE");
+//                            row.addView(btn, cellLp);
+//                            Log.d(TAG, "Added cell to row");
+//
+//                        }
 
 //                        if (lesson) {
 //                            row.addView(btn, cellLp);
