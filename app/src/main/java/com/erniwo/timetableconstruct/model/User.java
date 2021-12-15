@@ -4,16 +4,16 @@ public class User {
     public String name;
     public String email;
     public String type;
-    public String IDNumber;
+    public String idnumber;
 
     public User() {
 
     }
 
-    public User(String name, String email, String type, String IDNumber) {
+    public User(String name, String email, String type, String idnumber) {
         this.name = name;
         this.email = email;
         this.type = type;
-        this.IDNumber = IDNumber;
+        this.idnumber = idnumber;
     }
 }

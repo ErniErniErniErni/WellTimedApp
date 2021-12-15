@@ -1,10 +1,5 @@
 package com.erniwo.timetableconstruct.login;
 
-import static android.content.ContentValues.TAG;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,8 +12,15 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.erniwo.timetableconstruct.Admin;
 import com.erniwo.timetableconstruct.Message;
 import com.erniwo.timetableconstruct.R;
+import com.erniwo.timetableconstruct.model.Admini;
+import com.erniwo.timetableconstruct.model.Student;
+import com.erniwo.timetableconstruct.model.Teacher;
 import com.erniwo.timetableconstruct.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -26,9 +28,14 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.SignInMethodQueryResult;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
+import java.util.Locale;
 
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -44,6 +51,10 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     private RadioGroup radioGroup;
     private RadioButton radioButton;
 
+    Student student;
+    Teacher teacher;
+    Admini admin;
+
     private String TAG = "SignUpActivityLog";
 
     @Override
@@ -52,13 +63,16 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.activity_sign_up);
 
         Log.d(TAG, "onCreate");
+        student = new Student();
+        teacher = new Teacher();
+        admin = new Admini();
 
         header = (TextView) findViewById(R.id.header);
         header.setOnClickListener(this);
 
         editTextName = (EditText) findViewById(R.id.signup_edit_text_name);
         editTextEmail = (EditText) findViewById(R.id.signup_edit_text_email);
-        editTextPassword = (EditText) findViewById(R.id.signup_edit_text_email);
+        editTextPassword = (EditText) findViewById(R.id.signup_edit_text_password);
         editTestID = (EditText) findViewById(R.id.signup_edit_text_id);
 
         radioGroup = (RadioGroup) findViewById(R.id.signup_chooseRoleGroup);
@@ -122,9 +136,9 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
     private void signUpNewUser() {
         String name = editTextName.getText().toString().trim();
-        String email = editTextEmail.getText().toString().trim();
+        String email = editTextEmail.getText().toString().toLowerCase(Locale.ROOT).trim();
         String password = editTextPassword.getText().toString().trim();
-        String idNumber = editTestID.getText().toString().trim();
+        String idnumber = editTestID.getText().toString().trim();
         int checkedId = radioGroup.getCheckedRadioButtonId();
 
         if(name.isEmpty()) {
@@ -151,13 +165,13 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             return;
         }
 
-        if(idNumber.isEmpty()) {
+        if(idnumber.isEmpty()) {
             editTestID.setError("Please enter your ID Number");
             editTestID.requestFocus();
             return;
         }
 
-        if(idNumber.length() != 5) {
+        if(idnumber.length() != 5) {
             editTestID.setError("Please enter a valid ID Number with 5 characters!");
             editTestID.requestFocus();
             return;
@@ -207,9 +221,10 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                     public void onComplete(@NonNull Task<AuthResult> task) {
 
                         if(task.isSuccessful()) {
+                            Log.d(TAG, "createUserWithEmail:success");
                             onAuthSuccess(task.getResult().getUser());
 
-                            User user = new User(name, email, type, idNumber);
+                            User user = new User(name, email, type, idnumber);
 
                             FirebaseDatabase.getInstance().getReference("Users")
                                     .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
@@ -221,17 +236,65 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                                         Toast.makeText(SignUpActivity.this, "User signed up successfully.", Toast.LENGTH_LONG).show();
                                         progressBar.setVisibility(View.GONE);
 
-                                        FirebaseDatabase.getInstance().getReference("Teachers")
-                                                .child(idNumber).setValue(name).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                if(task.isSuccessful()) {
-                                                    Log.d(TAG, "Teacher info saved to 'Teachers'");
-                                                }else {
-                                                    Log.d(TAG, "Teacher info save failed.");
-                                                }
-                                            }
-                                        });
+                                        switch (type) {
+                                            case "student":
+                                                student.setEmail(email);
+                                                student.setName(name);
+                                                student.setIDNumber(idnumber);
+                                                student.setUid(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                                                DatabaseReference studentsRef = FirebaseDatabase.getInstance().getReference("Students")
+                                                        .child(idnumber);
+                                                studentsRef.addValueEventListener(new ValueEventListener() {
+                                                    @Override
+                                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                        studentsRef.setValue(student);
+                                                    }
+
+                                                    @Override
+                                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                                    }
+                                                });
+                                                break;
+                                            case "teacher":
+                                                teacher.setEmail(email);
+                                                teacher.setName(name);
+                                                teacher.setIDNumber(idnumber);
+                                                teacher.setUid(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                                                DatabaseReference teachersRef = FirebaseDatabase.getInstance().getReference("Teachers")
+                                                        .child(idnumber);
+                                                teachersRef.addValueEventListener(new ValueEventListener() {
+                                                    @Override
+                                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                        teachersRef.setValue(teacher);
+                                                    }
+
+                                                    @Override
+                                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                                    }
+                                                });
+                                                break;
+                                            case "admin":
+                                                admin.setEmail(email);
+                                                admin.setName(name);
+                                                admin.setIDNumber(idnumber);
+                                                admin.setUid(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                                                DatabaseReference adminsRef = FirebaseDatabase.getInstance().getReference("Admins")
+                                                        .child(idnumber);
+                                                adminsRef.addValueEventListener(new ValueEventListener() {
+                                                    @Override
+                                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                        adminsRef.setValue(admin);
+                                                    }
+
+                                                    @Override
+                                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                                    }
+                                                });
+                                                break;
+                                        }
 
                                         // log out to avoid automatically logging in immediately after signing up
                                         FirebaseAuth.getInstance().signOut();
@@ -247,6 +310,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                             });
 
                         }else{
+                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
                             Toast.makeText(SignUpActivity.this, "Failed to sign up.", Toast.LENGTH_LONG).show();
                             progressBar.setVisibility(View.GONE);
                         }

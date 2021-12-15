@@ -81,13 +81,14 @@ public class AdminAddNewTeacherActivity extends AppCompatActivity implements Vie
     }
 
     private void addNewTeacher() {
-        String txt_ID = editTeacherID.getText().toString().trim();
         String txt_Name = editTeacherName.getText().toString().trim();
-        if(txt_ID.isEmpty()) {
-            Message.showMessage(getApplicationContext(),"Please enter Teacher ID!");
-        }else if(txt_Name.isEmpty()) {
+
+        String txt_ID = editTeacherID.getText().toString().trim();
+        if(txt_Name.isEmpty()) {
             Message.showMessage(getApplicationContext(),"Please enter Teacher Name!");
-        }else {
+        }else if(txt_ID.isEmpty()) {
+            Message.showMessage(getApplicationContext(),"Please enter Teacher ID!");
+        }else{
             FirebaseDatabase.getInstance().getReference().child("Teachers").child(txt_ID).setValue(txt_Name);
             Message.showMessage(getApplicationContext(),"Added new teacher successfully!");
         }

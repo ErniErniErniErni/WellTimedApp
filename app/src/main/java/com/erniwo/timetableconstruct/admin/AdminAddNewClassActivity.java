@@ -171,10 +171,10 @@ public class AdminAddNewClassActivity extends AppCompatActivity implements View.
                     String userType = child.child("type").getValue().toString();
                     if (userType.equals("student")) {
                         try {
-                            String studentID = child.child("IDNumber").getValue().toString();
+                            String studentID = child.child("idnumber").getValue().toString();
                             studentListList.add(studentID);
                         }catch (NullPointerException e) {
-                            Log.e(TAG, "IDNumber Null");
+                            Log.e(TAG, "idnumber Null");
                         }
                     }
                 }

@@ -48,7 +48,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private View studentButton;
 
     private String TAG = "LoginActivityLog";
-    boolean isLoggedIn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,15 +73,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         login.setOnClickListener(this);
 
         firebaseAuth = FirebaseAuth.getInstance();
-
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            onAuthSuccessAutomatic(user);
-            Log.d(TAG, "AutoLogin");
-        }else {
-            Log.d(TAG, "No Current User");
-            return;
-        }
 
     }
 
@@ -142,9 +132,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()) {
+                    Log.d(TAG, "signInWithEmail:success");
                     onAuthSuccess(task.getResult().getUser());
                 }else {
-                    Message.showMessage(LoginActivity.this,"Failed to login.");
+                    Log.w(TAG, "signInWithEmail:failure", task.getException());
+                    Message.showMessage(LoginActivity.this,"Failed to Authenticate.");
                     progressBar.setVisibility((View.INVISIBLE));
                 }
             }
@@ -195,7 +187,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         progressBar.setVisibility((View.INVISIBLE));
                         finish();
                     }
-                    isLoggedIn = true;
                 }else{
                     progressBar.setVisibility((View.INVISIBLE));
                     Message.showMessage(getApplicationContext(),"Please choose a correct role!");
@@ -214,6 +205,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onStart() {
         super.onStart();
         Log.d(TAG,"onStart");
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            onAuthSuccessAutomatic(currentUser);
+            Log.d(TAG, "AutoLogin");
+        }else {
+            Log.d(TAG, "No Current User");
+            return;
+        }
     }
 
     @Override
@@ -232,7 +231,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onStop() {
         super.onStop();
         Log.d(TAG,"onStop");
-        isLoggedIn = false;
     }
 
     @Override
@@ -269,7 +267,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     progressBar.setVisibility((View.INVISIBLE));
                     finish();
                 }
-                isLoggedIn = true;
             }
 
             @Override

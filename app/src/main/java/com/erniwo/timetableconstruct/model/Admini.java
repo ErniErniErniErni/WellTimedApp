@@ -1,25 +1,25 @@
 package com.erniwo.timetableconstruct.model;
 
-public class Student {
+public class Admini {
 
     private String name;
     private String email;
     private String idnumber;
     private String uid;
 
-    public Student() {
+    public Admini() {
 
     }
-    public Student(String name, String email) {
+    public Admini(String name, String email) {
         this.name = name;
         this.email = email;
     }
-    public Student(String name, String email, String idnumber){
+    public Admini(String name, String email, String idnumber){
         this.name = name;
         this.email = email;
         this.idnumber = idnumber;
     }
-    public Student(String name, String email, String idnumber, String uid){
+    public Admini(String name, String email, String idnumber, String uid){
         this.name = name;
         this.email = email;
         this.idnumber = idnumber;
@@ -33,7 +33,7 @@ public class Student {
         return email;
     }
 
-    public String getidnumber() {
+    public String getIDNumber() {
         return idnumber;
     }
 

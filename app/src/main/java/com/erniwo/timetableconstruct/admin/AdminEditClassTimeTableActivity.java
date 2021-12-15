@@ -113,10 +113,10 @@ public class AdminEditClassTimeTableActivity extends AppCompatActivity implement
                     String userType = child.child("type").getValue().toString();
                     if (userType.equals("teacher")) {
                         try {
-                            String teacherID = child.child("IDNumber").getValue().toString();
+                            String teacherID = child.child("idnumber").getValue().toString();
                             teacherIDArray.add(teacherID);
                         } catch (NullPointerException e) {
-                            Log.e(TAG, "IDNumber Null");
+                            Log.e(TAG, "idnumber Null");
                         }
                     }
                 }
@@ -174,7 +174,7 @@ public class AdminEditClassTimeTableActivity extends AppCompatActivity implement
         String location = editTextLocation.getText().toString().trim();
         String dayOfWeek = editTextDayOfWeek.getText().toString().trim();
         String period = editTextPeriod.getText().toString().trim();
-        String IDNumber = editTextTeacherID.getText().toString().trim();
+        String idnumber = editTextTeacherID.getText().toString().trim();
 
         if(subject.isEmpty()) {
             editTextSubject.setError("Please enter a subject.");
@@ -200,7 +200,7 @@ public class AdminEditClassTimeTableActivity extends AppCompatActivity implement
             return;
         }
 
-        if(IDNumber.isEmpty()) {
+        if(idnumber.isEmpty()) {
             editTextTeacherID.setError("Please enter a teacher's name.");
             editTextTeacherID.requestFocus();
             return;
@@ -212,9 +212,10 @@ public class AdminEditClassTimeTableActivity extends AppCompatActivity implement
         course.setLocation(location);
         course.setDayOfWeek(dayOfWeek);
         course.setPeriod(period);
-        course.setIDNumber(IDNumber);
+        course.setidnumber(idnumber);
 
-        DatabaseReference courseIDRef = FirebaseDatabase.getInstance().getReference().child("Classes").child(currentClassID).child("Timetable").child(courseID);
+        DatabaseReference courseIDRef = FirebaseDatabase.getInstance().getReference()
+                .child("Classes").child(currentClassID).child("Timetable").child(courseID);
         courseIDRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

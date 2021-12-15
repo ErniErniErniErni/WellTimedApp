@@ -8,7 +8,7 @@ public class Course implements Cloneable, Comparable<Course>{
     private String location;
     private String dayOfWeek;//value between 1-7
     private String period; //value between1-9
-    private String IDNumber; // teacher's ID
+    private String idnumber; // teacher's ID
 
     public Course() {
 
@@ -45,12 +45,12 @@ public class Course implements Cloneable, Comparable<Course>{
         this.subject = subject;
     }
 
-    public String getIDNumber() {
-        return IDNumber;
+    public String getidnumber() {
+        return idnumber;
     }
 
-    public void setIDNumber(String IDNumber) {
-        this.IDNumber = IDNumber;
+    public void setidnumber(String idnumber) {
+        this.idnumber = idnumber;
     }
 
     @NonNull
