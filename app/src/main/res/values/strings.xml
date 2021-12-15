@@ -92,11 +92,11 @@
 
     <!-- Activity: adminManageListOfClasses-->
     <string name="list_of_class_add_new_button">Add New Class</string>
-    <string name="list_of_class_above_text">Click to view the timetables of these classes:</string>
+    <string name="list_of_class_above_text">Click to view the timetables of these classes: \n(Long click to delete)</string>
 
     <!-- Activity: adminManageListOfTeachers-->
     <string name="list_of_teacher_add_new_button">Add New Teacher</string>
-    <string name="list_of_teacher_above_text">Click to view the timetables of these teachers:</string>
+    <string name="list_of_teacher_above_text">Click to view the timetables of these teachers: \n(Long click to delete)</string>
 
     <!-- Buttons -->
     <string name="skip_button">Skip</string>

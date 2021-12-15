@@ -98,11 +98,13 @@ public class AdminEditClassTimeTableActivity extends AppCompatActivity implement
 
         // adapt array to select Teacher
         ArrayList<String> teacherIDArray = new ArrayList<>();
+//        ArrayList<String> teacherNameArray = new ArrayList<>();
         ArrayAdapter arrayAdapterTeachersID = new ArrayAdapter<String>(this,
                 R.layout.activity_listview, teacherIDArray);
         editTextTeacherID.setAdapter(arrayAdapterTeachersID);
 
-        DatabaseReference classInfoRef = FirebaseDatabase.getInstance().getReference().child("Users");
+        // pull all teacher's ID from database and add them to ArrayList
+        DatabaseReference classInfoRef = FirebaseDatabase.getInstance().getReference().child("Teachers");
         classInfoRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -110,15 +112,12 @@ public class AdminEditClassTimeTableActivity extends AppCompatActivity implement
                 teacherIDArray.clear();
 
                 for (DataSnapshot child : snapshot.getChildren()) {
-                    String userType = child.child("type").getValue().toString();
-                    if (userType.equals("teacher")) {
                         try {
-                            String teacherID = child.child("idnumber").getValue().toString();
-                            teacherIDArray.add(teacherID);
+                            String teacherName = child.getKey().trim();
+                            teacherIDArray.add(teacherName);
                         } catch (NullPointerException e) {
                             Log.e(TAG, "idnumber Null");
                         }
-                    }
                 }
                 arrayAdapterTeachersID.notifyDataSetChanged();
             }
@@ -206,7 +205,7 @@ public class AdminEditClassTimeTableActivity extends AppCompatActivity implement
             return;
         }
 
-        String courseID = dayOfWeek + period;
+        String lessonID = period + dayOfWeek;
 
         course.setSubject(subject);
         course.setLocation(location);
@@ -214,13 +213,14 @@ public class AdminEditClassTimeTableActivity extends AppCompatActivity implement
         course.setPeriod(period);
         course.setidnumber(idnumber);
 
+        // sync newly added lesson information to current class
         DatabaseReference courseIDRef = FirebaseDatabase.getInstance().getReference()
-                .child("Classes").child(currentClassID).child("timetable").child(courseID);
+                .child("Classes").child(currentClassID).child("timetable").child(lessonID);
         courseIDRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 courseIDRef.setValue(course);
-                Message.showMessage(getApplicationContext(), "Course info saved successfully.");
+                Message.showMessage(getApplicationContext(), "Lesson info saved successfully.");
             }
 
             @Override
@@ -228,6 +228,23 @@ public class AdminEditClassTimeTableActivity extends AppCompatActivity implement
                 Message.showMessage(getApplicationContext(), "Failed to save course info.");
             }
         });
+
+        // sync newly added lesson information to selected teacher
+        DatabaseReference teacherIDRef = FirebaseDatabase.getInstance().getReference()
+                .child("Teachers").child(idnumber).child("timetable").child(lessonID);
+        teacherIDRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                teacherIDRef.setValue(course);
+                Message.showMessage(getApplicationContext(), "Lesson info saved successfully.");
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Message.showMessage(getApplicationContext(), "Failed to save course info.");
+            }
+        });
+
         Intent intent = new Intent(getApplicationContext(), AdminManageClassTimetableActivity.class);
 //        intent.putExtra("ClickedClassName", getCurrentClassName());
 //        intent.putExtra("ClickedClassID", getCurrentClassID());

@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -30,6 +31,9 @@ public class AdminManageListOfTeachersActivity extends AppCompatActivity impleme
 
     private static String clickedTeacherName;
     private static String clickedTeacherID;
+    ArrayList<String> teacherNameArray = new ArrayList<>();
+
+    private String TAG = "AdminmanageListOfTeachersActivityLog";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +45,6 @@ public class AdminManageListOfTeachersActivity extends AppCompatActivity impleme
         addNewTeacher = (Button) findViewById(R.id.add_new_teacher); 
         
         // adapt to array
-        ArrayList<String> teacherNameArray = new ArrayList<>();
         ArrayAdapter adapter = new ArrayAdapter<String>(this,
                 R.layout.activity_listview, teacherNameArray);
         listOfTeachers.setAdapter(adapter);
@@ -72,7 +75,7 @@ public class AdminManageListOfTeachersActivity extends AppCompatActivity impleme
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                                         for (DataSnapshot child: snapshot.getChildren()) {
-                                            String childNameValue = child.getValue().toString().trim();
+                                            String childNameValue = child.child("name").getValue().toString().trim();
                                             if (childNameValue.equals(getClickedTeacherName())) {
                                                 String matchingTeacherID = child.getKey().trim();
                                                 setClickedTeacherID(matchingTeacherID);
@@ -99,16 +102,41 @@ public class AdminManageListOfTeachersActivity extends AppCompatActivity impleme
                 return true;
             }
         });
+
         addNewTeacher.setOnClickListener(this);
 
         // show list of teachers
+        pullListOfTeachersFromDatabaseAndShow(adapter);
+//        DatabaseReference teacherInfoRef = FirebaseDatabase.getInstance().getReference().child("Teachers");
+//        teacherInfoRef.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                teacherNameArray.clear();
+//                for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
+//                    String teacherName = snapshot.child("name").getValue().toString();
+//                    String teacherID = snapshot.getKey().trim();
+//                    teacherNameArray.add(teacherID);
+//                }
+//                adapter.notifyDataSetChanged();
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+    } // onCreate
+
+    private void pullListOfTeachersFromDatabaseAndShow( ArrayAdapter adapter) {
         DatabaseReference teacherInfoRef = FirebaseDatabase.getInstance().getReference().child("Teachers");
         teacherInfoRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 teacherNameArray.clear();
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    teacherNameArray.add(snapshot.getValue().toString());
+                    String teacherName = snapshot.child("name").getValue().toString();
+                    String teacherID = snapshot.getKey().trim();
+                    teacherNameArray.add(teacherName);
                 }
                 adapter.notifyDataSetChanged();
             }
@@ -120,10 +148,39 @@ public class AdminManageListOfTeachersActivity extends AppCompatActivity impleme
         });
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d(TAG,"onStart");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG,"onResume");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(TAG,"onPause");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(TAG,"onStop");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG,"onDestroy");
+    }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Intent in1 = new Intent(AdminManageListOfTeachersActivity.this, 
+        Intent in1 = new Intent(AdminManageListOfTeachersActivity.this,
                 AdminManageClassTimetableActivity.class);
         startActivity(in1);
     }
@@ -137,7 +194,7 @@ public class AdminManageListOfTeachersActivity extends AppCompatActivity impleme
                 startActivity(intent);
                 break;
         }
-        
+
     }
 
     public static String getClickedTeacherName() {
@@ -147,6 +204,7 @@ public class AdminManageListOfTeachersActivity extends AppCompatActivity impleme
     public static String getClickedTeacherID() {
         return clickedTeacherID;
     }
+
     public static void setClickedTeacherName(String clickedTeacherName) {
         AdminManageListOfTeachersActivity.clickedTeacherName = clickedTeacherName;
     }
@@ -154,6 +212,4 @@ public class AdminManageListOfTeachersActivity extends AppCompatActivity impleme
     public static void setClickedTeacherID(String clickedTeacherID) {
         AdminManageListOfTeachersActivity.clickedTeacherID = clickedTeacherID;
     }
-
-
 }

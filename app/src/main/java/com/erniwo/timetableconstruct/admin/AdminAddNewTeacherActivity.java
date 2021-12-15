@@ -13,6 +13,8 @@ import com.erniwo.timetableconstruct.Message;
 import com.erniwo.timetableconstruct.R;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Locale;
+
 public class AdminAddNewTeacherActivity extends AppCompatActivity implements View.OnClickListener {
 
     private EditText editTeacherName;
@@ -83,13 +85,14 @@ public class AdminAddNewTeacherActivity extends AppCompatActivity implements Vie
     private void addNewTeacher() {
         String txt_Name = editTeacherName.getText().toString().trim();
 
-        String txt_ID = editTeacherID.getText().toString().trim();
+        String txt_ID = editTeacherID.getText().toString().toUpperCase(Locale.ROOT).trim();
         if(txt_Name.isEmpty()) {
             Message.showMessage(getApplicationContext(),"Please enter Teacher Name!");
         }else if(txt_ID.isEmpty()) {
             Message.showMessage(getApplicationContext(),"Please enter Teacher ID!");
         }else{
-            FirebaseDatabase.getInstance().getReference().child("Teachers").child(txt_ID).setValue(txt_Name);
+            FirebaseDatabase.getInstance().getReference().child("Teachers")
+                    .child(txt_ID).child("name").setValue(txt_Name);
             Message.showMessage(getApplicationContext(),"Added new teacher successfully!");
         }
     }

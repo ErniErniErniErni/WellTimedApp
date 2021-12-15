@@ -4,7 +4,7 @@
     <dimen name="timetable_height">840dp</dimen>
     <dimen name="cell_height">70dp</dimen>
 
-    <dimen name="timetable_course_card_font_size">10sp</dimen>
+    <dimen name="timetable_course_card_font_size">9sp</dimen>
 
     <dimen name="table_header_class_width">35dp</dimen>
 

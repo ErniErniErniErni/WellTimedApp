@@ -138,7 +138,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         String name = editTextName.getText().toString().trim();
         String email = editTextEmail.getText().toString().toLowerCase(Locale.ROOT).trim();
         String password = editTextPassword.getText().toString().trim();
-        String idnumber = editTestID.getText().toString().trim();
+        String idnumber = editTestID.getText().toString().toUpperCase(Locale.ROOT).trim();
         int checkedId = radioGroup.getCheckedRadioButtonId();
 
         if(name.isEmpty()) {

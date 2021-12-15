@@ -20,7 +20,7 @@
     <TextView
         android:id="@+id/above_item_list"
         android:layout_width="@dimen/edit_text_width"
-        android:layout_height="@dimen/edit_text_height"
+        android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:layout_gravity="center"
         android:text="@string/list_of_teacher_above_text"
