@@ -10,29 +10,23 @@ import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.erniwo.timetableconstruct.Config;
 import com.erniwo.timetableconstruct.R;
 import com.erniwo.timetableconstruct.model.Course;
-//import com.erniwo.timetableconstruct.util.MyRecyclerViewAdapter;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -42,7 +36,6 @@ import com.google.firebase.database.ValueEventListener;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
-
 
 public class AdminManageClassTimetableActivity extends AppCompatActivity {
 

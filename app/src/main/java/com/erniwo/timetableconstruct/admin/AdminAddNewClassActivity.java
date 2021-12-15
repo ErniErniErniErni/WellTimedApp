@@ -141,16 +141,16 @@ public class AdminAddNewClassActivity extends AppCompatActivity implements View.
         Log.i(TAG, txt_ClassID);
 
         FirebaseDatabase.getInstance().getReference().child("Classes").child(txt_ClassID)
-                .child("Name").setValue(className);//.push();
+                .child("name").setValue(className);
 
         String stringListOfStudentID = selectStudentsArrowDown.getText().toString();
         List<String> stringListOfStudentIDList = Arrays.asList(stringListOfStudentID.split(","));
         for (String id: stringListOfStudentIDList ){
             Log.i(TAG, id);
             FirebaseDatabase.getInstance().getReference().child("Classes").child(txt_ClassID)
-                    .child("Student").child(id).setValue("");
+                    .child("student").child(id).setValue("");
         }
-        //.push();
+
         Message.showMessage(getApplicationContext(),"Added new class successfully!");
         Intent intent = new Intent(AdminAddNewClassActivity.this, AdminManageListOfClassesActivity.class);
         startActivity(intent);
@@ -160,28 +160,33 @@ public class AdminAddNewClassActivity extends AppCompatActivity implements View.
     public void multipleCheckStudents() {
 
         ArrayAdapter adapter = new ArrayAdapter<String>(this, R.layout.activity_listview, studentListList);
-        DatabaseReference classInfoRef = FirebaseDatabase.getInstance().getReference().child("Users");
-        classInfoRef.addValueEventListener(new ValueEventListener() {
+        DatabaseReference studentInfoRef = FirebaseDatabase.getInstance().getReference()
+//                .child("Users");
+                .child("Students");
+        studentInfoRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                studentListList.clear();
-
                 for (DataSnapshot child : snapshot.getChildren()) {
-                    String userType = child.child("type").getValue().toString();
-                    if (userType.equals("student")) {
-                        try {
-                            String studentID = child.child("idnumber").getValue().toString();
-                            studentListList.add(studentID);
-                        }catch (NullPointerException e) {
-                            Log.e(TAG, "idnumber Null");
-                        }
+                    try {
+                        studentListList.clear();
+                        String id = child.getKey().trim();
+                        studentListList.add(id);
+                    }catch (NullPointerException e) {
+                        Log.e(TAG, "idnumber Null");
                     }
+
+//                    String userType = child.child("type").getValue().toString();
+//                    if (userType.equals("student")) {
+//                        try {
+//                            String studentID = child.child("idnumber").getValue().toString();
+//                            studentListList.add(studentID);
+//                        }catch (NullPointerException e) {
+//                            Log.e(TAG, "idnumber Null");
+//                        }
+//                    }
                 }
                 adapter.notifyDataSetChanged();
-                if (!studentListList.isEmpty()) {
-//                    return;
-                }
 
                 studentArray = new String[studentListList.size()];
 
@@ -222,7 +227,7 @@ public class AdminAddNewClassActivity extends AppCompatActivity implements View.
                         }
                     }
                 });
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                builder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //Init string builder

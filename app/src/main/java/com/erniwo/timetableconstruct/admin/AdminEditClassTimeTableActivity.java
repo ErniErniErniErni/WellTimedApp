@@ -215,7 +215,7 @@ public class AdminEditClassTimeTableActivity extends AppCompatActivity implement
         course.setidnumber(idnumber);
 
         DatabaseReference courseIDRef = FirebaseDatabase.getInstance().getReference()
-                .child("Classes").child(currentClassID).child("Timetable").child(courseID);
+                .child("Classes").child(currentClassID).child("timetable").child(courseID);
         courseIDRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

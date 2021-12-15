@@ -109,7 +109,7 @@ public class AdminManageListOfClassesActivity extends AppCompatActivity implemen
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 classNameArray.clear();
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    classNameArray.add(snapshot.child("Name").getValue().toString());
+                    classNameArray.add(snapshot.child("name").getValue().toString());
                 }
                 adapter.notifyDataSetChanged();
                 Log.i(TAG, "classNameArray Updated");
@@ -130,13 +130,6 @@ public class AdminManageListOfClassesActivity extends AppCompatActivity implemen
             }
         });
     } // onCreate
-
-    private void deleteClass(String classID) {
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance()
-                .getReference().child("Classes").child(classID);
-        databaseReference.removeValue();
-        Message.showMessage(getApplicationContext(), "Deleted!" + getClickedClassName());
-    }
 
     @Override
     protected void onStart() {
@@ -171,10 +164,10 @@ public class AdminManageListOfClassesActivity extends AppCompatActivity implemen
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         String clickClassName = ((TextView) view).getText().toString().trim();
-        Log.d(TAG, "On Item Cicked()" + clickClassName); // this step is logged
+        Log.d(TAG, "On Item Cicked()" + clickClassName);
 
         setClickedClassName(clickClassName);
-        Log.d(TAG, "On Item Cicked()" + getClickedClassName()); // this step is logged
+        Log.d(TAG, "On Item Cicked()" + getClickedClassName());
 
         DatabaseReference classesRef = FirebaseDatabase.getInstance().getReference("Classes");
         classesRef.addValueEventListener(new ValueEventListener() {
@@ -182,7 +175,7 @@ public class AdminManageListOfClassesActivity extends AppCompatActivity implemen
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot child: snapshot.getChildren()) {
 
-                    String childNameValue = child.child("Name").getValue().toString().trim();
+                    String childNameValue = child.child("name").getValue().toString().trim();
                     Log.d(TAG, childNameValue);
                     if (childNameValue.equals(getClickedClassName())) {
                         String classID = child.getKey().trim();
