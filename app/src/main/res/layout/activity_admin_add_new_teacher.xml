@@ -5,31 +5,63 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".admin.AdminAddNewTeacherActivity">
-    <EditText
-        android:id="@+id/edit_teacherId"
-        android:layout_width="380dp"
-        android:layout_height="50dp"
-        android:hint="Enter teacher ID"
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:id="@+id/enter_teacher_name"
+        android:layout_width="@dimen/edit_text_width"
+        android:layout_height="@dimen/edit_text_height"
         android:layout_marginTop="40dp"
+        android:ems="10"
+        android:fontFamily="sans-serif"
+        android:hint="@string/hint_enter_teacher_id"
+        android:inputType="none"
+        app:endIconMode="clear_text"
+        android:textSize="@dimen/text_size_medium"
+        app:placeholderText="@string/placeholder_enter_teacher_name"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
-    <EditText
-        android:id="@+id/edit_teacherName"
-        android:layout_width="380dp"
-        android:layout_height="50dp"
-        android:hint="Enter teacher Name"
-        android:layout_marginTop="30dp"
-        app:layout_constraintTop_toBottomOf="@+id/edit_teacherId"
+        app:layout_constraintStart_toStartOf="parent">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/enter_edit_text_teacher_name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="none">
+        </com.google.android.material.textfield.TextInputEditText>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:id="@+id/enter_teacher_ID"
+        android:layout_width="@dimen/edit_text_width"
+        android:layout_height="@dimen/edit_text_height"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:fontFamily="sans-serif"
+        android:hint="@string/hint_enter_teacher_id"
+        android:inputType="text"
+        app:endIconMode="clear_text"
+        android:textSize="@dimen/text_size_medium"
+        app:placeholderText="@string/placeholder_enter_teacher_id"
+        app:layout_constraintTop_toBottomOf="@+id/enter_teacher_name"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/enter_edit_text_teacher_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </com.google.android.material.textfield.TextInputEditText>
+    </com.google.android.material.textfield.TextInputLayout>
+
+
     <Button
         android:id="@+id/add_new_teacher_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:text="Add New Class"
-        app:layout_constraintTop_toBottomOf="@+id/edit_teacherName"
+        app:layout_constraintTop_toBottomOf="@+id/enter_teacher_ID"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

@@ -54,7 +54,7 @@ public class AdminAddNewClassActivity extends AppCompatActivity implements View.
         selectStudentsArrowDown = findViewById(R.id.select_student_num);
         addNewClassButton = findViewById(R.id.add_new_class_button);
 
-        // init onClickListener
+        // onClick action
         selectStudentsArrowDown.setOnClickListener(this);
         addNewClassButton.setOnClickListener(this);
 

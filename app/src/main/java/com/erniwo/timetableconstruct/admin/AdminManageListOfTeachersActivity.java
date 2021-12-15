@@ -31,21 +31,6 @@ public class AdminManageListOfTeachersActivity extends AppCompatActivity impleme
     private static String clickedTeacherName;
     private static String clickedTeacherID;
 
-    public static String getClickedTeacherName() {
-        return clickedTeacherName;
-    }
-
-    public static String getClickedTeacherID() {
-        return clickedTeacherID;
-    }
-    public static void setClickedTeacherName(String clickedTeacherName) {
-        AdminManageListOfTeachersActivity.clickedTeacherName = clickedTeacherName;
-    }
-
-    public static void setClickedTeacherID(String clickedTeacherID) {
-        AdminManageListOfTeachersActivity.clickedTeacherID = clickedTeacherID;
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -147,13 +132,27 @@ public class AdminManageListOfTeachersActivity extends AppCompatActivity impleme
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.add_new_teacher:
-                jumpToAddewTeacher();
+                Intent intent = new Intent(AdminManageListOfTeachersActivity.this,
+                        AdminAddNewTeacherActivity.class);
+                startActivity(intent);
                 break;
         }
         
     }
 
-    private void jumpToAddewTeacher() {
+    public static String getClickedTeacherName() {
+        return clickedTeacherName;
+    }
+
+    public static String getClickedTeacherID() {
+        return clickedTeacherID;
+    }
+    public static void setClickedTeacherName(String clickedTeacherName) {
+        AdminManageListOfTeachersActivity.clickedTeacherName = clickedTeacherName;
+    }
+
+    public static void setClickedTeacherID(String clickedTeacherID) {
+        AdminManageListOfTeachersActivity.clickedTeacherID = clickedTeacherID;
     }
 
 

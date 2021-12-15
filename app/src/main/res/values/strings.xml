@@ -84,6 +84,13 @@
         <item>Grade 12</item>
     </string-array>
 
+    <!-- Activity: adminAddNewTeacher-->
+    <string name="hint_enter_teacher_name">Enter Teacher Name</string>
+    <string name="hint_enter_teacher_id">Enter Teacher ID</string>
+
+    <string name="placeholder_enter_teacher_name">e.g. Jane Smith</string>
+    <string name="placeholder_enter_teacher_id">e.g. T0025</string>
+
     <!-- Activity: adminManageListOfClasses-->
     <string name="list_of_class_add_new_button">Add New Class</string>
     <string name="list_of_class_above_text">Click to view the timetables of these classes:</string>
