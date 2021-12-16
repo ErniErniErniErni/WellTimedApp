@@ -22,10 +22,10 @@ Students' and teachers' views are similar to this.
 
 ---
 ### !!Important!!
-When signing up, your ID Must be in the Format of:
-S**** if you are a student.     e.g. S0034
-T**** if you are a teacher.     e.g. T0015
-A**** if you are an admin.      e.g. A0009
-Otherwise the database will not save your information properly.
+* When signing up, your ID Must be in the Format of:
+  * S**** if you are a student.     e.g. S0034
+  * T**** if you are a teacher.     e.g. T0015
+  * A**** if you are an admin.      e.g. A0009
+* Otherwise the database will not save your information properly.
 
 
