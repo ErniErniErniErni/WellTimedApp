@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -20,7 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class AdminManageListOfStudentsActivity extends AppCompatActivity{
+public class AdminManageListOfStudentsActivity extends AppCompatActivity {
 
     private ListView listOfStudents;
     private Button addNewStudent;

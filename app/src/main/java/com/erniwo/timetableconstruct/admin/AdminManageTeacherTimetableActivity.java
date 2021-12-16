@@ -36,7 +36,6 @@ public class AdminManageTeacherTimetableActivity extends AppCompatActivity {
     private String currentTeacherName;
     private String currentTeacherID;
     private TextView nameOfTeacher;
-    private TextView addButton;
     private FrameLayout frameLayoutLessonSection;
     private TextView[] mClassNumHeaders = null;
     ArrayList<String> lessonKeyList = new ArrayList<String>();
@@ -59,14 +58,16 @@ public class AdminManageTeacherTimetableActivity extends AppCompatActivity {
             setCurrentTeacherName(currTeacherName);
             setCurrentTeacherID(currTeacherID);
         }
+        Log.d(TAG, "Current Teacher Name: " + getCurrentTeacherName());
+        Log.d(TAG, "Current Teacher ID: " + getCurrentTeacherID());
 
         // init elements
         nameOfTeacher = (TextView) findViewById(R.id.name_of_teacher) ;
-        addButton = (TextView) findViewById(R.id.add_button);
         frameLayoutLessonSection = (FrameLayout) findViewById(R.id.frame_layout_lesson_section);
 
+        // set page title
         nameOfTeacher.setText("Timetable of " + getCurrentTeacherName());
-        addButton.setVisibility(INVISIBLE);
+
     }// onCreate
 
     @Override
@@ -124,16 +125,20 @@ public class AdminManageTeacherTimetableActivity extends AppCompatActivity {
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 1.0f);
-//                        rowLp.bottomMargin = 2;
         rowLp.weight = 1;
         cellLp.topMargin = 4;
         cellLp.leftMargin = 6;
         cellLp.weight = 1;
 
-        DatabaseReference teachersRef = FirebaseDatabase.getInstance().getReference().child("Teachers");
-        teachersRef.addValueEventListener(new ValueEventListener() {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+        ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                String subject = "";
+                String location = "";
+                String classid = "";
+                String lessonKey = "";
 
                 for (int r = 0; r < 9; ++r) {
 
@@ -150,39 +155,25 @@ public class AdminManageTeacherTimetableActivity extends AppCompatActivity {
                         Map<String,String> lessonInfoToBeDisplayedOnLessonCardMap = new HashMap<>();
 
                         // iterate all teachers' info saved in firebase database to get the current teacher's timetable
-                        for (DataSnapshot teacherIdChild: snapshot.getChildren()) {
+                        for (DataSnapshot classesChild: snapshot.child("Classes").getChildren()) {
                             try {
-                                if (teacherID.equals(teacherIdChild.getKey())) {
-                                    String teacherName = teacherIdChild.child("name").getValue().toString().trim();
-                                    Log.d(TAG, "Current teacher Name: " + teacherName);
+                                for (DataSnapshot lessonKeyChild : classesChild.child("timetable").getChildren()) {
+                                    String currentTeacherID = lessonKeyChild.child("idnumber").getValue().toString().trim();
+                                    if (teacherID.equals(currentTeacherID)) {
 
-                                    for (DataSnapshot timetableChild : teacherIdChild.child("timetable").getChildren()) {
-
-                                        String subject = "";
-                                        String location = "";
-                                        String classid = "";
-                                        String lessonKey = "";
-
-                                        subject = timetableChild.child("subject").getValue().toString().trim();
-                                        location = timetableChild.child("location").getValue().toString().trim();
-                                        try {
-                                            classid = timetableChild.child("classid").getValue().toString().trim();
-                                        }catch (NullPointerException e) {
-                                            Log.e(TAG, Log.getStackTraceString(e));
-                                        }
-                                        lessonKey = timetableChild.getKey().trim();
+                                        subject = lessonKeyChild.child("subject").getValue().toString().trim();
+                                        location = lessonKeyChild.child("location").getValue().toString().trim();
+                                        classid = classesChild.getKey();
+                                        lessonKey = lessonKeyChild.getKey();
                                         lessonInfoToBeDisplayedOnLessonCard = subject + "\n\n" + location + "\n\n" + classid;
                                         lessonKeyList.add(lessonKey);
                                         lessonInfoToBeDisplayedOnLessonCardMap.put(lessonKey, lessonInfoToBeDisplayedOnLessonCard);
-
-
-                                    } // timetableChild
-                                }
+                                    }
+                                } // close lessonKeyChild
                             } catch (Exception e) {
                                 Log.e(TAG, Log.getStackTraceString(e));
                             }
-
-                        } // teacherIdChild
+                        } // close classesChild
 
                         if (lessonInfoToBeDisplayedOnLessonCardMap.containsKey(currentLessonKey)) {
                             String lessonInfo = lessonInfoToBeDisplayedOnLessonCardMap.get(currentLessonKey);
