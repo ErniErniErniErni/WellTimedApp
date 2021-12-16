@@ -193,7 +193,6 @@ public class AdminManageListOfClassesActivity extends AppCompatActivity implemen
                         } catch (NullPointerException ex) {
                             Log.e(TAG, Log.getStackTraceString(null));
                         }
-//                        startActivity(in1);
                     }
                 }
             }

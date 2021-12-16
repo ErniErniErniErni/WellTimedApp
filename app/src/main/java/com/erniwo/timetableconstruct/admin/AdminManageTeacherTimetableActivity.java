@@ -3,6 +3,9 @@ package com.erniwo.timetableconstruct.admin;
 import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,9 +20,6 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.erniwo.timetableconstruct.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -31,60 +31,51 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AdminManageClassTimetableActivity extends AppCompatActivity {
+public class AdminManageTeacherTimetableActivity extends AppCompatActivity {
 
-
-    private String currentClassName;
-    private String currentClassID;
-    private TextView nameOfClass;
+    private String currentTeacherName;
+    private String currentTeacherID;
+    private TextView nameOfTeacher;
     private TextView addButton;
     private FrameLayout frameLayoutLessonSection;
     private TextView[] mClassNumHeaders = null;
     private LinearLayout headerClassNumLl;
     ArrayList<String> lessonKeyList = new ArrayList<String>();
 
-    private String TAG = "AdminManageClassTimeTableActivityLog";
+    private String TAG = "AdminManageTeacherTimeTableActivityLog";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_admin_manage_class_timetable);
+        setContentView(R.layout.activity_admin_manage_teacher_timetable);
 
         Log.d(TAG, "onCreate");
 
-        // get value from last page (AdminManageListOfClasses.class)
+        // get value from last page (AdminManageListOfTeachers.class)
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         if (bundle != null) {
-            String currClassName = (String) bundle.get("ClickedClassName");
-            String currClassID = (String) bundle.get("ClickedClassID");
-            setCurrentClassName(currClassName);
-            setCurrentClassID(currClassID);
+            String currTeacherName = (String) bundle.get("ClickedTeacherName");
+            String currTeacherID = (String) bundle.get("ClickedTeacherID");
+            setCurrentTeacherName(currTeacherName);
+            setCurrentTeacherID(currTeacherID);
         }
 
         // init elements
         headerClassNumLl = findViewById(R.id.ll_header_class_num);
-        nameOfClass = (TextView) findViewById(R.id.name_of_class) ;
+        nameOfTeacher = (TextView) findViewById(R.id.name_of_teacher) ;
         addButton = (TextView) findViewById(R.id.add_button);
         frameLayoutLessonSection = (FrameLayout) findViewById(R.id.frame_layout_lesson_section);
 
-        nameOfClass.setText("Timetable of " + getCurrentClassName());
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(AdminManageClassTimetableActivity.this, AdminEditClassTimeTableActivity.class);
-                intent.putExtra("ClickedClassName", getCurrentClassName());
-                intent.putExtra("ClickedClassID", getCurrentClassID());
-                startActivity(intent);
-            }
-        });
-
-    } // onCreate
+        nameOfTeacher.setText("Timetable of " + getCurrentTeacherName());
+        addButton.setVisibility(INVISIBLE);
+    }// onCreate
 
     @Override
     protected void onStart() {
         super.onStart();
         Log.d(TAG,"onStart");
+
         pullExistingLessonsFromDatabaseAndInitLessonsOnTimetable();
 
     }
@@ -115,7 +106,7 @@ public class AdminManageClassTimetableActivity extends AppCompatActivity {
 
     private void pullExistingLessonsFromDatabaseAndInitLessonsOnTimetable() {
 
-        String classID = getCurrentClassID();
+        String teacherID = getCurrentTeacherID();
 
         LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         Context context = getApplicationContext();
@@ -141,10 +132,8 @@ public class AdminManageClassTimetableActivity extends AppCompatActivity {
         cellLp.leftMargin = 6;
         cellLp.weight = 1;
 
-//        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Classes");
-//        DatabaseReference currentClassTtbRef = classesRef.child(classID).child("timetable");
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        DatabaseReference teachersRef = FirebaseDatabase.getInstance().getReference().child("Teachers");
+        teachersRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
@@ -155,53 +144,51 @@ public class AdminManageClassTimetableActivity extends AppCompatActivity {
                     for (int c = 0; c < 7; ++c) {
 
                         Button btn = (Button) layoutInflater.inflate(R.layout.item_lesson_card, null);
+
                         String currentLessonKey = String.valueOf(r + 1) + String.valueOf(c + 1);
 
+                        btn.setTextSize(9);
+
                         String lessonInfoToBeDisplayedOnLessonCard;
-                        Map<String,String> lessonInfoToBeDisplayedOnLessonCardMapMap = new HashMap<>();
+                        Map<String,String> lessonInfoToBeDisplayedOnLessonCardMap = new HashMap<>();
 
-                        for (DataSnapshot classIdChild: snapshot.child("Classes").getChildren()) {
+                        // iterate all teacher's info saved in firebase database to get current teacher's timetable
+                        for (DataSnapshot teacherIdChild: snapshot.getChildren()) {
                             try {
-                                if (getCurrentClassID().equals(classIdChild.getKey())) {
-                                    String className = classIdChild.child("name").getValue().toString().trim();
-                                    Log.d(TAG, "Current teacher Name: " + className);
+                                if (teacherID.equals(teacherIdChild.getKey())) {
+                                    String teacherName = teacherIdChild.child("name").getValue().toString().trim();
+                                    Log.d(TAG, "Current teacher Name: " + teacherName);
 
-                                    for (DataSnapshot timetableChild : classIdChild.child("timetable").getChildren()) {
+                                    for (DataSnapshot timetableChild : teacherIdChild.child("timetable").getChildren()) {
 
                                         String subject = timetableChild.child("subject").getValue().toString().trim();
                                         String location = timetableChild.child("location").getValue().toString().trim();
-                                        String teacherId = timetableChild.child("idnumber").getValue().toString().trim();
                                         String lessonKey = timetableChild.getKey().trim();
-                                        Log.d(TAG, "Current lesson key: " + lessonKey);
-                                        lessonKeyList.add(lessonKey);
 
-                                        for (DataSnapshot teacherIdChild : snapshot.child("Teachers").getChildren()) {
-                                            Log.d(TAG, "teacher id: " + teacherIdChild.getKey());
-                                            if (teacherId.equals(teacherIdChild.getKey())) {
-                                                String teacherName = teacherIdChild.child("name").getValue().toString().trim();
-                                                lessonInfoToBeDisplayedOnLessonCard = subject + "\n\n" + location + "\n\n" + teacherName;
-                                                lessonInfoToBeDisplayedOnLessonCardMapMap.put(lessonKey, lessonInfoToBeDisplayedOnLessonCard);
-                                            }
-                                        }
+                                        lessonInfoToBeDisplayedOnLessonCard = subject + "\n\n" + location;
+                                        lessonKeyList.add(lessonKey);
+                                        lessonInfoToBeDisplayedOnLessonCardMap.put(lessonKey, lessonInfoToBeDisplayedOnLessonCard);
+
                                     } // timetableChild
-                                } // if
-                            }catch (Exception e){
+                                }
+                            } catch (Exception e) {
                                 Log.e(TAG, Log.getStackTraceString(e));
                             }
-                        } // classIdChild
 
-                        if (lessonInfoToBeDisplayedOnLessonCardMapMap.containsKey(currentLessonKey)) {
-                            String lessonInfo = lessonInfoToBeDisplayedOnLessonCardMapMap.get(currentLessonKey);
+                        } // teacherIdChild
+
+                        if (lessonInfoToBeDisplayedOnLessonCardMap.containsKey(currentLessonKey)) {
+                            String lessonInfo = lessonInfoToBeDisplayedOnLessonCardMap.get(currentLessonKey);
                             Log.d(TAG, "textOnLessonButton"+ lessonInfo);
                             btn.setText(lessonInfo);
-//                            btn.setOnClickListener(new View.OnClickListener() {
-//                                @Override
-//                                public void onClick(View v) {
-//                                    Intent intent = new Intent(AdminManageClassTimetableActivity.this,
-//                                            AdminLessonDetailsActivity.class);
-//                                    startActivity(intent);
-//                                }
-//                            });
+                            btn.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent intent = new Intent(AdminManageTeacherTimetableActivity.this,
+                                            AdminLessonDetailsActivity.class);
+                                    startActivity(intent);
+                                }
+                            });
                             Log.d(TAG, "Button text set");
                             btn.setVisibility(VISIBLE);
                             Log.d(TAG, "Button set to VISIBLE");
@@ -238,23 +225,24 @@ public class AdminManageClassTimetableActivity extends AppCompatActivity {
 
             } // onDataChange
 
-        }); // currentClassTtbRef.addValueEventListener
+        }); // currentTeacherTtbRef.addValueEventListener
 
     } // pullExistingLessonsFromDatabaseAndInitLessonsOnTimetable
 
 
-    public String getCurrentClassName() {
-        return currentClassName;
+    public String getCurrentTeacherName() {
+        return currentTeacherName;
     }
 
-    public void setCurrentClassName(String currentClassName) {
-        this.currentClassName = currentClassName;
+    public void setCurrentTeacherName(String currentTeacherName) {
+        this.currentTeacherName = currentTeacherName;
     }
-    public String getCurrentClassID() {
-        return currentClassID;
+    public String getCurrentTeacherID() {
+        return currentTeacherID;
     }
 
-    public void setCurrentClassID(String currentClassID) {
-        this.currentClassID = currentClassID;
+    public void setCurrentTeacherID(String currentTeacherID) {
+        this.currentTeacherID = currentTeacherID;
     }
+
 }

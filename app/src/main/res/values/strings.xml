@@ -67,7 +67,7 @@
     <string name="placeholder_select_grade">e.g. Grade 5</string>
     <string name="placeholder_select_class">Range: 1 to 99</string>
     <string name="placeholder_select_students">e.g.: S0002, S0006</string>
-    
+
     <string-array name="select_grades">
         <item>Grade 1</item>
         <item>Grade 2</item>

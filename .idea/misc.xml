@@ -17,11 +17,12 @@
         <entry key="app/src/main/res/layout/activity_admin_course_details.xml" value="0.1796875" />
         <entry key="app/src/main/res/layout/activity_admin_edit_class_time_table.xml" value="0.15081521739130435" />
         <entry key="app/src/main/res/layout/activity_admin_main.xml" value="0.28543349256813894" />
-        <entry key="app/src/main/res/layout/activity_admin_manage_class_timetable.xml" value="0.2937062937062937" />
+        <entry key="app/src/main/res/layout/activity_admin_manage_class_timetable.xml" value="0.2565905096660808" />
         <entry key="app/src/main/res/layout/activity_admin_manage_list_of_class_add_class.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_admin_manage_list_of_classes.xml" value="0.23113964686998395" />
         <entry key="app/src/main/res/layout/activity_admin_manage_list_of_teachers.xml" value="0.21176709455198292" />
         <entry key="app/src/main/res/layout/activity_admin_manage_locadd_class.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_admin_manage_teacher_timetable.xml" value="0.228125" />
         <entry key="app/src/main/res/layout/activity_em.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_forgot_password.xml" value="0.23802083333333332" />
         <entry key="app/src/main/res/layout/activity_home_page.xml" value="0.1012121620525619" />
@@ -31,7 +32,7 @@
         <entry key="app/src/main/res/layout/activity_profile_student.xml" value="0.2418478260869565" />
         <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.32456140350877194" />
         <entry key="app/src/main/res/layout/activity_student_timetable.xml" value="0.20202020202020202" />
-        <entry key="app/src/main/res/layout/activity_teacher_timetable.xml" value="0.40924092409240925" />
+        <entry key="app/src/main/res/layout/activity_teacher_timetable.xml" value="0.18223028105167724" />
         <entry key="app/src/main/res/layout/activity_timetable_student.xml" value="0.3286004056795132" />
         <entry key="app/src/main/res/layout/activity_welcome_choose_role.xml" value="0.1" />
         <entry key="app/src/main/res/layout/dropdown_item.xml" value="0.2619308815029112" />

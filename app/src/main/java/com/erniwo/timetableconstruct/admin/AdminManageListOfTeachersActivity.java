@@ -180,9 +180,49 @@ public class AdminManageListOfTeachersActivity extends AppCompatActivity impleme
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Intent in1 = new Intent(AdminManageListOfTeachersActivity.this,
-                AdminManageClassTimetableActivity.class);
-        startActivity(in1);
+        String clickTeacherName = ((TextView) view).getText().toString().trim();
+        Log.d(TAG, "On Item Cicked()" + clickTeacherName);
+
+        setClickedTeacherName(clickTeacherName);
+        Log.d(TAG, "On Item Cicked()" + getClickedTeacherName());
+
+        DatabaseReference teachersRef = FirebaseDatabase.getInstance().getReference("Teachers");
+        teachersRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot child: snapshot.getChildren()) {
+
+                    String teacherNameValue = child.child("name").getValue().toString().trim();
+                    Log.d(TAG, teacherNameValue);
+                    if (teacherNameValue.equals(getClickedTeacherName())) {
+                        String teacherID = child.getKey().trim();
+                        Log.d(TAG, "teacherIDValue = " + teacherID);
+                        setClickedTeacherID(teacherID);
+                        Log.d(TAG, "clickedTeacherID = " + getClickedTeacherID());
+                        Intent in1 = new Intent(AdminManageListOfTeachersActivity.this, AdminManageTeacherTimetableActivity.class);
+                        String clickedTeacherName = getClickedTeacherName();
+                        String clickedTeacherID = getClickedTeacherID();
+                        Log.d(TAG, getClickedTeacherID());
+                        in1.putExtra("ClickedTeacherName", clickedTeacherName);
+                        in1.putExtra("ClickedTeacherID", clickedTeacherID);
+                        try {
+                            startActivity(in1);
+                        } catch (NullPointerException ex) {
+                            Log.e(TAG, Log.getStackTraceString(null));
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+//        Intent in1 = new Intent(AdminManageListOfTeachersActivity.this,
+//                AdminManageTeacherTimetableActivity.class);
+//        startActivity(in1);
     }
 
     @Override

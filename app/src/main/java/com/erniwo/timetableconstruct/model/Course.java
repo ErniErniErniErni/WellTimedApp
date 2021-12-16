@@ -9,6 +9,7 @@ public class Course implements Cloneable, Comparable<Course>{
     private String dayOfWeek;//value between 1-7
     private String period; //value between1-9
     private String idnumber; // teacher's ID
+//    private String classid; // class's ID
 
     public Course() {
 
