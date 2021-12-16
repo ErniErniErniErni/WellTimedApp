@@ -90,6 +90,13 @@
     <string name="placeholder_enter_teacher_name">e.g. Jane Smith</string>
     <string name="placeholder_enter_teacher_id">e.g. T0025</string>
 
+    <!-- Activity: adminAddNewStudent-->
+    <string name="hint_enter_student_name">Enter Student Name</string>
+    <string name="hint_enter_student_id">Enter Student ID</string>
+
+    <string name="placeholder_enter_student_name">e.g. Jane Smith</string>
+    <string name="placeholder_enter_student_id">e.g. S0018</string>
+
     <!-- Activity: adminManageListOfClasses-->
     <string name="list_of_class_add_new_button">Add New Class</string>
     <string name="list_of_class_above_text">Click to view the timetables of these classes: \n(Long click to delete)</string>
@@ -97,6 +104,10 @@
     <!-- Activity: adminManageListOfTeachers-->
     <string name="list_of_teacher_add_new_button">Add New Teacher</string>
     <string name="list_of_teacher_above_text">Click to view the timetables of these teachers: \n(Long click to delete)</string>
+
+    <!-- Activity: adminManageListOfStudents-->
+    <string name="list_of_student_add_new_button">Add New Student</string>
+    <string name="list_of_student_above_text">Students in the system:</string>
 
     <!-- Buttons -->
     <string name="skip_button">Skip</string>

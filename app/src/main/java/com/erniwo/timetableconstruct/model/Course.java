@@ -9,12 +9,12 @@ public class Course implements Cloneable, Comparable<Course>{
     private String dayOfWeek;//value between 1-7
     private String period; //value between1-9
     private String idnumber; // teacher's ID
-//    private String classid; // class's ID
+    private String classid; // class's ID
 
     public Course() {
 
     }
-    public Course(String subject, String location, String dayOfWeek, String period, String teacher ){
+    public Course(String subject, String location, String dayOfWeek, String period, String teacher, String classid ){
 
     }
 
@@ -46,12 +46,20 @@ public class Course implements Cloneable, Comparable<Course>{
         this.subject = subject;
     }
 
-    public String getidnumber() {
+    public String getIdnumber() {
         return idnumber;
     }
 
-    public void setidnumber(String idnumber) {
+    public void setIdnumber(String idnumber) {
         this.idnumber = idnumber;
+    }
+
+    public String getClassid() {
+        return classid;
+    }
+
+    public void setClassid(String classid) {
+        this.classid = classid;
     }
 
     @NonNull

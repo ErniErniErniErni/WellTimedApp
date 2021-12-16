@@ -10,10 +10,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TimetableConstruct">
         <activity
+            android:name=".admin.AdminAddNewStudentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".admin.AdminManageListOfStudentsActivity"
+            android:exported="false" />
+        <activity
             android:name=".admin.AdminManageTeacherTimetableActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.AdminCourseDetailsActivity"
+            android:name=".admin.AdminLessonDetailsActivity"
             android:exported="false" />
         <activity
             android:name=".admin.AdminAddNewTeacherActivity"

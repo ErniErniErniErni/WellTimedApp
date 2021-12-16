@@ -141,8 +141,6 @@ public class AdminManageClassTimetableActivity extends AppCompatActivity {
         cellLp.leftMargin = 6;
         cellLp.weight = 1;
 
-//        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Classes");
-//        DatabaseReference currentClassTtbRef = classesRef.child(classID).child("timetable");
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -151,15 +149,19 @@ public class AdminManageClassTimetableActivity extends AppCompatActivity {
                 for (int r = 0; r < 9; ++r) {
 
                     TableRow row = new TableRow(context);
+                    row.setBaselineAligned(false);
 
                     for (int c = 0; c < 7; ++c) {
 
                         Button btn = (Button) layoutInflater.inflate(R.layout.item_lesson_card, null);
+                        btn.setPadding(0,0,0,0);
+                        btn.setIncludeFontPadding(false);
                         String currentLessonKey = String.valueOf(r + 1) + String.valueOf(c + 1);
 
                         String lessonInfoToBeDisplayedOnLessonCard;
-                        Map<String,String> lessonInfoToBeDisplayedOnLessonCardMapMap = new HashMap<>();
+                        Map<String,String> lessonInfoToBeDisplayedOnLessonCardMap = new HashMap<>();
 
+                        // iterate all classes' info saved in firebase database to get the current class's timetable
                         for (DataSnapshot classIdChild: snapshot.child("Classes").getChildren()) {
                             try {
                                 if (getCurrentClassID().equals(classIdChild.getKey())) {
@@ -180,7 +182,7 @@ public class AdminManageClassTimetableActivity extends AppCompatActivity {
                                             if (teacherId.equals(teacherIdChild.getKey())) {
                                                 String teacherName = teacherIdChild.child("name").getValue().toString().trim();
                                                 lessonInfoToBeDisplayedOnLessonCard = subject + "\n\n" + location + "\n\n" + teacherName;
-                                                lessonInfoToBeDisplayedOnLessonCardMapMap.put(lessonKey, lessonInfoToBeDisplayedOnLessonCard);
+                                                lessonInfoToBeDisplayedOnLessonCardMap.put(lessonKey, lessonInfoToBeDisplayedOnLessonCard);
                                             }
                                         }
                                     } // timetableChild
@@ -190,18 +192,10 @@ public class AdminManageClassTimetableActivity extends AppCompatActivity {
                             }
                         } // classIdChild
 
-                        if (lessonInfoToBeDisplayedOnLessonCardMapMap.containsKey(currentLessonKey)) {
-                            String lessonInfo = lessonInfoToBeDisplayedOnLessonCardMapMap.get(currentLessonKey);
+                        if (lessonInfoToBeDisplayedOnLessonCardMap.containsKey(currentLessonKey)) {
+                            String lessonInfo = lessonInfoToBeDisplayedOnLessonCardMap.get(currentLessonKey);
                             Log.d(TAG, "textOnLessonButton"+ lessonInfo);
                             btn.setText(lessonInfo);
-//                            btn.setOnClickListener(new View.OnClickListener() {
-//                                @Override
-//                                public void onClick(View v) {
-//                                    Intent intent = new Intent(AdminManageClassTimetableActivity.this,
-//                                            AdminLessonDetailsActivity.class);
-//                                    startActivity(intent);
-//                                }
-//                            });
                             Log.d(TAG, "Button text set");
                             btn.setVisibility(VISIBLE);
                             Log.d(TAG, "Button set to VISIBLE");
@@ -210,7 +204,6 @@ public class AdminManageClassTimetableActivity extends AppCompatActivity {
                             }
                             row.addView(btn, cellLp);
                             Log.d(TAG, "Added cell to row, visible");
-
 
                         } else {
 

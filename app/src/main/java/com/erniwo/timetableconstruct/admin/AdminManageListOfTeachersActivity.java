@@ -33,12 +33,14 @@ public class AdminManageListOfTeachersActivity extends AppCompatActivity impleme
     private static String clickedTeacherID;
     ArrayList<String> teacherNameArray = new ArrayList<>();
 
-    private String TAG = "AdminmanageListOfTeachersActivityLog";
+    private String TAG = "AdminManageListOfTeachersActivityLog";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_manage_list_of_teachers);
+
+        Log.d(TAG, "onCreate");
         
         // init elements
         listOfTeachers = findViewById(R.id.list_of_teachers);
@@ -50,8 +52,9 @@ public class AdminManageListOfTeachersActivity extends AppCompatActivity impleme
         listOfTeachers.setAdapter(adapter);
 
 
-        // onClick behaviours
+        // onClick action
         listOfTeachers.setOnItemClickListener(this);
+        addNewTeacher.setOnClickListener(this);
 
             // long click a teacher to delete info
         listOfTeachers.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -103,50 +106,10 @@ public class AdminManageListOfTeachersActivity extends AppCompatActivity impleme
             }
         });
 
-        addNewTeacher.setOnClickListener(this);
 
-        // show list of teachers
         pullListOfTeachersFromDatabaseAndShow(adapter);
-//        DatabaseReference teacherInfoRef = FirebaseDatabase.getInstance().getReference().child("Teachers");
-//        teacherInfoRef.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                teacherNameArray.clear();
-//                for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
-//                    String teacherName = snapshot.child("name").getValue().toString();
-//                    String teacherID = snapshot.getKey().trim();
-//                    teacherNameArray.add(teacherID);
-//                }
-//                adapter.notifyDataSetChanged();
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
+
     } // onCreate
-
-    private void pullListOfTeachersFromDatabaseAndShow( ArrayAdapter adapter) {
-        DatabaseReference teacherInfoRef = FirebaseDatabase.getInstance().getReference().child("Teachers");
-        teacherInfoRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                teacherNameArray.clear();
-                for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String teacherName = snapshot.child("name").getValue().toString();
-                    String teacherID = snapshot.getKey().trim();
-                    teacherNameArray.add(teacherName);
-                }
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
 
     @Override
     protected void onStart() {
@@ -220,9 +183,6 @@ public class AdminManageListOfTeachersActivity extends AppCompatActivity impleme
             }
         });
 
-//        Intent in1 = new Intent(AdminManageListOfTeachersActivity.this,
-//                AdminManageTeacherTimetableActivity.class);
-//        startActivity(in1);
     }
 
     @Override
@@ -235,6 +195,27 @@ public class AdminManageListOfTeachersActivity extends AppCompatActivity impleme
                 break;
         }
 
+    }
+
+    private void pullListOfTeachersFromDatabaseAndShow( ArrayAdapter adapter) {
+        DatabaseReference teacherInfoRef = FirebaseDatabase.getInstance().getReference().child("Teachers");
+        teacherInfoRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                teacherNameArray.clear();
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String teacherName = snapshot.child("name").getValue().toString();
+                    String teacherID = snapshot.getKey().trim();
+                    teacherNameArray.add(teacherName);
+                }
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     public static String getClickedTeacherName() {

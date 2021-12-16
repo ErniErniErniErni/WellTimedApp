@@ -144,15 +144,14 @@ public class AdminManageTeacherTimetableActivity extends AppCompatActivity {
                     for (int c = 0; c < 7; ++c) {
 
                         Button btn = (Button) layoutInflater.inflate(R.layout.item_lesson_card, null);
-
+                        btn.setPadding(0,0,0,0);
+                        btn.setIncludeFontPadding(false);
                         String currentLessonKey = String.valueOf(r + 1) + String.valueOf(c + 1);
-
-                        btn.setTextSize(9);
 
                         String lessonInfoToBeDisplayedOnLessonCard;
                         Map<String,String> lessonInfoToBeDisplayedOnLessonCardMap = new HashMap<>();
 
-                        // iterate all teacher's info saved in firebase database to get current teacher's timetable
+                        // iterate all teachers' info saved in firebase database to get the current teacher's timetable
                         for (DataSnapshot teacherIdChild: snapshot.getChildren()) {
                             try {
                                 if (teacherID.equals(teacherIdChild.getKey())) {
@@ -161,13 +160,23 @@ public class AdminManageTeacherTimetableActivity extends AppCompatActivity {
 
                                     for (DataSnapshot timetableChild : teacherIdChild.child("timetable").getChildren()) {
 
-                                        String subject = timetableChild.child("subject").getValue().toString().trim();
-                                        String location = timetableChild.child("location").getValue().toString().trim();
-                                        String lessonKey = timetableChild.getKey().trim();
+                                        String subject = "";
+                                        String location = "";
+                                        String classid = "";
+                                        String lessonKey = "";
 
-                                        lessonInfoToBeDisplayedOnLessonCard = subject + "\n\n" + location;
+                                        subject = timetableChild.child("subject").getValue().toString().trim();
+                                        location = timetableChild.child("location").getValue().toString().trim();
+                                        try {
+                                            classid = timetableChild.child("classid").getValue().toString().trim();
+                                        }catch (NullPointerException e) {
+                                            Log.e(TAG, Log.getStackTraceString(e));
+                                        }
+                                        lessonKey = timetableChild.getKey().trim();
+                                        lessonInfoToBeDisplayedOnLessonCard = subject + "\n\n" + location + "\n\n" + classid;
                                         lessonKeyList.add(lessonKey);
                                         lessonInfoToBeDisplayedOnLessonCardMap.put(lessonKey, lessonInfoToBeDisplayedOnLessonCard);
+
 
                                     } // timetableChild
                                 }

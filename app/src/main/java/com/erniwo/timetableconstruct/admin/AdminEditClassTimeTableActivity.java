@@ -211,8 +211,8 @@ public class AdminEditClassTimeTableActivity extends AppCompatActivity implement
         course.setLocation(location);
         course.setDayOfWeek(dayOfWeek);
         course.setPeriod(period);
-        course.setidnumber(idnumber);
-//        course.set
+        course.setIdnumber(idnumber);
+        course.setClassid(getCurrentClassID());
 
         // sync newly added lesson information to current class
         DatabaseReference courseIDRef = FirebaseDatabase.getInstance().getReference()
