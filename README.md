@@ -2,6 +2,7 @@
 # WellTimed App
 
 ## This is a timetabling application developed for K-12 school students, teachers, and administrators.
+## Author: 2569441w@student.gla.ac.uk
 ---
 ### Main features
 * School administrators' view
@@ -23,7 +24,7 @@ The image above shows an school administrator's view of managing a class's timet
 Students' and teachers' views are similar to this.
 
 ---
-### !!Important!!
+### *Important*
 * When signing up, your ID Must be in the Format of:
   * S**** if you are a student.     e.g. S0034
   * T**** if you are a teacher.     e.g. T0015
