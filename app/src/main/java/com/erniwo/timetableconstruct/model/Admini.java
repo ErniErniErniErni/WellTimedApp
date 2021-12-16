@@ -33,7 +33,7 @@ public class Admini {
         return email;
     }
 
-    public String getIDNumber() {
+    public String getIdnumber() {
         return idnumber;
     }
 
@@ -49,7 +49,7 @@ public class Admini {
         this.email = email;
     }
 
-    public void setIDNumber(String IDNumber) {
+    public void setIdnumber(String IDNumber) {
         this.idnumber = IDNumber;
     }
 

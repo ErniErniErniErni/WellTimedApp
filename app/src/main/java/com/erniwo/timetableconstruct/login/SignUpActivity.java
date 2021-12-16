@@ -67,19 +67,18 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         teacher = new Teacher();
         admin = new Admini();
 
+        // init elements
         header = (TextView) findViewById(R.id.header);
-        header.setOnClickListener(this);
-
         editTextName = (EditText) findViewById(R.id.signup_edit_text_name);
         editTextEmail = (EditText) findViewById(R.id.signup_edit_text_email);
         editTextPassword = (EditText) findViewById(R.id.signup_edit_text_password);
         editTestID = (EditText) findViewById(R.id.signup_edit_text_id);
-
         radioGroup = (RadioGroup) findViewById(R.id.signup_chooseRoleGroup);
-
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
-
         signUpButton = (Button) findViewById(R.id.signUpButton);
+
+        // onClick action
+        header.setOnClickListener(this);
         signUpButton.setOnClickListener(this);
 
         firebaseAuth = FirebaseAuth.getInstance();
@@ -240,7 +239,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                                             case "student":
                                                 student.setEmail(email);
                                                 student.setName(name);
-                                                student.setIDNumber(idnumber);
+                                                student.setIdnumber(idnumber);
                                                 student.setUid(FirebaseAuth.getInstance().getCurrentUser().getUid());
                                                 DatabaseReference studentsRef = FirebaseDatabase.getInstance().getReference("Students")
                                                         .child(idnumber);
@@ -259,7 +258,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                                             case "teacher":
                                                 teacher.setEmail(email);
                                                 teacher.setName(name);
-                                                teacher.setIDNumber(idnumber);
+                                                teacher.setIdnumber(idnumber);
                                                 teacher.setUid(FirebaseAuth.getInstance().getCurrentUser().getUid());
                                                 DatabaseReference teachersRef = FirebaseDatabase.getInstance().getReference("Teachers")
                                                         .child(idnumber);
@@ -278,7 +277,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                                             case "admin":
                                                 admin.setEmail(email);
                                                 admin.setName(name);
-                                                admin.setIDNumber(idnumber);
+                                                admin.setIdnumber(idnumber);
                                                 admin.setUid(FirebaseAuth.getInstance().getCurrentUser().getUid());
                                                 DatabaseReference adminsRef = FirebaseDatabase.getInstance().getReference("Admins")
                                                         .child(idnumber);

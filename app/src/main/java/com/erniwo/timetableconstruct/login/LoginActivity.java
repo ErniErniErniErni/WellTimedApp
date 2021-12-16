@@ -39,10 +39,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private EditText editTextEmail;
     private EditText editTextPassword;
     private Button login;
-
     private FirebaseAuth firebaseAuth;
     private ProgressBar progressBar;
-
     private RadioGroup radioGroup;
     private RadioButton radioButton;
     private View studentButton;
@@ -52,24 +50,22 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
 
         Log.d(TAG, "onCreate");
 
-        setContentView(R.layout.activity_login);
-
+        // init elements
         editTextEmail = findViewById(R.id.login_edit_text_email);
         editTextPassword = findViewById(R.id.login_edit_text_password);
-
         forgotPassword = findViewById(R.id.forgotPassword);
-        forgotPassword.setOnClickListener(this);
         signUp = findViewById(R.id.signUp);
-        signUp.setOnClickListener(this);
-
         progressBar = findViewById(R.id.progressBar);
-
         radioGroup = findViewById(R.id.chooseRoleGroup);
-
         login = findViewById(R.id.loginButton);
+
+        // onClick action
+        forgotPassword.setOnClickListener(this);
+        signUp.setOnClickListener(this);
         login.setOnClickListener(this);
 
         firebaseAuth = FirebaseAuth.getInstance();
@@ -86,7 +82,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 startActivity(new Intent(this, ForgotPasswordActivity.class));
                 break;
             case R.id.loginButton:
-                userLogin();
+                try {
+                    userLogin();
+                }catch (Exception e) {
+                    Log.e(TAG, Log.getStackTraceString(e));
+                }
                 break;
         }
     }

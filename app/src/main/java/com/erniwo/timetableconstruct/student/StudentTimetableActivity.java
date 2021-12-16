@@ -1,23 +1,33 @@
 package com.erniwo.timetableconstruct.student;
 
+import static android.view.View.INVISIBLE;
+import static android.view.View.VISIBLE;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.erniwo.timetableconstruct.Message;
 import com.erniwo.timetableconstruct.R;
+import com.erniwo.timetableconstruct.admin.AdminEditClassTimeTableActivity;
+import com.erniwo.timetableconstruct.admin.AdminManageClassTimetableActivity;
 import com.erniwo.timetableconstruct.admin.AdminManageListOfClassesActivity;
 import com.erniwo.timetableconstruct.admin.AdminManageListOfTeachersActivity;
 import com.erniwo.timetableconstruct.login.LoginActivity;
@@ -29,12 +39,24 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 public class StudentTimetableActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private TextView nameOfUser;
+
+
+    private String currentStudentName;
+    private String currentStudentID;
+    private String currentClassNameOfStudent;
+    private String currentClassIdOfStudent;
+    private TextView nameOfStudent;
+    private FrameLayout frameLayoutLessonSection;
+    private TextView[] mClassNumHeaders = null;
+    private LinearLayout headerClassNumLl;
     private ImageView logout;
-    private Button tryButton;
-    private String currentID;
+    ArrayList<String> lessonKeyList = new ArrayList<String>();
 
     private String TAG = "StudentTimetableActivityLog";
 
@@ -43,28 +65,19 @@ public class StudentTimetableActivity extends AppCompatActivity implements View.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_timetable);
 
-        nameOfUser = findViewById(R.id.name_of_user_student);
+        Log.d(TAG, "onCreate");
+
+        // init elements
+        headerClassNumLl = findViewById(R.id.ll_header_class_num);
+        nameOfStudent = findViewById(R.id.name_of_student_header);
+        frameLayoutLessonSection = (FrameLayout) findViewById(R.id.frame_layout_lesson_section);
         logout = findViewById(R.id.logout_icon);
+
+        // onCLick actions
         logout.setOnClickListener(this);
-        tryButton = (Button) findViewById(R.id.course11);
-
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String currentUserId = user.getUid();
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
-        ref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                setCurrentID(snapshot.child(currentUserId).child("IDNumber").getValue().toString());
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
 
         loadStudentName();
-        pullExistingClasses();
+        loadClassOfCurrentStudent();
 
     } // onCreate
 
@@ -72,6 +85,132 @@ public class StudentTimetableActivity extends AppCompatActivity implements View.
     protected void onStart() {
         super.onStart();
         Log.d(TAG,"onStart");
+        try{
+            pullExistingLessonsFromDatabaseAndInitLessonsOnTimetable();
+        }catch (Exception e) {
+            Log.e(TAG, Log.getStackTraceString(e));
+        }
+
+    }
+
+    private void pullExistingLessonsFromDatabaseAndInitLessonsOnTimetable() {
+
+        LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        Context context = getApplicationContext();
+
+        TableLayout tableLayout = new TableLayout(context);
+        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT);
+        tableLayout.setLayoutParams(lp);
+        tableLayout.setStretchAllColumns(true);
+
+        TableLayout.LayoutParams rowLp = new TableLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                1.0f);
+        TableRow.LayoutParams cellLp = new TableRow.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                1.0f);
+//                        rowLp.bottomMargin = 2;
+        rowLp.weight = 1;
+        cellLp.topMargin = 4;
+        cellLp.leftMargin = 6;
+        cellLp.weight = 1;
+
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                for (int r = 0; r < 9; ++r) {
+
+                    TableRow row = new TableRow(context);
+                    row.setBaselineAligned(false);
+
+                    for (int c = 0; c < 7; ++c) {
+
+                        Button btn = (Button) layoutInflater.inflate(R.layout.item_lesson_card, null);
+                        btn.setPadding(0,0,0,0);
+                        btn.setIncludeFontPadding(false);
+                        String currentLessonKey = String.valueOf(r + 1) + String.valueOf(c + 1);
+
+                        String lessonInfoToBeDisplayedOnLessonCard;
+                        Map<String,String> lessonInfoToBeDisplayedOnLessonCardMap = new HashMap<>();
+
+                        // iterate all classes' info saved in firebase database to get the current class's timetable
+                        for (DataSnapshot classIdChild: snapshot.child("Classes").getChildren()) {
+                            try {
+                                if (getCurrentClassIdOfStudent().equals(classIdChild.getKey())) {
+                                    String className = classIdChild.child("name").getValue().toString().trim();
+                                    Log.d(TAG, "Current teacher Name: " + className);
+
+                                    for (DataSnapshot timetableChild : classIdChild.child("timetable").getChildren()) {
+
+                                        String subject = timetableChild.child("subject").getValue().toString().trim();
+                                        String location = timetableChild.child("location").getValue().toString().trim();
+                                        String teacherId = timetableChild.child("idnumber").getValue().toString().trim();
+                                        String lessonKey = timetableChild.getKey().trim();
+                                        Log.d(TAG, "Current lesson key: " + lessonKey);
+                                        lessonKeyList.add(lessonKey);
+
+                                        for (DataSnapshot teacherIdChild : snapshot.child("Teachers").getChildren()) {
+                                            Log.d(TAG, "teacher id: " + teacherIdChild.getKey());
+                                            if (teacherId.equals(teacherIdChild.getKey())) {
+                                                String teacherName = teacherIdChild.child("name").getValue().toString().trim();
+                                                lessonInfoToBeDisplayedOnLessonCard = subject + "\n\n" + location + "\n\n" + teacherName;
+                                                lessonInfoToBeDisplayedOnLessonCardMap.put(lessonKey, lessonInfoToBeDisplayedOnLessonCard);
+                                            }
+                                        }
+                                    } // timetableChild
+                                } // if
+                            }catch (Exception e){
+                                Log.e(TAG, Log.getStackTraceString(e));
+                            }
+                        } // classIdChild
+
+                        if (lessonInfoToBeDisplayedOnLessonCardMap.containsKey(currentLessonKey)) {
+                            String lessonInfo = lessonInfoToBeDisplayedOnLessonCardMap.get(currentLessonKey);
+                            Log.d(TAG, "textOnLessonButton"+ lessonInfo);
+                            btn.setText(lessonInfo);
+                            Log.d(TAG, "Button text set");
+                            btn.setVisibility(VISIBLE);
+                            Log.d(TAG, "Button set to VISIBLE");
+                            if(row.getParent() != null) {
+                                ((ViewGroup)row.getParent()).removeView(row);
+                            }
+                            row.addView(btn, cellLp);
+                            Log.d(TAG, "Added cell to row, visible");
+
+                        } else {
+
+                            btn.setText(currentLessonKey);
+                            btn.setVisibility(INVISIBLE);
+                            Log.d(TAG, "Button set to INVISIBLE");
+                            if(row.getParent() != null) {
+                                ((ViewGroup)row.getParent()).removeView(row);
+                            }
+                            row.addView(btn, cellLp);
+                            Log.d(TAG, "Added cell to row");
+
+                        }
+
+                    }
+                    tableLayout.addView(row, rowLp);
+                    Log.d(TAG, "Added row to table");
+                }
+                frameLayoutLessonSection.addView(tableLayout);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            } // onDataChange
+
+        }); // currentClassTtbRef.addValueEventListener
+
     }
 
     @Override
@@ -98,60 +237,6 @@ public class StudentTimetableActivity extends AppCompatActivity implements View.
         Log.d(TAG,"onDestroy");
     }
 
-
-    private void pullExistingClasses() {
-        //Pull timetable from backend
-        String currentStudentID = getCurrentID();
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Classes");
-        ref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot child: snapshot.getChildren()) {
-                    if(child.child("Student").child(getCurrentID()).exists()){
-                        String classID = child.getKey();
-                        DatabaseReference ref2 = FirebaseDatabase.getInstance().getReference("Classes")
-                                .child(classID).child("Timetable");
-                        ref2.addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot2) {
-                                for(DataSnapshot child2 : snapshot2.getChildren()){
-
-                                    String subject = child2.child("Subject").getValue().toString();
-                                    String location = child2.child("Location").getValue().toString();
-                                    String teacher = child2.child("Teacher").getValue().toString();
-                                    String dayOfWeek = child2.child("DayOfWeek").getValue().toString();
-                                    String period = child2.child("Period").getValue().toString();
-
-                                    String textOnCourseCard = subject + "\n" + location + "\n" + teacher;
-                                    tryButton.setText(textOnCourseCard);
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        });
-
-
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-        LoadCardButton();//image?
-    }
-
-    private void LoadCardButton() {
-        //Pull lecture info
-
-    }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -168,15 +253,20 @@ public class StudentTimetableActivity extends AppCompatActivity implements View.
     }
 
     private void loadStudentName() {
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String userID = user.getUid();
-        ref.addValueEventListener(new ValueEventListener() {
+        ref.child("Users").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String userName = snapshot.child(userID).child("name").getValue().toString();
-                setCurrentID(snapshot.child(userID).child("IDNumber").getValue().toString());
-                nameOfUser.setText( userName + "'s Timetable");
+                for(DataSnapshot child: snapshot.getChildren()) {
+                    Log.d(TAG, "child: " + child);
+                    if(userID.equals(child.getKey())) {
+                        setCurrentStudentName(child.child("name").getValue().toString().trim());
+                        setCurrentStudentID(child.child("idnumber").getValue().toString().trim());
+                        nameOfStudent.setText(getCurrentStudentName() + "'s Timetable");
+                    }
+                }
             }
 
             @Override
@@ -186,13 +276,71 @@ public class StudentTimetableActivity extends AppCompatActivity implements View.
         });
     }
 
-    public String getCurrentID() {
-        return currentID;
+
+    private void loadClassOfCurrentStudent() {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+        Log.d(TAG, "ref value: "+ ref.child("Classes").getKey());
+        ref.child("Classes").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot classIdChild: snapshot.getChildren()) {
+
+                    Log.d(TAG, "classIdChild value: "+ classIdChild.getValue().toString());
+                    try {
+                        Log.d(TAG, "classIdChildStudent value: "+ classIdChild.child("student").getValue().toString());
+
+                        for(DataSnapshot classInfoChild: classIdChild.child("student").getChildren()) {
+                            Log.d(TAG, "classInfoChild value: "+ classInfoChild.getKey());
+                            if (getCurrentStudentID().equals(classInfoChild.getKey())) {
+                                setCurrentClassIdOfStudent(classIdChild.getKey());
+                                setCurrentClassNameOfStudent(classIdChild.child("name").getValue().toString().trim());
+                            }
+                        }
+                    }catch (Exception e){
+                        Log.e(TAG, Log.getStackTraceString(e));
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
-    public void setCurrentID(String sID) {
 
-        this.currentID = sID;
+
+    public String getCurrentStudentName() {
+        return currentStudentName;
+    }
+
+    public String getCurrentStudentID() {
+        return currentStudentID;
+    }
+
+    public void setCurrentStudentName(String currentStudentName) {
+        this.currentStudentName = currentStudentName;
+    }
+
+    public void setCurrentStudentID(String currentStudentID) {
+        this.currentStudentID = currentStudentID;
+    }
+
+    public void setCurrentClassNameOfStudent(String currentClassNameOfStudent) {
+        this.currentClassNameOfStudent = currentClassNameOfStudent;
+    }
+
+    public void setCurrentClassIdOfStudent(String currentClassIdOfStudent) {
+        this.currentClassIdOfStudent = currentClassIdOfStudent;
+    }
+
+    public String getCurrentClassNameOfStudent() {
+        return currentClassNameOfStudent;
+    }
+
+    public String getCurrentClassIdOfStudent() {
+        return currentClassIdOfStudent;
     }
 }
 

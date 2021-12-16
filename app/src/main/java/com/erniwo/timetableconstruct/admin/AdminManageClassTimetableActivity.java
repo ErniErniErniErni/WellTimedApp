@@ -115,8 +115,6 @@ public class AdminManageClassTimetableActivity extends AppCompatActivity {
 
     private void pullExistingLessonsFromDatabaseAndInitLessonsOnTimetable() {
 
-        String classID = getCurrentClassID();
-
         LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         Context context = getApplicationContext();
 
