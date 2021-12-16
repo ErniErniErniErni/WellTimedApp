@@ -105,7 +105,7 @@
         android:layout_marginTop="5dp"
         android:text="@string/helper_text_sign_up_idnum"
         android:textSize="12dp"
-        android:textColor="@color/DarkGrey"
+        android:textColor="@color/Dark_Red"
         app:layout_constraintTop_toBottomOf="@+id/signup_id"
         app:layout_constraintLeft_toLeftOf="@+id/signup_id"/>
 

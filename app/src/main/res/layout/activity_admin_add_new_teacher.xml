@@ -63,7 +63,7 @@
         android:layout_marginTop="5dp"
         android:text="@string/helper_text_add_new_teacher_idnum"
         android:textSize="12dp"
-        android:textColor="@color/DarkGrey"
+        android:textColor="@color/Dark_Red"
         app:layout_constraintTop_toBottomOf="@+id/enter_teacher_ID"
         app:layout_constraintLeft_toLeftOf="@+id/enter_teacher_ID"/>
 

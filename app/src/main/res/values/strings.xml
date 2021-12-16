@@ -70,7 +70,7 @@
     <string name="placeholder_select_class">Range: 1 to 99</string>
     <string name="placeholder_select_students">e.g.: S0002, S0006</string>
 
-    <string name="helper_text_add_new_class_idnum">Strictly Integer only*</string>
+    <string name="helper_text_add_new_class_idnum">Strictly Integer only* Range: 1 to 50</string>
 
     <string-array name="select_grades">
         <item>Grade 1</item>
