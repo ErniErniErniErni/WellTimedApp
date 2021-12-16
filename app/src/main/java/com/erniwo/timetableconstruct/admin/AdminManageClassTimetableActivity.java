@@ -63,7 +63,7 @@ public class AdminManageClassTimetableActivity extends AppCompatActivity {
         }
 
         // init elements
-        headerClassNumLl = findViewById(R.id.ll_header_class_num);
+//        headerClassNumLl = findViewById(R.id.ll_header_class_num);
         nameOfClass = (TextView) findViewById(R.id.name_of_class) ;
         addButton = (TextView) findViewById(R.id.add_button);
         frameLayoutLessonSection = (FrameLayout) findViewById(R.id.frame_layout_lesson_section);

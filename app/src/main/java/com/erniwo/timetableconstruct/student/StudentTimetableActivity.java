@@ -45,8 +45,6 @@ import java.util.Map;
 
 public class StudentTimetableActivity extends AppCompatActivity implements View.OnClickListener {
 
-
-
     private String currentStudentName;
     private String currentStudentID;
     private String currentClassNameOfStudent;
@@ -68,7 +66,7 @@ public class StudentTimetableActivity extends AppCompatActivity implements View.
         Log.d(TAG, "onCreate");
 
         // init elements
-        headerClassNumLl = findViewById(R.id.ll_header_class_num);
+//        headerClassNumLl = findViewById(R.id.ll_header_class_num);
         nameOfStudent = findViewById(R.id.name_of_student_header);
         frameLayoutLessonSection = (FrameLayout) findViewById(R.id.frame_layout_lesson_section);
         logout = findViewById(R.id.logout_icon);
