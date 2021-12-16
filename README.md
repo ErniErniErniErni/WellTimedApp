@@ -1,5 +1,7 @@
 
 # WellTimed App
+
+## This is a timetabling application developed for K-12 school students, teachers, and administrators.
 ---
 ### Main features
 * School administrators' view
@@ -15,7 +17,7 @@
     * Teachers' timetable will display lesson that are planned for them.
 
 ---
-### interface example
+### Interface example
 <img src="https://s4.ax1x.com/2021/12/16/Tik6yj.png" width="40%" />
 The image above shows an school administrator's view of managing a class's timetable.
 Students' and teachers' views are similar to this.
