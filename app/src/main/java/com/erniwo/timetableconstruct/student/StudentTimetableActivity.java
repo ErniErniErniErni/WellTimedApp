@@ -52,7 +52,6 @@ public class StudentTimetableActivity extends AppCompatActivity implements View.
     private TextView nameOfStudent;
     private FrameLayout frameLayoutLessonSection;
     private TextView[] mClassNumHeaders = null;
-    private LinearLayout headerClassNumLl;
     private ImageView logout;
     ArrayList<String> lessonKeyList = new ArrayList<String>();
 
@@ -66,7 +65,6 @@ public class StudentTimetableActivity extends AppCompatActivity implements View.
         Log.d(TAG, "onCreate");
 
         // init elements
-//        headerClassNumLl = findViewById(R.id.ll_header_class_num);
         nameOfStudent = findViewById(R.id.name_of_student_header);
         frameLayoutLessonSection = (FrameLayout) findViewById(R.id.frame_layout_lesson_section);
         logout = findViewById(R.id.logout_icon);

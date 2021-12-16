@@ -15,7 +15,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.erniwo.timetableconstruct.Admin;
 import com.erniwo.timetableconstruct.Message;
 import com.erniwo.timetableconstruct.R;
 import com.erniwo.timetableconstruct.model.Admini;
@@ -171,7 +170,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         }
 
         if(idnumber.length() != 5) {
-            editTestID.setError("Please enter a valid ID Number with 5 characters!");
+            editTestID.setError("ID Number must be 5 characters!");
             editTestID.requestFocus();
             return;
         }

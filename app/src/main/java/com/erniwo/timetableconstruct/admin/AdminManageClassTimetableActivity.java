@@ -40,7 +40,6 @@ public class AdminManageClassTimetableActivity extends AppCompatActivity {
     private TextView addButton;
     private FrameLayout frameLayoutLessonSection;
     private TextView[] mClassNumHeaders = null;
-    private LinearLayout headerClassNumLl;
     ArrayList<String> lessonKeyList = new ArrayList<String>();
 
     private String TAG = "AdminManageClassTimeTableActivityLog";
@@ -63,7 +62,6 @@ public class AdminManageClassTimetableActivity extends AppCompatActivity {
         }
 
         // init elements
-//        headerClassNumLl = findViewById(R.id.ll_header_class_num);
         nameOfClass = (TextView) findViewById(R.id.name_of_class) ;
         addButton = (TextView) findViewById(R.id.add_button);
         frameLayoutLessonSection = (FrameLayout) findViewById(R.id.frame_layout_lesson_section);
@@ -220,7 +218,11 @@ public class AdminManageClassTimetableActivity extends AppCompatActivity {
                     tableLayout.addView(row, rowLp);
                     Log.d(TAG, "Added row to table");
                 }
-                frameLayoutLessonSection.addView(tableLayout);
+                try {
+                    frameLayoutLessonSection.addView(tableLayout);
+                }catch (Exception e) {
+                    Log.d(TAG, Log.getStackTraceString(e));
+                }
 
             }
 

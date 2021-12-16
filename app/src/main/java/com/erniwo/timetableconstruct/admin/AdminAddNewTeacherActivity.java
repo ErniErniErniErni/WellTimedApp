@@ -91,6 +91,7 @@ public class AdminAddNewTeacherActivity extends AppCompatActivity implements Vie
         }else if(txt_ID.isEmpty()) {
             Message.showMessage(getApplicationContext(),"Please enter Teacher ID!");
         }else{
+            // save to firebase realtime database
             FirebaseDatabase.getInstance().getReference().child("Teachers")
                     .child(txt_ID).child("name").setValue(txt_Name);
             Message.showMessage(getApplicationContext(),"Added new teacher successfully!");

@@ -62,6 +62,8 @@ public class AdminAddNewStudentActivity extends AppCompatActivity {
         }else if(txt_ID.isEmpty()) {
             Message.showMessage(getApplicationContext(),"Please enter Student ID!");
         }else{
+
+            // save to firebase realtime database
             FirebaseDatabase.getInstance().getReference().child("Students")
                     .child(txt_ID).child("name").setValue(txt_Name);
             Message.showMessage(getApplicationContext(),"Added new student successfully!");

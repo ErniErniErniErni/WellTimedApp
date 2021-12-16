@@ -39,7 +39,6 @@ public class AdminManageTeacherTimetableActivity extends AppCompatActivity {
     private TextView addButton;
     private FrameLayout frameLayoutLessonSection;
     private TextView[] mClassNumHeaders = null;
-    private LinearLayout headerClassNumLl;
     ArrayList<String> lessonKeyList = new ArrayList<String>();
 
     private String TAG = "AdminManageTeacherTimeTableActivityLog";
@@ -62,7 +61,6 @@ public class AdminManageTeacherTimetableActivity extends AppCompatActivity {
         }
 
         // init elements
-//        headerClassNumLl = findViewById(R.id.ll_header_class_num);
         nameOfTeacher = (TextView) findViewById(R.id.name_of_teacher) ;
         addButton = (TextView) findViewById(R.id.add_button);
         frameLayoutLessonSection = (FrameLayout) findViewById(R.id.frame_layout_lesson_section);
@@ -190,14 +188,6 @@ public class AdminManageTeacherTimetableActivity extends AppCompatActivity {
                             String lessonInfo = lessonInfoToBeDisplayedOnLessonCardMap.get(currentLessonKey);
                             Log.d(TAG, "textOnLessonButton"+ lessonInfo);
                             btn.setText(lessonInfo);
-                            btn.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    Intent intent = new Intent(AdminManageTeacherTimetableActivity.this,
-                                            AdminLessonDetailsActivity.class);
-                                    startActivity(intent);
-                                }
-                            });
                             Log.d(TAG, "Button text set");
                             btn.setVisibility(VISIBLE);
                             Log.d(TAG, "Button set to VISIBLE");

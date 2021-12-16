@@ -43,6 +43,8 @@
         app:endIconMode="clear_text"
         android:textSize="@dimen/text_size_medium"
         app:placeholderText="@string/placeholder_enter_student_id"
+        app:helperText="@string/helper_text_add_new_student_idnum"
+        app:helperTextTextColor="@color/DarkPeach"
         app:layout_constraintTop_toBottomOf="@+id/enter_student_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -55,6 +57,17 @@
         </com.google.android.material.textfield.TextInputEditText>
     </com.google.android.material.textfield.TextInputLayout>
 
+    <TextView
+        android:id="@+id/add_new_class_id_helper_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="@string/helper_text_add_new_student_idnum"
+        android:textSize="12dp"
+        android:textColor="@color/DarkGrey"
+        app:layout_constraintTop_toBottomOf="@+id/enter_student_ID"
+        app:layout_constraintLeft_toLeftOf="@+id/enter_student_ID"/>
+
 
     <Button
         android:id="@+id/add_new_student_button"
@@ -62,7 +75,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:text="Add New Student"
-        app:layout_constraintTop_toBottomOf="@+id/enter_student_ID"
+        app:layout_constraintTop_toBottomOf="@+id/add_new_class_id_helper_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

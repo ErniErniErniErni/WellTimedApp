@@ -20,10 +20,12 @@
     <string name="placeholder_email">e.g.: ad@gmail.com</string>
     <string name="placeholder_name">e.g.: Jane Smith</string>
     <string name="placeholder_password">At least 6 characters!</string>
-    <string name="placeholder_signup_id">e.g.: S0026</string>
+    <string name="placeholder_signup_id">e.g.: S0034</string>
 
     <string name="button_login">Login</string>
     <string name="button_signup">Sign Up</string>
+
+    <string name="helper_text_sign_up_idnum">Your ID Must be in the Format of: \nS**** if you are a student.\t\te.g. S0034 \nT**** if you are a teacher.\t\te.g. T0015 \nA**** if you are an admin.\t\te.g. A0009</string>
 
 
     <!-- Activity: adminEditClassTimetable-->
@@ -68,6 +70,8 @@
     <string name="placeholder_select_class">Range: 1 to 99</string>
     <string name="placeholder_select_students">e.g.: S0002, S0006</string>
 
+    <string name="helper_text_add_new_class_idnum">Strictly Integer only*</string>
+
     <string-array name="select_grades">
         <item>Grade 1</item>
         <item>Grade 2</item>
@@ -90,12 +94,17 @@
     <string name="placeholder_enter_teacher_name">e.g. Jane Smith</string>
     <string name="placeholder_enter_teacher_id">e.g. T0025</string>
 
+    <string name="helper_text_add_new_teacher_idnum">Teacher ID Must be in the format of: T****. \te.g. T0034</string>
+
+
     <!-- Activity: adminAddNewStudent-->
     <string name="hint_enter_student_name">Enter Student Name</string>
     <string name="hint_enter_student_id">Enter Student ID</string>
 
     <string name="placeholder_enter_student_name">e.g. Jane Smith</string>
     <string name="placeholder_enter_student_id">e.g. S0018</string>
+
+    <string name="helper_text_add_new_student_idnum">Student ID Must be in the format of: S****. \te.g. S0365</string>
 
     <!-- Activity: adminManageListOfClasses-->
     <string name="list_of_class_add_new_button">Add New Class</string>

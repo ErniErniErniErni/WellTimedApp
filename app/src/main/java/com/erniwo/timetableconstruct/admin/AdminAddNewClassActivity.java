@@ -145,6 +145,8 @@ public class AdminAddNewClassActivity extends AppCompatActivity implements View.
 
         String stringListOfStudentID = selectStudentsArrowDown.getText().toString();
         List<String> stringListOfStudentIDList = Arrays.asList(stringListOfStudentID.split(","));
+
+        // save to firebase realtime database
         for (String id: stringListOfStudentIDList ){
             Log.i(TAG, id);
             FirebaseDatabase.getInstance().getReference().child("Classes").child(txt_ClassID)
@@ -158,10 +160,9 @@ public class AdminAddNewClassActivity extends AppCompatActivity implements View.
 
 
     public void multipleCheckStudents() {
-
+        // show dialog to check multiple students to the text bar
         ArrayAdapter adapter = new ArrayAdapter<String>(this, R.layout.activity_listview, studentListList);
         DatabaseReference studentInfoRef = FirebaseDatabase.getInstance().getReference()
-//                .child("Users");
                 .child("Students");
         studentInfoRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -175,16 +176,6 @@ public class AdminAddNewClassActivity extends AppCompatActivity implements View.
                     }catch (NullPointerException e) {
                         Log.e(TAG, "idnumber Null");
                     }
-
-//                    String userType = child.child("type").getValue().toString();
-//                    if (userType.equals("student")) {
-//                        try {
-//                            String studentID = child.child("idnumber").getValue().toString();
-//                            studentListList.add(studentID);
-//                        }catch (NullPointerException e) {
-//                            Log.e(TAG, "idnumber Null");
-//                        }
-//                    }
                 }
                 adapter.notifyDataSetChanged();
 

@@ -98,7 +98,6 @@ public class AdminEditClassTimeTableActivity extends AppCompatActivity implement
 
         // adapt array to select Teacher
         ArrayList<String> teacherIDArray = new ArrayList<>();
-//        ArrayList<String> teacherNameArray = new ArrayList<>();
         ArrayAdapter arrayAdapterTeachersID = new ArrayAdapter<String>(this,
                 R.layout.activity_listview, teacherIDArray);
         editTextTeacherID.setAdapter(arrayAdapterTeachersID);
@@ -169,6 +168,8 @@ public class AdminEditClassTimeTableActivity extends AppCompatActivity implement
     }
 
     private void saveInfoAndLeave() {
+
+        // save user's input to string
         String subject = editTextSubject.getText().toString().trim();
         String location = editTextLocation.getText().toString().trim();
         String dayOfWeek = editTextDayOfWeek.getText().toString().trim();
@@ -247,8 +248,6 @@ public class AdminEditClassTimeTableActivity extends AppCompatActivity implement
         });
 
         Intent intent = new Intent(getApplicationContext(), AdminManageClassTimetableActivity.class);
-//        intent.putExtra("ClickedClassName", getCurrentClassName());
-//        intent.putExtra("ClickedClassID", getCurrentClassID());
         startActivity(intent);
     }
 }
