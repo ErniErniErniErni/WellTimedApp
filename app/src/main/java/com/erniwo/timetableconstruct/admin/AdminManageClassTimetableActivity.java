@@ -51,6 +51,8 @@ public class AdminManageClassTimetableActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_manage_class_timetable);
 
+        Log.d(TAG, "onCreate");
+
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         if (bundle != null) {
@@ -66,7 +68,6 @@ public class AdminManageClassTimetableActivity extends AppCompatActivity {
         addButton = (TextView) findViewById(R.id.add_button);
         frameLayoutLessonSection = (FrameLayout) findViewById(R.id.frame_layout_lesson_section);
 
-        pullExistingLessonsFromDatabaseAndInitLessonsOnTimetable2();
 
         nameOfClass.setText("Timetable of " + getCurrentClassName());
         addButton.setOnClickListener(new View.OnClickListener() {
@@ -87,6 +88,8 @@ public class AdminManageClassTimetableActivity extends AppCompatActivity {
         Log.d(TAG,"onStart");
 //        pullExistingClasses();
 //        setLessonsOnTimetable();
+        pullExistingLessonsFromDatabaseAndInitLessonsOnTimetable();
+
     }
 
     @Override
@@ -115,119 +118,7 @@ public class AdminManageClassTimetableActivity extends AppCompatActivity {
 
     private void pullExistingLessonsFromDatabaseAndInitLessonsOnTimetable() {
 
-            String classID = getCurrentClassID();
-            DatabaseReference refClasses = FirebaseDatabase.getInstance().getReference("Classes")
-                    .child(classID)
-                    .child("timetable");
-            refClasses.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot2) {
-                    for (DataSnapshot child2 : snapshot2.getChildren()) {
-
-
-                        String subject = child2.child("subject").getValue().toString();
-                        String location = child2.child("location").getValue().toString();
-                        // String period = child2.child("Period").getValue().toString();
-                        // String dayOfWeek = child2.child("DayOfWeek").getValue().toString();
-                        String teacherid = child2.child("idnumber").getValue().toString();
-                        String lessonKey = child2.getKey().trim();
-                        Log.d(TAG, "Current lesson key: " + lessonKey);
-
-                        lessonKeyList.add(lessonKey);
-                        Log.d(TAG, "Added new lesson to List");
-
-                        LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                        Context context = getApplicationContext();
-
-                        TableLayout tableLayout = new TableLayout(context);
-                        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
-                                ViewGroup.LayoutParams.MATCH_PARENT,
-                                ViewGroup.LayoutParams.MATCH_PARENT);
-                        tableLayout.setLayoutParams(lp);
-                        tableLayout.setStretchAllColumns(true);
-
-                        TableLayout.LayoutParams rowLp = new TableLayout.LayoutParams(
-                                ViewGroup.LayoutParams.MATCH_PARENT,
-                                ViewGroup.LayoutParams.MATCH_PARENT,
-                                1.0f);
-                        TableRow.LayoutParams cellLp = new TableRow.LayoutParams(
-                                ViewGroup.LayoutParams.MATCH_PARENT,
-                                ViewGroup.LayoutParams.MATCH_PARENT,
-                                1.0f);
-//                        rowLp.bottomMargin = 2;
-                        cellLp.topMargin = 4;
-                        cellLp.leftMargin = 6;
-//                        cellLp.bottomMargin = 2;
-//                        cellLp.rightMargin = 2;
-
-                        for (int r = 0; r < 9; ++r) {
-
-                            TableRow row = new TableRow(context);
-
-                            for (int c = 0; c < 7; ++c) {
-
-                                String currentLessonKey = String.valueOf(r + 1) + String.valueOf(c + 1);
-                                Button inflatedButton = (Button) layoutInflater.inflate(R.layout.item_lesson_card, null);
-                                inflatedButton.setPadding(0, 0, 0, 0);
-                                if (lessonKeyList.contains(currentLessonKey)) {
-
-                                    inflatedButton.setText("bb");
-                                    inflatedButton.setVisibility(VISIBLE);
-                                    Log.d(TAG, "Button set to VISIBLE");
-                                    row.addView(inflatedButton, cellLp);
-                                    Log.d(TAG, "Added cell to row, visible");
-
-
-                                } else {
-                                    inflatedButton.setText("");
-                                    inflatedButton.setVisibility(VISIBLE);
-                                    Log.d(TAG, "Button set to INVISIBLE");
-                                    row.addView(inflatedButton, cellLp);
-                                    Log.d(TAG, "Added cell to row");
-
-                                }
-                            }
-                            tableLayout.addView(row, rowLp);
-                            Log.d(TAG, "Added row to table");
-                        }
-                        frameLayoutLessonSection.addView(tableLayout);
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
-    }
-
-    private void pullExistingLessonsFromDatabaseAndInitLessonsOnTimetable2() {
-
         String classID = getCurrentClassID();
-
-//        DatabaseReference classesRef = FirebaseDatabase.getInstance().getReference().child("Classes");
-//            DatabaseReference currentClassTtbRef = classesRef.child(classID).child("timetable");
-//            currentClassTtbRef.addValueEventListener(new ValueEventListener() {
-//                @Override
-//                public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                    for (DataSnapshot child: snapshot.getChildren()) {
-//                        try {
-//                        String subject = child.child("subject").getValue().toString().trim();
-//                        String location = child.child("location").getValue().toString().trim();
-//                        String period = child.child("period").getValue().toString();
-//                        String dayOfWeek = child.child("dayOfWeek").getValue().toString();
-//                        String teacherid = child.child("idnumber").getValue().toString().trim();
-//                        String lessonKey = child.getKey().trim();
-//                        Log.d(TAG, "Current lesson key: " + lessonKey);
-//                        String textOnLessonCard = subject + "\n" + location + "\n" + teacherid;
-//                        }catch (Exception e){
-//                            Log.e(TAG, Log.getStackTraceString(e));
-//                        }
-
-
-
-
-
 
         LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         Context context = getApplicationContext();
@@ -248,25 +139,16 @@ public class AdminManageClassTimetableActivity extends AppCompatActivity {
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 1.0f);
 //                        rowLp.bottomMargin = 2;
+        rowLp.weight = 1;
         cellLp.topMargin = 4;
         cellLp.leftMargin = 6;
-
-
-
-
-
-
+        cellLp.weight = 1;
 
         DatabaseReference classesRef = FirebaseDatabase.getInstance().getReference().child("Classes");
         DatabaseReference currentClassTtbRef = classesRef.child(classID).child("timetable");
         currentClassTtbRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-
-
-
-
 
                 for (int r = 0; r < 9; ++r) {
 
@@ -300,10 +182,19 @@ public class AdminManageClassTimetableActivity extends AppCompatActivity {
                                 Log.e(TAG, Log.getStackTraceString(e));
                             }
                         }
+
                         if (textOnLessonButtonMap.containsKey(currentLessonKey)) {
                             String s = textOnLessonButtonMap.get(currentLessonKey);
                             Log.d(TAG, "textOnLessonButton"+ s);
                             btn.setText(s);
+                            btn.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent intent = new Intent(AdminManageClassTimetableActivity.this,
+                                            AdminLessonDetailsActivity.class);
+                                    startActivity(intent);
+                                }
+                            });
                             Log.d(TAG, "Button text set");
                             btn.setVisibility(VISIBLE);
                             Log.d(TAG, "Button set to VISIBLE");
@@ -327,46 +218,11 @@ public class AdminManageClassTimetableActivity extends AppCompatActivity {
 
                         }
 
-
-
-
-//                        if (lessonKeyList.contains(currentLessonKey)) {
-//
-//                            btn.setText(currentLessonKey);
-//                            btn.setVisibility(VISIBLE);
-//                            Log.d(TAG, "Button set to VISIBLE");
-//                            row.addView(btn, cellLp);
-//                            Log.d(TAG, "Added cell to row, visible");
-//
-//
-//                        } else {
-//
-//                            btn.setText(currentLessonKey);
-//                            btn.setVisibility(INVISIBLE);
-//                            Log.d(TAG, "Button set to INVISIBLE");
-//                            row.addView(btn, cellLp);
-//                            Log.d(TAG, "Added cell to row");
-//
-//                        }
-
-//                        if (lesson) {
-//                            row.addView(btn, cellLp);
-//                            btn.setVisibility(INVISIBLE);
-//                            Log.d(TAG, "Button set to INVISIBLE");
-//                        }else {
-//                            row.addView(btn, cellLp);
-//                            Log.d(TAG, "Button set to VISIBLE");
-//                        }
                     }
                     tableLayout.addView(row, rowLp);
                     Log.d(TAG, "Added row to table");
                 }
                 frameLayoutLessonSection.addView(tableLayout);
-
-
-
-
-
 
             }
 
@@ -376,133 +232,8 @@ public class AdminManageClassTimetableActivity extends AppCompatActivity {
             }
         });
 
-
-
-
-
-
-
-//                 }
-//            }
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
-
-//                 get text to display on lesson card
-
-
-
-//                inflatedButton.setPadding(0, 0, 0, 0);
-//
-//                DatabaseReference refClasses = FirebaseDatabase.getInstance().getReference("Classes")
-//                        .child(classID)
-//                        .child("timetable");
-//                refClasses.addValueEventListener(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot snapshot2) {
-//                        for (DataSnapshot child2 : snapshot2.getChildren()) {
-//
-//
-//                        String subject = child2.child("subject").getValue().toString();
-//                        String location = child2.child("location").getValue().toString();
-//                        // String period = child2.child("Period").getValue().toString();
-//                        // String dayOfWeek = child2.child("DayOfWeek").getValue().toString();
-//                        String teacherid = child2.child("idnumber").getValue().toString();
-//                        String lessonKey = child2.getKey().trim();
-//                        Log.d(TAG, "Current lesson key: " + lessonKey);
-//
-//                        lessonKeyList.add(lessonKey);
-//                        Log.d(TAG, "Added new lesson to List");
-//
-////                    LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-////                    Context context = getApplicationContext();
-////
-////                    TableLayout tableLayout = new TableLayout(context);
-////                    FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
-////                            ViewGroup.LayoutParams.MATCH_PARENT,
-////                            ViewGroup.LayoutParams.MATCH_PARENT);
-////                    tableLayout.setLayoutParams(lp);
-////                    tableLayout.setStretchAllColumns(true);
-////
-////                    TableLayout.LayoutParams rowLp = new TableLayout.LayoutParams(
-////                            ViewGroup.LayoutParams.MATCH_PARENT,
-////                            ViewGroup.LayoutParams.MATCH_PARENT,
-////                            1.0f);
-////                    TableRow.LayoutParams cellLp = new TableRow.LayoutParams(
-////                            ViewGroup.LayoutParams.MATCH_PARENT,
-////                            ViewGroup.LayoutParams.MATCH_PARENT,
-////                            1.0f);
-//////                        rowLp.bottomMargin = 2;
-////                    cellLp.topMargin = 4;
-////                    cellLp.leftMargin = 6;
-//////                        cellLp.bottomMargin = 2;
-//////                        cellLp.rightMargin = 2;
-//
-////                    for (int r = 0; r < 9; ++r) {
-////
-////                        TableRow row = new TableRow(context);
-////
-////                        for (int c = 0; c < 7; ++c) {
-////
-////                            String currentLessonKey = String.valueOf(r + 1) + String.valueOf(c + 1);
-////                            Button inflatedButton = (Button) layoutInflater.inflate(R.layout.item_lesson_card, null);
-////                            inflatedButton.setPadding(0, 0, 0, 0);
-//                        if (lessonKeyList.contains(currentLessonKey)) {
-//
-//                            inflatedButton.setText("bb");
-//                            inflatedButton.setVisibility(VISIBLE);
-//                            Log.d(TAG, "Button set to VISIBLE");
-//                            row.addView(inflatedButton, cellLp);
-//                            Log.d(TAG, "Added cell to row, visible");
-//
-//
-//                        } else {
-//                            inflatedButton.setText("");
-//                            inflatedButton.setVisibility(VISIBLE);
-//                            Log.d(TAG, "Button set to INVISIBLE");
-//                            row.addView(inflatedButton, cellLp);
-//                            Log.d(TAG, "Added cell to row");
-//
-//                        }
-////                        }
-////                        tableLayout.addView(row, rowLp);
-////                        Log.d(TAG, "Added row to table");
-////                    }
-////                    frameLayoutLessonSection.addView(tableLayout);
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError error) {
-//
-//                    }
-//                });
-
     }
 
-
-
-//    private String getLessonInfoToShowOnLessonCard(String teacherid, String subject, String location) {
-//        DatabaseReference refTeachers = FirebaseDatabase.getInstance()
-//                .getReference("Teachers");
-//        String textOnCourseCard = subject + "\n" + location;
-//        refTeachers.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                String teacherName = snapshot.child(teacherid).child("name")
-//                        .getValue().toString().trim();
-//                String textOnCourseCard = subject + "\n" + location + "\n" + teacherName;
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
-//        return textOnCourseCard;
-//    }
 
     public String getCurrentClassName() {
         return currentClassName;
