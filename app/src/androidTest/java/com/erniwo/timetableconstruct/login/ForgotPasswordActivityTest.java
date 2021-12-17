@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.Espresso;
+import androidx.test.espresso.matcher.ViewMatchers;
 
 
 // this import is important
@@ -19,8 +20,6 @@ import org.junit.Test;
 
 // Test activity navigation
 public class ForgotPasswordActivityTest {
-//    @Rule
-//    ActivityScenario activityScenario = ActivityScenario.launch(LoginActivity.class);
 
     @Test
     public void test_navigation_ForgotPasswordActivity() {
@@ -28,8 +27,7 @@ public class ForgotPasswordActivityTest {
 
         Espresso.onView(withId(R.id.forgotPassword)).perform(click());
         Espresso.onView(withId(R.id.layout_forgot_password)).check(matches(isDisplayed()));
-//        pressBack();
-//        Espresso.onView(withId(R.id.layout_login)).check(matches(isDisplayed()));
+
 
     }
 
@@ -50,7 +48,20 @@ public class ForgotPasswordActivityTest {
         Espresso.onView(withId(R.id.layout_login)).check(matches(isDisplayed()));
 
         // one more pressBack to kill the app
+    }
 
+    @Test
+    public void test_visibility_widgets_on_screen() {
+        ActivityScenario activityScenario = ActivityScenario.launch(LoginActivity.class);
+
+        Espresso.onView(withId(R.id.header))
+                .check(matches(isDisplayed()));
+        Espresso.onView(withId(R.id.login_email))
+                .check(matches(isDisplayed()));
+        Espresso.onView(withId(R.id.login_password))
+                .check(matches(isDisplayed()));
+        Espresso.onView(withId(R.id.forgotPassword))
+                .check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
 
     }
 }

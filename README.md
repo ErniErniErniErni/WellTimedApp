@@ -19,6 +19,8 @@
 
 ---
 ### Interface example
+<img src="https://ibb.co/HCSTtj0" width="40%"/>
+The image abobe shows the application navigation map with screenshots.
 <img src="https://s4.ax1x.com/2021/12/16/Tik6yj.png" width="40%" />
 The image above shows an school administrator's view of managing a class's timetable.
 Students' and teachers' views are similar to this.

@@ -14,11 +14,13 @@ import android.widget.Toast;
 import com.erniwo.timetableconstruct.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class ForgotPasswordActivity extends AppCompatActivity{
 
-    private EditText emailEditText;
+    private TextInputLayout emailEditText;
     private Button resetPasswordButton;
     private ProgressBar progressBar;
 
@@ -35,7 +37,7 @@ public class ForgotPasswordActivity extends AppCompatActivity{
         mAuth = FirebaseAuth.getInstance();
 
         // init elements
-        emailEditText = (EditText) findViewById(R.id.enter_email);
+        emailEditText = (TextInputLayout) findViewById(R.id.enter_email);
         resetPasswordButton = (Button) findViewById(R.id.resetPasswordButton);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
@@ -80,7 +82,7 @@ public class ForgotPasswordActivity extends AppCompatActivity{
     }
 
     private void resetPassword() {
-        String email = emailEditText.getText().toString().trim();
+        String email = emailEditText.getEditText().getText().toString().trim();
 
         if(email.isEmpty()) {
             emailEditText.setError("Please input email.");

@@ -76,10 +76,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.signUp:
-                startActivity(new Intent(this, SignUpActivity.class));
+                startActivity(new Intent(LoginActivity.this, SignUpActivity.class));
                 break;
             case R.id.forgotPassword:
-                startActivity(new Intent(this, ForgotPasswordActivity.class));
+                startActivity(new Intent(LoginActivity.this, ForgotPasswordActivity.class));
                 break;
             case R.id.loginButton:
                 try {
@@ -208,10 +208,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
             onAuthSuccessAutomatic(currentUser);
-            Log.d(TAG, "AutoLogin");
         }else {
-            Log.d(TAG, "No Current User");
-            return;
+            Log.d(TAG, "No Automatic Login"); return;
         }
     }
 
