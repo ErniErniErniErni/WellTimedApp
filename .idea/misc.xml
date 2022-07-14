@@ -13,8 +13,8 @@
         <entry key="app/src/main/res/drawable/ic_baseline_delete_forever_24.xml" value="0.2361111111111111" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.2682291666666667" />
         <entry key="app/src/main/res/layout/activity_admin_add_new_class.xml" value="0.3047460437745473" />
-        <entry key="app/src/main/res/layout/activity_admin_add_new_student.xml" value="0.5" />
-        <entry key="app/src/main/res/layout/activity_admin_add_new_teacher.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/activity_admin_add_new_student.xml" value="0.3451086956521739" />
+        <entry key="app/src/main/res/layout/activity_admin_add_new_teacher.xml" value="0.3451086956521739" />
         <entry key="app/src/main/res/layout/activity_admin_course_details.xml" value="0.1796875" />
         <entry key="app/src/main/res/layout/activity_admin_edit_class_time_table.xml" value="0.15081521739130435" />
         <entry key="app/src/main/res/layout/activity_admin_main.xml" value="0.28543349256813894" />
@@ -33,7 +33,7 @@
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.325194032373553" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.20462046204620463" />
         <entry key="app/src/main/res/layout/activity_profile_student.xml" value="0.2418478260869565" />
-        <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.3097560975609756" />
         <entry key="app/src/main/res/layout/activity_student_timetable.xml" value="0.20202020202020202" />
         <entry key="app/src/main/res/layout/activity_teacher_timetable.xml" value="0.18223028105167724" />
         <entry key="app/src/main/res/layout/activity_timetable_student.xml" value="0.3286004056795132" />
